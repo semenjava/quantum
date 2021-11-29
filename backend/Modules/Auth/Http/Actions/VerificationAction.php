@@ -45,6 +45,11 @@ class VerificationAction extends BaseController
         $this->middleware('throttle:6,1')->only('verify', 'resend');
     }
 
+    /**
+     * @param Request $request
+     * @return array
+     * @throws AuthorizationException
+     */
     public function verify(Request $request)
     {
         if(!$user = User::find($request->get('id')) ) {
@@ -88,6 +93,10 @@ class VerificationAction extends BaseController
         return $response;
     }
 
+    /**
+     * @param Request $request
+     * @return array|\Illuminate\Http\Response
+     */
     public function resend(Request $request)
     {
         if(!$user = User::getUserByEmail($request->get('email')) ) {
