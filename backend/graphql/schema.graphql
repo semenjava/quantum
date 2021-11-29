@@ -20,9 +20,9 @@ type Mutation {
         password: String!
     ): AuthToken @field(resolver: "AuthMutator@resolve")
 
-    logout: AuthToken @field(resolver: "AuthQuery@logout")
+    logout: AuthToken @field(resolver: "LogoutMutator@resolve")
 
-    edite(lang: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "AuthMutator@edite")
+    edite(lang: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditeMutator@resolve")
 }
 
 type User {
