@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Auth\Http\Actions\LogoutAction;
 use Modules\Auth\Http\Requests\AuthRequest;
 use Modules\Auth\Http\Requests\EditeRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -24,6 +25,6 @@ class LogoutMutator
     {
         $request = new AuthRequest();
         $dto = $request->valid($args);
-        return AuthAction::logout($dto);
+        return LogoutAction::logout($dto);
     }
 }

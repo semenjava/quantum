@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Auth\Http\Actions\EditeAction;
 use Modules\Auth\Http\Requests\AuthRequest;
 use Modules\Auth\Http\Requests\EditeRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
@@ -25,6 +26,6 @@ class EditeMutator
     {
         $request = new EditeRequest();
         $dto = $request->valid($args);
-        return AuthAction::edite($dto);
+        return EditeAction::edite($dto);
     }
 }

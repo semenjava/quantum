@@ -3,7 +3,7 @@ namespace App\Http\Actions;
 
 use App\Http\Controllers\Controller;
 
-class BaseAction extends Controller
+abstract class BaseAction extends Controller
 {
 
 }

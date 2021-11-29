@@ -3,6 +3,7 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Auth\Http\Actions\RegisterAction;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Actions\AuthAction;
@@ -22,6 +23,6 @@ class RegisterMutator
     {
         $request = new RegisterRequest();
         $dto = $request->valid($args);
-        return AuthAction::register($dto);
+        return RegisterAction::register($dto);
     }
 }

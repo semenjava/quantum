@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "5ced35e552937ad9fd10c05a9daa286b",
+    "content-hash": "9d94a428768347934e51d0baae2ff189",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -886,6 +886,56 @@
             "time": "2021-01-05T20:50:49+00:00"
         },
         {
+            "name": "jason-guru/laravel-make-repository",
+            "version": "0.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jason-guru/laravel-make-repository.git",
+                "reference": "693d3d189c0b19262a896eb888c3a7b870a2de43"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jason-guru/laravel-make-repository/zipball/693d3d189c0b19262a896eb888c3a7b870a2de43",
+                "reference": "693d3d189c0b19262a896eb888c3a7b870a2de43",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "JasonGuru\\LaravelMakeRepository\\RepositoryServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "JasonGuru\\LaravelMakeRepository\\": "src/"
+                },
+                "classmap": [
+                    "src/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "G Jason Sharma",
+                    "email": "g.jason.sharma@gmail.com"
+                }
+            ],
+            "description": "A simple package to create a make:repository command for Laravel 5+",
+            "support": {
+                "issues": "https://github.com/jason-guru/laravel-make-repository/issues",
+                "source": "https://github.com/jason-guru/laravel-make-repository/tree/0.0.3"
+            },
+            "time": "2020-10-24T13:21:42+00:00"
+        },
+        {
             "name": "laragraph/utils",
             "version": "v1.0.0",
             "source": {
@@ -1344,6 +1394,64 @@
                 "psysh"
             ],
             "time": "2021-09-28T15:47:34+00:00"
+        },
+        {
+            "name": "laravel/ui",
+            "version": "v3.3.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/ui.git",
+                "reference": "08ea313a35dfc89ff0cd9916ca0bcef9715d0ed6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/ui/zipball/08ea313a35dfc89ff0cd9916ca0bcef9715d0ed6",
+                "reference": "08ea313a35dfc89ff0cd9916ca0bcef9715d0ed6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/console": "^8.42|^9.0",
+                "illuminate/filesystem": "^8.42|^9.0",
+                "illuminate/support": "^8.42|^9.0",
+                "illuminate/validation": "^8.42|^9.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "3.x-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Laravel\\Ui\\UiServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Laravel\\Ui\\": "src/",
+                    "Illuminate\\Foundation\\Auth\\": "auth-backend/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylor@laravel.com"
+                }
+            ],
+            "description": "Laravel UI utilities and presets.",
+            "keywords": [
+                "laravel",
+                "ui"
+            ],
+            "support": {
+                "source": "https://github.com/laravel/ui/tree/v3.3.3"
+            },
+            "time": "2021-11-21T22:20:05+00:00"
         },
         {
             "name": "league/commonmark",
@@ -5515,6 +5623,10 @@
                 "api",
                 "graphql"
             ],
+            "support": {
+                "issues": "https://github.com/webonyx/graphql-php/issues",
+                "source": "https://github.com/webonyx/graphql-php/tree/v14.11.3"
+            },
             "funding": [
                 {
                     "url": "https://opencollective.com/webonyx-graphql-php",
