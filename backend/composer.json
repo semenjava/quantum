@@ -7,9 +7,11 @@
     "require": {
         "php": "^7.3|^8.0",
         "dlnsk/h-rbac": "^0.4.2",
+        "doctrine/dbal": "^3.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
+        "kodeine/laravel-acl": "^2.0",
         "laravel/framework": "^8.65",
         "laravel/sail": "1.7.0",
         "laravel/sanctum": "^2.12",
@@ -19,6 +21,9 @@
         "mll-lab/laravel-graphql-playground": "^2.5",
         "nuwave/lighthouse": "^5.27",
         "nwidart/laravel-modules": "^8.2",
+        "pragmarx/google2fa-laravel": "^2.0",
+        "spatie/laravel-activitylog": "^4.3",
+        "vinkla/hashids": "^9.1",
         "webonyx/graphql-php": "^14.11"
     },
     "require-dev": {
