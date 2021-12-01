@@ -46,18 +46,26 @@ class AuthorizationClass extends Authorization
      */
     public function getRoles() {
         return [
-            'admin' => [
+            'superadmin' => [
                 'update-post',
                 'delete-post',
             ],
-            'manager' => [
+            'organization' => [
                 'update-post-in-category',
             ],
-            'user' => [
+            'provider' => [
                 'update-own-post',
                 'add-to-favorites',
                 'delete-post',
             ],
+            'company' => [
+                'update-post',
+                'delete-post',
+            ],
+            'employee' => [
+                'update-post',
+                'delete-post',
+            ]
         ];
     }
 
