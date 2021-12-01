@@ -50,6 +50,10 @@ class AuthorizationClass extends Authorization
                 'update-post',
                 'delete-post',
             ],
+            'manager' => [
+                'update-post',
+                'delete-post',
+            ],
             'organization' => [
                 'update-post-in-category',
             ],
