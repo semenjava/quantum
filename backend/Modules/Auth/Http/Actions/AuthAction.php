@@ -18,6 +18,11 @@ use Modules\Auth\Repositories\UserRepository;
 
 class AuthAction extends BaseAction
 {
+    /**
+     * @param Property $dto
+     * @return array
+     * @throws AuthorizationException
+     */
     public static function verify(Property $dto)
     {
         if($userId = User::hasHashEmail($dto->get('hash'))) {
@@ -37,6 +42,10 @@ class AuthAction extends BaseAction
         }
     }
 
+    /**
+     * @param Property $dto
+     * @return array|string[]
+     */
     public static function login(Property $dto) {
         $fields = $dto->toArray();
 
