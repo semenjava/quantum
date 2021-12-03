@@ -23,8 +23,8 @@ return [
     | can define your model here.
     */
 
-    'role'       => Kodeine\Acl\Models\Eloquent\Role::class,
-    'permission' => Kodeine\Acl\Models\Eloquent\Permission::class,
+    'role'       => \App\Models\Roles::class,
+    'permission' => \App\Models\Permissions::class,
 
     /*
     |--------------------------------------------------------------------------
@@ -42,6 +42,6 @@ return [
      * Cache Minutes
      * Set the minutes that roles and permissions will be cached.
      */
-		
+
     'cacheMinutes' => 1,
 ];

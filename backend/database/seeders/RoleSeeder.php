@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Role;
+use App\Models\Roles;
 use Illuminate\Database\Seeder;
 
 class RoleSeeder extends Seeder
@@ -14,14 +14,34 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $manager = new Role();
-        $manager->name = 'super admin';
-        $manager->slug = 'super-admin';
+        $admin = new Roles();
+        $admin->name = 'Super Admin';
+        $admin->slug = 'superadmin';
+        $admin->save();
+
+        $manager = new Roles();
+        $manager->name = 'Manager';
+        $manager->slug = 'manager';
         $manager->save();
 
-        $developer = new Role();
-        $developer->name = 'Web Developer';
-        $developer->slug = 'web-developer';
-        $developer->save();
+        $organization = new Roles();
+        $organization->name = 'Organization';
+        $organization->slug = 'organization';
+        $organization->save();
+
+        $provider = new Roles();
+        $provider->name = 'Provider';
+        $provider->slug = 'provider';
+        $provider->save();
+
+        $company = new Roles();
+        $company->name = 'Company';
+        $company->slug = 'company';
+        $company->save();
+
+        $employee = new Roles();
+        $employee->name = 'Employee';
+        $employee->slug = 'employee';
+        $employee->save();
     }
 }
