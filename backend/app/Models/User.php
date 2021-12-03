@@ -12,7 +12,7 @@ use Kodeine\Acl\Traits\HasRole;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndPermissions, HasRole;
+    use HasApiTokens, HasFactory, Notifiable, HasRole;
 
     /**
      * The attributes that are mass assignable.
@@ -48,4 +48,6 @@ class User extends Authenticatable
      * @var string[]
      */
     protected $with = ['permissions', 'role'];
+
+
 }
