@@ -2,16 +2,14 @@
 
 namespace Database\Seeders;
 
-use App\Models\Roles;
 use App\Models\User;
-use App\Models\Permissions;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
-use Database\Seeders\Partials\{PermissionGet, RolesGet};
+use App\Traits\RolesGet;
 
 class UserSeeder extends Seeder
 {
-    use PermissionGet, RolesGet;
+    use RolesGet;
 
     /**
      * Run the database seeds.
@@ -21,7 +19,6 @@ class UserSeeder extends Seeder
     public function run()
     {
         $roles = RolesGet::getRoles();
-        $permissions = PermissionGet::getPermissions();
 
         $user1 = new User();
         $user1->name = 'Admin';
@@ -29,8 +26,8 @@ class UserSeeder extends Seeder
         $user1->password = Hash::make('admin');
         $user1->role = 'superadmin';
         $user1->save();
-        $user1->roles()->attach($roles->superadmin);
-        foreach ($permissions as $permission) {
+        $user1->roles()->attach($roles->get('superadmin'));
+        foreach ($roles->get('superadmin')->permissions as $permission) {
             $user1->permissions()->attach($permission);
         }
 
@@ -40,45 +37,10 @@ class UserSeeder extends Seeder
         $user2->password = Hash::make('manager');
         $user2->role = 'manager';
         $user2->save();
-        $user2->roles()->attach($roles->manager);
-        $user2->permissions()->attach($permissions->create);
-        $user2->permissions()->attach($permissions->store);
-        $user2->permissions()->attach($permissions->read);
-        $user2->permissions()->attach($permissions->view);
-        $user2->permissions()->attach($permissions->edit);
-        $user2->permissions()->attach($permissions->update);
-        $user2->permissions()->attach($permissions->{'read-own-manager'});
-        $user2->permissions()->attach($permissions->{'view-own-manager'});
-        $user2->permissions()->attach($permissions->{'edit-own-manager'});
-        $user2->permissions()->attach($permissions->{'update-own-manager'});
-        $user2->permissions()->attach($permissions->{'create-organization'});
-        $user2->permissions()->attach($permissions->{'store-organization'});
-        $user2->permissions()->attach($permissions->{'read-organization'});
-        $user2->permissions()->attach($permissions->{'view-organization'});
-        $user2->permissions()->attach($permissions->{'edit-organization'});
-        $user2->permissions()->attach($permissions->{'update-organization'});
-        $user2->permissions()->attach($permissions->{'delete-organization'});
-        $user2->permissions()->attach($permissions->{'create-provider'});
-        $user2->permissions()->attach($permissions->{'store-provider'});
-        $user2->permissions()->attach($permissions->{'read-provider'});
-        $user2->permissions()->attach($permissions->{'view-provider'});
-        $user2->permissions()->attach($permissions->{'edit-provider'});
-        $user2->permissions()->attach($permissions->{'update-provider'});
-        $user2->permissions()->attach($permissions->{'delete-provider'});
-        $user2->permissions()->attach($permissions->{'create-company'});
-        $user2->permissions()->attach($permissions->{'store-company'});
-        $user2->permissions()->attach($permissions->{'read-company'});
-        $user2->permissions()->attach($permissions->{'view-company'});
-        $user2->permissions()->attach($permissions->{'edit-company'});
-        $user2->permissions()->attach($permissions->{'update-company'});
-        $user2->permissions()->attach($permissions->{'delete-company'});
-        $user2->permissions()->attach($permissions->{'create-employee'});
-        $user2->permissions()->attach($permissions->{'store-employee'});
-        $user2->permissions()->attach($permissions->{'read-employee'});
-        $user2->permissions()->attach($permissions->{'view-employee'});
-        $user2->permissions()->attach($permissions->{'edit-employee'});
-        $user2->permissions()->attach($permissions->{'update-employee'});
-        $user2->permissions()->attach($permissions->{'delete-employee'});
+        $user2->roles()->attach($roles->get('manager'));
+        foreach ($roles->get('manager')->permissions as $permission) {
+            $user2->permissions()->attach($permission);
+        }
 
         $user3 = new User();
         $user3->name = 'Organization';
@@ -86,8 +48,10 @@ class UserSeeder extends Seeder
         $user3->password = Hash::make('organization');
         $user3->role = 'organization';
         $user3->save();
-        $user3->roles()->attach($roles->organization);
-        $user3->permissions()->attach($permissions->read);
+        $user3->roles()->attach($roles->get('organization'));
+        foreach ($roles->get('organization')->permissions as $permission) {
+            $user3->permissions()->attach($permission);
+        }
 
         $user4 = new User();
         $user4->name = 'Provider';
@@ -95,8 +59,10 @@ class UserSeeder extends Seeder
         $user4->password = Hash::make('provider');
         $user4->role = 'provider';
         $user4->save();
-        $user4->roles()->attach($roles->provider);
-        $user4->permissions()->attach($permissions->read);
+        $user4->roles()->attach($roles->get('provider'));
+        foreach ($roles->get('provider')->permissions as $permission) {
+            $user4->permissions()->attach($permission);
+        }
 
         $user5 = new User();
         $user5->name = 'Company';
@@ -104,8 +70,10 @@ class UserSeeder extends Seeder
         $user5->password = Hash::make('company');
         $user5->role = 'company';
         $user5->save();
-        $user5->roles()->attach($roles->company);
-        $user5->permissions()->attach($permissions->read);
+        $user5->roles()->attach($roles->get('company'));
+        foreach ($roles->get('company')->permissions as $permission) {
+            $user5->permissions()->attach($permission);
+        }
 
         $user6 = new User();
         $user6->name = 'Employee';
@@ -113,7 +81,9 @@ class UserSeeder extends Seeder
         $user6->password = Hash::make('employee');
         $user6->role = 'employee';
         $user6->save();
-        $user6->roles()->attach($roles->employee);
-        $user6->permissions()->attach($permissions->read);
+        $user6->roles()->attach($roles->get('employee'));
+        foreach ($roles->get('employee')->permissions as $permission) {
+            $user6->permissions()->attach($permission);
+        }
     }
 }
