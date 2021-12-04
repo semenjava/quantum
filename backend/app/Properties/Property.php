@@ -1,6 +1,8 @@
 <?php
 namespace App\Properties;
 
+use Modules\Auth\Repositories\UserRepository;
+
 class Property extends BaseProperty
 {
     protected $property = [];
@@ -71,7 +73,19 @@ class Property extends BaseProperty
 
     public function toArray()
     {
-        return $this->property;
+        $property = $this->property;
+        if(!empty($property['user']))  {
+            unset($property['user']);
+        }
+        return $property;
+    }
+
+    public function user()
+    {
+        if($this->has('user')) {
+            return $this->get('user');
+        }
+        return null;
     }
 
     public function posval(string $str) {

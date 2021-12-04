@@ -23,7 +23,7 @@ class AuthMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new LoginRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return AuthAction::login($dto);
     }
 }
