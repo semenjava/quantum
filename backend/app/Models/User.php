@@ -47,7 +47,7 @@ class User extends Authenticatable
     /**
      * @var string[]
      */
-    protected $with = ['permissions', 'role'];
+//    protected $with = ['permissions', 'role'];
 
 
 }

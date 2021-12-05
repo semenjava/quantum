@@ -10,12 +10,40 @@ use App\Properties\Property;
 
 class User extends BaseUser
 {
-    public static function hasHashEmail($hash)
+    /**
+     * @param $hash
+     * @return mixed|null
+     */
+    public static function hasHash($hash)
     {
-        $result = DB::table('user_signe')->select('user_id')->where('hash', $hash)->first();
-        return $result['user_id'];
+        $result = DB::table('users')->select('user_id')->where('hash', $hash)->first();
+        return $result ? $result->user_id : null;
     }
 
+    /**
+     * @param $email
+     * @return mixed|null
+     */
+    public static function hasEmailUser($email)
+    {
+        $result = DB::table('user')->select('user_id')->where('email', $email)->first();
+        return $result ? $result->user_id : null;
+    }
+
+    /**
+     * @param $password
+     * @param $user
+     * @return bool
+     */
+    public static function hasPasswordHash($password, $user)
+    {
+        return Hash::check($password, $user->password);
+    }
+
+    /**
+     * @param Property $dto
+     * @return mixed
+     */
     public function edite(Property $dto)
     {
         $user = request()->user();

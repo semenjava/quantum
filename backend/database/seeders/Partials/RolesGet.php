@@ -2,12 +2,12 @@
 
 namespace Database\Seeders\Partials;
 
-use App\Models\Roles;
+use Kodeine\Acl\Models\Eloquent\Role;
 
 trait RolesGet
 {
     public static function getRoles()
     {
-        return Roles::all()->groupBy('slug');
+        return Role::all()->keyBy('slug');
     }
 }

@@ -10,19 +10,21 @@ abstract class BaseFormRequest extends FormRequest
 {
     protected $param;
 
-    public function valid(array $param): Property
+    public function valid(array $param): BaseFormRequest
     {
         $validator = Validator::make($param, $this->rules());
         if($validator->fails()){
             throw ValidationException::withMessages($validator->errors()->toArray());
         }
 
-        return $this->createProperty($param);
+        $this->param = $param;
+
+        return $this;
     }
 
-    private function createProperty($param)
+    public function toDto(): Property
     {
-        $dto = new Property($param);
-        return $dto;
+        $this->param['user'] = $this->getUser();
+        return new Property($this->param);
     }
 }

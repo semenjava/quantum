@@ -3,8 +3,7 @@
 namespace App\Classes\Authorization;
 
 use Dlnsk\HierarchicalRBAC\Authorization;
-use App\Models\Permissions;
-use App\Models\Roles;
+use App\Traits\RolesGet;
 
 /**
  *  This is example of hierarchical RBAC authorization configiration.
@@ -16,13 +15,17 @@ class AuthorizationClass extends Authorization
      */
     public function getPermissions(): array
     {
-        $permissions = Permissions::all();
         $data = [];
+        $roles = RolesGet::getRoles();
 
-        foreach ($permissions as $permission) {
-            $data[$permission->slug] = [
-                'description' => $permission->name
-            ];
+        foreach ($roles as $slug => $role) {
+            $data[$slug] = [];
+            foreach ($role->permissions as $permission) {
+                $key = RolesGet::slug($permission->slug);
+                $data[$slug][$key] = [
+                    'description' => $permission->name
+                ];
+            }
         }
 
         return $data;
@@ -60,101 +63,14 @@ class AuthorizationClass extends Authorization
     public function getRoles(): array
     {
         $data = [];
-        $roles = Roles::all();
-        $permissions = Permissions::all();
+        $roles = RolesGet::getRoles();
 
-        foreach ($roles as $role) {
-            $data[$role->slug] = [];
+        foreach ($roles as $slug => $role) {
+            $data[$slug] = [];
+            foreach ($role->permissions as $permission) {
+                $data[$slug][] = RolesGet::slug($permission->slug);
+            }
         }
-
-        foreach ($permissions as $permission) {
-            $data['superadmin'][] = $permission->slug;
-        }
-
-        $data['manager'] = [
-            'create',
-            'store',
-            'read',
-            'view',
-            'edit',
-            'update',
-            'read-own-manager',
-            'view-own-manager',
-            'edit-own-manager',
-            'update-own-manager',
-            'create-organization',
-            'store-organization',
-            'read-organization',
-            'view-organization',
-            'edit-organization',
-            'update-organization',
-            'delete-organization',
-            'create-provider',
-            'store-provider',
-            'read-provider',
-            'view-provider',
-            'edit-provider',
-            'update-provider',
-            'delete-provider',
-            'create-company',
-            'store-company',
-            'read-company',
-            'view-company',
-            'edit-company',
-            'update-company',
-            'delete-company',
-            'create-employee',
-            'store-employee',
-            'read-employee',
-            'view-employee',
-            'edit-employee',
-            'update-employee',
-            'delete-employee'
-        ];
-
-        $data['organization'] = [
-            'read',
-            'read-provider',
-            'view-provider',
-            'read-company',
-            'view-company',
-            'read-employee',
-            'view-employee',
-            'read-own-organization',
-            'view-own-organization',
-            'edit-own-organization',
-            'update-own-organization'
-        ];
-
-        $data['provider'] = [
-            'read',
-            'read-company',
-            'view-company',
-            'read-employee',
-            'view-employee',
-            'read-own-provider',
-            'view-own-provider',
-            'edit-own-provider',
-            'update-own-provider'
-        ];
-
-        $data['company'] = [
-            'read',
-            'read-employee',
-            'view-employee',
-            'read-own-company',
-            'view-own-company',
-            'edit-own-company',
-            'update-own-company'
-        ];
-
-        $data['employee'] = [
-            'read',
-            'read-own-employee',
-            'view-own-employee',
-            'edit-own-employee',
-            'update-own-employee'
-        ];
 
         return $data;
 

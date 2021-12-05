@@ -11,6 +11,6 @@ trait PermissionGet
      */
     public static function getPermissions()
     {
-        return Permissions::all()->groupBy('slug');
+        return Permissions::all();
     }
 }
