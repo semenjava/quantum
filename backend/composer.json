@@ -21,6 +21,7 @@
         "mll-lab/laravel-graphql-playground": "^2.5",
         "nuwave/lighthouse": "^5.27",
         "nwidart/laravel-modules": "^8.2",
+        "petercoles/multilingual-language-list": "^1.16",
         "pragmarx/google2fa-laravel": "^2.0",
         "spatie/laravel-activitylog": "^4.3",
         "vinkla/hashids": "^9.1",
@@ -50,8 +51,7 @@
     },
     "scripts": {
         "post-autoload-dump": [
-            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi"
