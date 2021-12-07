@@ -5,7 +5,7 @@
 - `composer install`
 - run `alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'`
 - add the same command to your .bashrc /.zshrc / etc.
-- `sail up`
+- `sail up -d`
 
 and the project will start installing the docker system.
 
