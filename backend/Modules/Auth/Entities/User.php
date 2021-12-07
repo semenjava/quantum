@@ -16,8 +16,8 @@ class User extends BaseUser
      */
     public static function hasHash($hash)
     {
-        $result = DB::table('users')->select('user_id')->where('hash', $hash)->first();
-        return $result ? $result->user_id : null;
+        $result = DB::table('users')->select('id')->where('hash', $hash)->first();
+        return $result ? $result->id : null;
     }
 
     /**
@@ -26,8 +26,8 @@ class User extends BaseUser
      */
     public static function hasEmailUser($email)
     {
-        $result = DB::table('user')->select('user_id')->where('email', $email)->first();
-        return $result ? $result->user_id : null;
+        $result = DB::table('users')->select('id')->where('email', $email)->first();
+        return $result ? $result->id : null;
     }
 
     /**

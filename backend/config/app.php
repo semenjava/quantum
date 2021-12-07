@@ -182,6 +182,9 @@ return [
         Kodeine\Acl\AclServiceProvider::class,
         PragmaRX\Google2FALaravel\ServiceProvider::class,
 
+        /* Language */
+        PeterColes\Languages\LanguagesServiceProvider::class,
+
     ],
 
     /*
@@ -237,6 +240,7 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'Google2FA' => PragmaRX\Google2FALaravel\Facade::class,
+        'Languages' => PeterColes\Languages\LanguagesFacade::class,
     ],
 
 ];

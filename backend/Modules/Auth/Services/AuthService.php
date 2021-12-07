@@ -27,13 +27,12 @@ class AuthService
 
     /**
      * @param $fields
-     * @param $user
      * @return array
      * @throws NotAuthorized
      */
-    public function login($fields, $user)
+    public function login($fields)
     {
-        if($user_id = UserEntity::hasEmailUser($fields['email'])) {
+        if(!$user_id = UserEntity::hasEmailUser($fields['email'])) {
             //Unauthenticated
             throw new NotAuthorized();
         }
