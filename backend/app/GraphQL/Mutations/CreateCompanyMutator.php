@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Actions\AuthAction;
 
-class RegisterMutator
+class CreateCompanyMutator
 {
     /**
      * Return a value for the field.
