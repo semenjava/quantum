@@ -43,13 +43,13 @@ class UserSeeder extends Seeder
         }
 
         $user3 = new User();
-        $user3->name = 'Organization';
-        $user3->email = 'organization@organization.com';
-        $user3->password = Hash::make('organization');
-        $user3->role = 'organization';
+        $user3->name = 'Facility';
+        $user3->email = 'facility@facility.com';
+        $user3->password = Hash::make('facility');
+        $user3->role = 'facility';
         $user3->save();
-        $user3->roles()->attach($roles->get('organization'));
-        foreach ($roles->get('organization')->permissions as $permission) {
+        $user3->roles()->attach($roles->get('facility'));
+        foreach ($roles->get('facility')->permissions as $permission) {
             $user3->permissions()->attach($permission);
         }
 
