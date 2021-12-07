@@ -8,8 +8,15 @@ use Illuminate\Validation\ValidationException;
 
 abstract class BaseFormRequest extends FormRequest
 {
+    /**
+     * @var $param
+     */
     protected $param;
 
+    /**
+     * @param array $param
+     * @return $this
+     */
     public function valid(array $param): BaseFormRequest
     {
         $validator = Validator::make($param, $this->rules());
@@ -22,6 +29,9 @@ abstract class BaseFormRequest extends FormRequest
         return $this;
     }
 
+    /**
+     * @return Property
+     */
     public function toDto(): Property
     {
         $this->param['user'] = $this->getUser();

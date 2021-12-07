@@ -12,13 +12,25 @@ use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 
 class AuthService
 {
+    /**
+     * @var User|\Illuminate\Contracts\Auth\Authenticatable|null
+     */
     private $user;
 
+    /**
+     * @param User|null $user
+     */
     public function __construct(User $user = null)
     {
         $this->user = is_null($user) ? Auth::user() : $user;
     }
 
+    /**
+     * @param $fields
+     * @param $user
+     * @return array
+     * @throws NotAuthorized
+     */
     public function login($fields, $user)
     {
         if($user_id = UserEntity::hasEmailUser($fields['email'])) {
@@ -47,6 +59,11 @@ class AuthService
         return $response;
     }
 
+    /**
+     * @param $dto
+     * @return array
+     * @throws AuthorizationException
+     */
     public function verify($dto)
     {
         if($userId = UserEntity::hasHash($dto->get('hash'))) {

@@ -25,8 +25,8 @@ class RoleSeeder extends Seeder
         $manager->save();
 
         $organization = new Roles();
-        $organization->name = 'Organization';
-        $organization->slug = 'organization';
+        $organization->name = 'Facility admins';// hospital
+        $organization->slug = 'facility';
         $organization->save();
 
         $provider = new Roles();
