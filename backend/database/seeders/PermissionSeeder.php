@@ -137,84 +137,84 @@ class PermissionSeeder extends Seeder
         $updateOnwManager->roles()->attach($roles->get('superadmin'));
         $updateOnwManager->roles()->attach($roles->get('manager'));
 
-        // Organization
+        // facility
         $createOrganization = new Permission();
-        $createOrganization->name = 'Create Organization';
-        $createOrganization->slug = 'create-organization';
+        $createOrganization->name = 'Create Facility';
+        $createOrganization->slug = 'create-facility';
         $createOrganization->save();
         $createOrganization->roles()->attach($roles->get('superadmin'));
         $createOrganization->roles()->attach($roles->get('manager'));
 
         $storeOrganization = new Permission();
-        $storeOrganization->name = 'Store Organization';
-        $storeOrganization->slug = 'store-organization';
+        $storeOrganization->name = 'Store Facility';
+        $storeOrganization->slug = 'store-facility';
         $storeOrganization->save();
         $storeOrganization->roles()->attach($roles->get('superadmin'));
         $storeOrganization->roles()->attach($roles->get('manager'));
 
         $readOrganization = new Permission();
-        $readOrganization->name = 'Read Organization';
-        $readOrganization->slug = 'read-organization';
+        $readOrganization->name = 'Read Facility';
+        $readOrganization->slug = 'read-facility';
         $readOrganization->save();
         $readOrganization->roles()->attach($roles->get('superadmin'));
         $readOrganization->roles()->attach($roles->get('manager'));
-        $readOrganization->roles()->attach($roles->get('organization'));
+        $readOrganization->roles()->attach($roles->get('facility'));
 
         $viewOrganization = new Permission();
-        $viewOrganization->name = 'View Organization';
-        $viewOrganization->slug = 'view-organization';
+        $viewOrganization->name = 'View Facility';
+        $viewOrganization->slug = 'view-facility';
         $viewOrganization->save();
         $viewOrganization->roles()->attach($roles->get('superadmin'));
         $viewOrganization->roles()->attach($roles->get('manager'));
 
         $editOrganization = new Permission();
-        $editOrganization->name = 'Edit Organization';
-        $editOrganization->slug = 'edit-organization';
+        $editOrganization->name = 'Edit Facility';
+        $editOrganization->slug = 'edit-facility';
         $editOrganization->save();
         $editOrganization->roles()->attach($roles->get('superadmin'));
         $editOrganization->roles()->attach($roles->get('manager'));
 
         $updateOrganization = new Permission();
-        $updateOrganization->name = 'Update Organization';
-        $updateOrganization->slug = 'update-organization';
+        $updateOrganization->name = 'Update Facility';
+        $updateOrganization->slug = 'update-facility';
         $updateOrganization->save();
         $updateOrganization->roles()->attach($roles->get('superadmin'));
         $updateOrganization->roles()->attach($roles->get('manager'));
 
         $deleteOrganization = new Permission();
-        $deleteOrganization->name = 'Delete Organization';
-        $deleteOrganization->slug = 'delete-organization';
+        $deleteOrganization->name = 'Delete Facility';
+        $deleteOrganization->slug = 'delete-facility';
         $deleteOrganization->save();
         $deleteOrganization->roles()->attach($roles->get('superadmin'));
         $deleteOrganization->roles()->attach($roles->get('manager'));
 
         $readOnwOrganization = new Permission();
-        $readOnwOrganization->name = 'Read Own Organization';
-        $readOnwOrganization->slug = 'read-own-organization';
+        $readOnwOrganization->name = 'Read Own Facility';
+        $readOnwOrganization->slug = 'read-own-facility';
         $readOnwOrganization->save();
         $readOnwOrganization->roles()->attach($roles->get('superadmin'));
-        $readOnwOrganization->roles()->attach($roles->get('organization'));
+        $readOnwOrganization->roles()->attach($roles->get('facility'));
 
         $viewOnwOrganization = new Permission();
-        $viewOnwOrganization->name = 'View Own Organization';
-        $viewOnwOrganization->slug = 'view-own-organization';
+        $viewOnwOrganization->name = 'View Own Facility';
+        $viewOnwOrganization->slug = 'view-own-facility';
         $viewOnwOrganization->save();
         $viewOnwOrganization->roles()->attach($roles->get('superadmin'));
-        $viewOnwOrganization->roles()->attach($roles->get('organization'));
+        $viewOnwOrganization->roles()->attach($roles->get('facility'));
 
         $editOnwOrganization = new Permission();
-        $editOnwOrganization->name = 'Edit Own Organization';
-        $editOnwOrganization->slug = 'edit-own-organization';
+        $editOnwOrganization->name = 'Edit Own Facility';
+        $editOnwOrganization->slug = 'edit-own-facility';
         $editOnwOrganization->save();
         $editOnwOrganization->roles()->attach($roles->get('superadmin'));
-        $editOnwOrganization->roles()->attach($roles->get('organization'));
+        $editOnwOrganization->roles()->attach($roles->get('facility'));
 
         $updateOnwOrganization = new Permission();
-        $updateOnwOrganization->name = 'Update Own Organization';
-        $updateOnwOrganization->slug = 'update-own-organization';
+        $updateOnwOrganization->name = 'Update Own Facility';
+        $updateOnwOrganization->slug = 'update-own-facility';
         $updateOnwOrganization->save();
         $updateOnwOrganization->roles()->attach($roles->get('superadmin'));
-        $updateOnwOrganization->roles()->attach($roles->get('organization'));
+        $updateOnwOrganization->roles()->attach($roles->get('facility'));
 
         // Provider
         $createProvider = new Permission();
@@ -237,7 +237,7 @@ class PermissionSeeder extends Seeder
         $readProvider->save();
         $readProvider->roles()->attach($roles->get('superadmin'));
         $readProvider->roles()->attach($roles->get('manager'));
-        $readProvider->roles()->attach($roles->get('organization'));
+        $readProvider->roles()->attach($roles->get('facility'));
 
         $viewProvider = new Permission();
         $viewProvider->name = 'View Provider';
@@ -245,7 +245,7 @@ class PermissionSeeder extends Seeder
         $viewProvider->save();
         $viewProvider->roles()->attach($roles->get('superadmin'));
         $viewProvider->roles()->attach($roles->get('manager'));
-        $viewProvider->roles()->attach($roles->get('organization'));
+        $viewProvider->roles()->attach($roles->get('facility'));
 
         $editProvider = new Permission();
         $editProvider->name = 'Edit Provider';
@@ -317,7 +317,7 @@ class PermissionSeeder extends Seeder
         $readCompany->save();
         $readCompany->roles()->attach($roles->get('superadmin'));
         $readCompany->roles()->attach($roles->get('manager'));
-        $readCompany->roles()->attach($roles->get('organization'));
+        $readCompany->roles()->attach($roles->get('facility'));
         $readCompany->roles()->attach($roles->get('provider'));
 
         $viewCompany = new Permission();
@@ -326,7 +326,7 @@ class PermissionSeeder extends Seeder
         $viewCompany->save();
         $viewCompany->roles()->attach($roles->get('superadmin'));
         $viewCompany->roles()->attach($roles->get('manager'));
-        $viewCompany->roles()->attach($roles->get('organization'));
+        $viewCompany->roles()->attach($roles->get('facility'));
         $viewCompany->roles()->attach($roles->get('provider'));
 
         $editCompany = new Permission();
@@ -399,7 +399,7 @@ class PermissionSeeder extends Seeder
         $readEmployee->save();
         $readEmployee->roles()->attach($roles->get('superadmin'));
         $readEmployee->roles()->attach($roles->get('manager'));
-        $readEmployee->roles()->attach($roles->get('organization'));
+        $readEmployee->roles()->attach($roles->get('facility'));
         $readEmployee->roles()->attach($roles->get('provider'));
         $readEmployee->roles()->attach($roles->get('company'));
 
@@ -409,7 +409,7 @@ class PermissionSeeder extends Seeder
         $viewEmployee->save();
         $viewEmployee->roles()->attach($roles->get('superadmin'));
         $viewEmployee->roles()->attach($roles->get('manager'));
-        $viewEmployee->roles()->attach($roles->get('organization'));
+        $viewEmployee->roles()->attach($roles->get('facility'));
         $viewEmployee->roles()->attach($roles->get('provider'));
         $viewEmployee->roles()->attach($roles->get('company'));
 
