@@ -22,10 +22,12 @@ class LogoutAction extends BaseAction
      * @param Property $dto
      * @return string[]
      */
-    public static function logout(Property $dto) {
+    public static function logout()
+    {
         request()->user()->tokens()->delete();
 
         return [
+            'success' => true,
             'message' => 'Logged out'
         ];
     }

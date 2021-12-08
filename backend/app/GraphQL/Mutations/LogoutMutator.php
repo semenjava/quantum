@@ -23,8 +23,6 @@ class LogoutMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new AuthRequest();
-        $dto = $request->valid($args);
-        return LogoutAction::logout($dto);
+        return LogoutAction::logout();
     }
 }

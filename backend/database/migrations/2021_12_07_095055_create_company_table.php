@@ -36,6 +36,8 @@ class CreateCompanyTable extends Migration
                 ->onDelete("cascade");
             $table->string('address')->nullable();
             $table->string('postal')->nullable();
+            $table->string('phone')->nullable();
+            $table->string('fax')->nullable();
             $table->integer('count_employee')->nullable();
             $table->timestamps();
 

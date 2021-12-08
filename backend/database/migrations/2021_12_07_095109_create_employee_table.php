@@ -24,6 +24,12 @@ class CreateEmployeeTable extends Migration
             $table->string('first_name')->nullable();
             $table->string('surname')->nullable();
             $table->string('last_name')->nullable();
+            $table->integer('company_id')
+                ->index()
+                ->foreign()
+                ->references("id")
+                ->on('companies')
+                ->onDelete("cascade");
             $table->integer('country_id')
                 ->index()
                 ->foreign()
@@ -54,6 +60,11 @@ class CreateEmployeeTable extends Migration
             $table->foreign('city_id')
                 ->references('id')
                 ->on('cities')
+                ->onDelete('cascade');
+
+            $table->foreign('company_id')
+                ->references('id')
+                ->on('companies')
                 ->onDelete('cascade');
         });
     }
