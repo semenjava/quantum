@@ -1,7 +1,7 @@
 import { store } from 'quasar/wrappers';
 import { createStore } from 'vuex';
-
-// import example from './module-example'
+import createPersistedState from 'vuex-persistedstate';
+import app from './app';
 
 /*
  * If not building with SSR mode, you can
@@ -15,8 +15,11 @@ import { createStore } from 'vuex';
 export default store((/* { ssrContext } */) => {
   const Store = createStore({
     modules: {
-      // example
+      app,
     },
+    plugins: [
+      createPersistedState(),
+    ],
 
     // enable strict mode (adds overhead!)
     // for dev mode and --debug builds only

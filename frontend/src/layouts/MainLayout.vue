@@ -6,6 +6,26 @@
         <q-toolbar-title>
           Quantum Health Connect
         </q-toolbar-title>
+
+        <q-btn-dropdown color="secondary" :label="userName">
+          <q-list>
+            <q-item clickable v-close-popup>
+              <q-item-section>
+                <q-item-label>Settings</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="openProfile">
+              <q-item-section>
+                <q-item-label>Profile</q-item-label>
+              </q-item-section>
+            </q-item>
+            <q-item clickable v-close-popup @click="logout">
+              <q-item-section>
+                <q-item-label>Logout</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </q-btn-dropdown>
       </q-toolbar>
     </q-header>
 
@@ -94,6 +114,9 @@ const linksList = [
     icon: 'summarize',
     link: '/reporting',
   },
+];
+
+const adminLinksList = [
   {
     type: 'separator',
   },
@@ -127,8 +150,10 @@ const linksList = [
   },
 ];
 
-import { defineComponent, ref } from 'vue';
+import { inject, defineComponent, ref } from 'vue';
 import SidebarMenuItem from 'components/SidebarMenuItem';
+import { useRouter } from 'vue-router';
+import { useQuasar } from 'quasar';
 
 export default defineComponent({
   name: 'MainLayout',
@@ -139,12 +164,26 @@ export default defineComponent({
 
   setup() {
     const leftDrawerOpen = ref(false);
+    const $q = useQuasar();
+    const $store = inject('store');
+    const userName = $store.getters['app/user'].name;
+    const $router = useRouter();
 
     return {
-      essentialLinks: linksList,
+      essentialLinks: [...linksList, ...($store.getters['app/isAdmin'] ? adminLinksList : [])],
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
+      },
+      userName,
+      openProfile() {},
+      async logout() {
+        $q.loading.show({
+          message: 'Logging out',
+        });
+        await $store.dispatch('app/logout');
+        $router.push({ name: 'login' });
+        $q.loading.hide();
       },
     };
   },

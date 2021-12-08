@@ -23,3 +23,5 @@ const apolloProvider = createApolloProvider({
 export default ({ app }) => {
   app.use(apolloProvider);
 };
+
+export { apolloClient };

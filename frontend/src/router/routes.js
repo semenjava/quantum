@@ -6,21 +6,34 @@ const routes = [
       { path: '', component: () => import('pages/Index.vue') },
       { path: 'cases', component: () => import('pages/Cases.vue') },
       { path: 'cases/authorizations', component: () => import('pages/Authorizations.vue') },
+      {
+        path: '/admin',
+        children: [
+          {
+            path: 'users',
+            meta: { requiresAdmin: true },
+            component: () => import('pages/Users.vue'),
+          },
+        ],
+      },
+      {
+        name: 'forbidden',
+        path: '/forbidden',
+        component: () => import('pages/Forbidden.vue'),
+      },
     ],
   },
   {
     path: '/login',
+    meta: { public: true },
     component: () => import('layouts/Login.vue'),
     children: [
-      { path: '', component: () => import('pages/Login.vue') },
-    ],
-  },
-  {
-    path: '/admin',
-    component: () => import('layouts/MainLayout.vue'),
-    meta: { requiresAdmin: true },
-    children: [
-      { path: 'users', component: () => import('pages/Users.vue') },
+      {
+        name: 'login',
+        path: '',
+        meta: { public: true },
+        component: () => import('pages/Login.vue'),
+      },
     ],
   },
 

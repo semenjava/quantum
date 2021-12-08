@@ -15,38 +15,34 @@
   </q-page>
 </template>
 <script>
-import { gql } from 'apollo-boost';
+import { useQuasar } from 'quasar';
+import { ref, defineComponent, inject } from 'vue';
+import { useRouter } from 'vue-router';
 
-export default {
-  data() {
+export default defineComponent({
+  name: 'Login',
+  setup() {
+    const email = ref('');
+    const password = ref('');
+    const $q = useQuasar();
+    const $store = inject('store');
+    const $router = useRouter();
+
     return {
-      email: '',
-      password: '',
+      email,
+      password,
+      async login() {
+        $q.loading.show();
+        await $store.dispatch('app/login', {
+          email: email.value,
+          password: password.value,
+        });
+        if ($store.getters['app/isLoggedIn']) {
+          $router.push('/');
+        }
+        $q.loading.hide();
+      },
     };
   },
-  methods: {
-    async login() {
-      const result = await this.$apollo.mutate({
-        mutation: gql`mutation {
-          login(email: "$email", password: "$password") {
-            user {
-              id,
-                name,
-                email,
-                lang,
-                time_zone
-            },
-            token
-          }
-        }`,
-        variables: {
-          email: this.email,
-          password: this.password,
-        },
-      });
-
-      console.log(result);
-    },
-  },
-};
+});
 </script>
