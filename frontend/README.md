@@ -7,6 +7,10 @@ Quantum app
 npm install
 ```
 
+## Setup .env
+
+Copy .env.example to .env, edit as needed
+
 ### Start the app in development mode (hot-code reloading, error reporting, etc.)
 ```bash
 npm run dev
