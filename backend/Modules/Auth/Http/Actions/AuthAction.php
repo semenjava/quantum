@@ -6,6 +6,7 @@ use App\Http\Actions\BaseAction;
 use Modules\Auth\Facades\AuthFacade;
 use App\Properties\Property;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
+use App\Models\Countries;
 
 class AuthAction extends BaseAction
 {

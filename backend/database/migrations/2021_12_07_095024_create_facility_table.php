@@ -36,12 +36,6 @@ class CreateFacilityTable extends Migration
                 ->onDelete("cascade");
             $table->string('address');
             $table->string('postal');
-            $table->integer('specialty_id')
-                ->index()
-                ->foreign()
-                ->references("id")
-                ->on('specialties')
-                ->onDelete("cascade");
             $table->timestamps();
 
             $table->foreign('user_id')
@@ -57,11 +51,6 @@ class CreateFacilityTable extends Migration
             $table->foreign('city_id')
                 ->references('id')
                 ->on('cities')
-                ->onDelete('cascade');
-
-            $table->foreign('specialty_id')
-                ->references('id')
-                ->on('specialties')
                 ->onDelete('cascade');
         });
     }
