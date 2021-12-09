@@ -9,6 +9,7 @@ use Modules\Auth\Exceptions\NotAuthorized;
 use Modules\Auth\Entities\User as UserEntity;
 use Modules\Auth\Repositories\UserRepository;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
+use Spatie\Activitylog\Models\Activity;
 
 class AuthService
 {
@@ -49,6 +50,11 @@ class AuthService
         $token = $user->createToken('myapptoken')->plainTextToken;
         $user->api_token = $token;
         $user->save();
+
+        activity()->performedOn($user)
+            ->causedBy($user)
+            ->withProperties(['user_id' => $user->id, 'api_token' => $token])
+            ->log('User use login');
 
         $response = [
             'user' => $user,
