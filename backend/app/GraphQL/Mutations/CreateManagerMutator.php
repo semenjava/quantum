@@ -4,9 +4,9 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Managers\Http\Requests\CreateManagerRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Http\Actions\AuthAction;
+use Modules\Managers\Facades\ManagerFacade;
 
 class CreateManagerMutator
 {
@@ -21,8 +21,8 @@ class CreateManagerMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new RegisterRequest();
+        $request = new CreateManagerRequest();
         $dto = $request->valid($args);
-        return RegisterAction::register($dto);
+        return ManagerFacade::run($dto);
     }
 }

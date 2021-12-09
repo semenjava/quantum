@@ -24,7 +24,7 @@ type Mutation {
 
     edite(lang: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditeMutator@resolve")
 
-    createUserManager(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateManagerMutator@resolve") @guard(with: ["sanctum"])
+#    createUserManager(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateManagerMutator@resolve") @guard(with: ["sanctum"])
     createUserFacility(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
     createUserProvider(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateProviderMutator@resolve") @guard(with: ["sanctum"])
     createUserCompany(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateCompanyMutator@resolve") @guard(with: ["sanctum"])

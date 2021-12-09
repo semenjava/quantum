@@ -14,6 +14,8 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRole;
 
+    const PASSWORD_REGEX = '';
+
     /**
      * The attributes that are mass assignable.
      *
