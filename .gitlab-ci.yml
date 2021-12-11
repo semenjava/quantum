@@ -1,0 +1,9 @@
+image: node:16
+cache:
+  paths:
+    - node_modules/
+
+frontend_lint:
+  script:
+    - npm ci
+    - npm run lint
