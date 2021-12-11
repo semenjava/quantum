@@ -14,4 +14,4 @@ export default function () {
   };
 }
 
-export { userDefaultState };;;;
+export { userDefaultState };
