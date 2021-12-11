@@ -5,5 +5,6 @@ cache:
 
 frontend_lint:
   script:
+    - cd ./frontend
     - npm ci
     - npm run lint
