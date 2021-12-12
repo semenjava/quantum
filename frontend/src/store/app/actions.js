@@ -11,7 +11,7 @@ export async function login({ commit }, { email, password }) {
           name,
           email,
           lang,
-          time_zone
+          timezone: time_zone
         },
         token
       }
@@ -24,24 +24,18 @@ export async function login({ commit }, { email, password }) {
     name: user.name,
     email: user.email,
     lang: user.lang,
-    timezone: user.time_zone,
+    timezone: user.timezone,
     token,
   });
 }
 
 export async function logout({ commit }) {
-  try {
-    await apolloClient.mutate({
-      mutation: gql`mutation {
-        logout {
-          user {
-            id
-          }
-        }
-      }`,
-    });
-  } catch (e) {
-    // TODO: ignore errors for now
-  }
+  await apolloClient.mutate({
+    mutation: gql`mutation {
+      logout {
+        message
+      }
+    }`,
+  });
   commit('updateUser', JSON.parse(JSON.stringify(userDefaultState)));
 }

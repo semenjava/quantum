@@ -34,7 +34,7 @@
       show-if-above
       bordered
     >
-      <q-input class="q-ma-md" outlined label="Search" />
+      <q-input dense class="q-mx-md q-my-sm" outlined label="Search" />
       <q-list>
         <SidebarMenuItem
           v-for="link in essentialLinks"

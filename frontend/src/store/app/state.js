@@ -8,10 +8,11 @@ const userDefaultState = {
   isAdmin: false,
 };
 
-export default function () {
+function state() {
   return {
     user: JSON.parse(JSON.stringify(userDefaultState)),
   };
 }
 
+export default state;
 export { userDefaultState };
