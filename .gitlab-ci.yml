@@ -1,9 +1,21 @@
-image: node:16
-cache:
-  paths:
-    - node_modules/
+stages:
+  - lint
+
+backend_lint:
+  stage: lint
+  image: sail-8.0/app
+  script:
+    - cd ./tools/php-cs-fixer
+    - composer install
+    - cd ../../
+    - ./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --dry-run --config=tools/php-cs-fixer/.php-cs-fixer.dist.php --stop-on-violation --using-cache=no
 
 frontend_lint:
+  stage: lint
+  image: node:16
+  cache:
+    paths:
+      - node_modules/
   script:
     - cd ./frontend
     - npm ci
