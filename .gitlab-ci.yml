@@ -3,7 +3,7 @@ stages:
 
 backend_lint:
   stage: lint
-  image: sail-8.0/app
+  image: bitnami/laravel:latest
   script:
     - cd ./tools/php-cs-fixer
     - composer install
