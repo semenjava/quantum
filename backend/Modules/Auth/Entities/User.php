@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Auth\Entities;
 
 use Illuminate\Support\Facades\DB;

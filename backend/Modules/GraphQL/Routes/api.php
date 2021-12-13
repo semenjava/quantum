@@ -17,4 +17,3 @@ use Modules\GraphQL\Http\Controllers\GraphQLController;
 Route::group(['prefix' => 'v1', 'as' => 'api.'], function () {
     Route::get('graphql/typeDefs', [GraphQLController::class, 'getTypeDefs']);
 });
-

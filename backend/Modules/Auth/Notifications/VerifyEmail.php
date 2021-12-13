@@ -16,7 +16,8 @@ class VerifyEmail extends Notification
     public static $toMailCallback;
     public $verificationUrl;
 
-    public function getVerificationUrl() {
+    public function getVerificationUrl()
+    {
         return $this->verificationUrl;
     }
 
@@ -42,7 +43,7 @@ class VerifyEmail extends Notification
         $verificationUrl = $this->verificationUrl($notifiable);
         $exp = explode('?', $verificationUrl);
 
-        if(!empty($exp[1])) {
+        if (!empty($exp[1])) {
             $verificationUrl = config('app.url') . '?' . $exp[1];
         }
 
@@ -63,7 +64,7 @@ class VerifyEmail extends Notification
      */
     protected function buildMailMessage($url)
     {
-        return (new MailMessage)
+        return (new MailMessage())
             ->subject(Lang::get('Verify Email Address'))
             ->line(Lang::get('Please click the button below to verify your email address.'))
             ->action(Lang::get('Verify Email Address'), $url)

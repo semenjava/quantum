@@ -70,6 +70,4 @@ class Providers extends Model
     {
         return $this->belongsToMany(Specialties::class, 'provider_specialty', 'provider_id', 'specialty_id');
     }
-
-
 }

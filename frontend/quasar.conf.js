@@ -52,7 +52,7 @@ module.exports = configure((ctx) => ({
     env: require('dotenv').config().parsed,
     vueRouterMode: 'hash', // available values: 'hash', 'history'
 
-    distDir: (process.env.DIST_DIR || `dist`) + `/${ctx.modeName}`,
+    distDir: `${process.env.DIST_DIR || 'dist'}/${ctx.modeName}`,
     // transpile: false,
     // publicPath: '/',
 
