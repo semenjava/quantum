@@ -461,6 +461,5 @@ class PermissionSeeder extends Seeder
         $updateOnwEmployee->save();
         $updateOnwEmployee->roles()->attach($roles->get('superadmin'));
         $updateOnwEmployee->roles()->attach($roles->get('employee'));
-
     }
 }

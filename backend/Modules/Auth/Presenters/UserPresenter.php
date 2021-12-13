@@ -1,4 +1,5 @@
 <?php
+
 namespace Modules\Auth\Presenters;
 
 use App\Presenters\BasePresenter;
@@ -15,11 +16,10 @@ class UserPresenter extends BasePresenter
     public function isSignature($signature)
     {
         $signe = DB::table('user_signe')->where('user_id', $this->id)->where('param', 'LIKE', '%'.$signature.'%')->first();
-        if($signe) {
+        if ($signe) {
             DB::table('user_signe')->where('id', $signe->id)->delete();
             return true;
         }
         return false;
     }
-
 }

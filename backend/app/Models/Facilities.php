@@ -61,6 +61,4 @@ class Facilities extends Model
     {
         return $this->belongsToMany(Providers::class, 'facility_provider', 'facility_id', 'provider_id');
     }
-
-
 }

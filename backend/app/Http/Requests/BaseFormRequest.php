@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
@@ -20,7 +21,7 @@ abstract class BaseFormRequest extends FormRequest
     public function valid(array $param): BaseFormRequest
     {
         $validator = Validator::make($param, $this->rules());
-        if($validator->fails()){
+        if ($validator->fails()) {
             throw ValidationException::withMessages($validator->errors()->toArray());
         }
 

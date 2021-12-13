@@ -8,5 +8,4 @@ use Kodeine\Acl\Models\Eloquent\Permission;
 class Permissions extends Permission
 {
     use HasFactory;
-
 }

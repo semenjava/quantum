@@ -12,7 +12,6 @@ use Modules\Auth\Http\Actions\AuthAction;
 
 class EditeMutator
 {
-
     /**
      * Return a value for the field.
      *

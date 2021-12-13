@@ -8,5 +8,4 @@ use Kodeine\Acl\Models\Eloquent\Role;
 class Roles extends Role
 {
     use HasFactory;
-
 }

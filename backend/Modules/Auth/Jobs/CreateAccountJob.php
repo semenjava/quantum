@@ -15,7 +15,10 @@ use Log;
 
 class CreateAccountJob implements ShouldQueue
 {
-    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
+    use Dispatchable;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
     protected $user;
 
@@ -37,8 +40,7 @@ class CreateAccountJob implements ShouldQueue
     public function handle()
     {
         $account = User::where('id', $this->user->id)->first();
-        if(!$account) {
-
+        if (!$account) {
         }
     }
 }
