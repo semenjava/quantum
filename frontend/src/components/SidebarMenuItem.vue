@@ -17,7 +17,7 @@
       v-if="icon"
       avatar
     >
-      <q-avatar :icon="icon" color="primary" text-color="white" />
+      <q-icon :name="icon" color="primary" text-color="white" />
     </q-item-section>
 
     <q-item-section>

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
@@ -11,7 +12,8 @@ class BaseController extends Controller
 {
     protected $model;
 
-    public function make(Presenter $presenter) {
+    public function make(Presenter $presenter)
+    {
         $this->model = $presenter;
     }
 
@@ -48,7 +50,7 @@ class BaseController extends Controller
         ];
 
 
-        if(!empty($errorMessages)){
+        if (!empty($errorMessages)) {
             $response['error'] = $errorMessages;
         }
 

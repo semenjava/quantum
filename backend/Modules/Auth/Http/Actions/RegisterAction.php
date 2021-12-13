@@ -22,7 +22,8 @@ class RegisterAction extends BaseAction
      * @param Property $dto
      * @return array
      */
-    public static function register(Property $dto) {
+    public static function register(Property $dto)
+    {
         $fields = $dto->toArray();
 
         $user = UserRepository::init()->create([

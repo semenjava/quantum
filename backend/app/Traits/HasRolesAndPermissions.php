@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Traits;
 
 use Kodeine\Acl\Models\Eloquent\Role;
@@ -11,7 +12,7 @@ trait HasRolesAndPermissions
      */
     public function roles()
     {
-        return $this->belongsToMany(Role::class,'role_user');
+        return $this->belongsToMany(Role::class, 'role_user');
     }
 
     /**
@@ -19,14 +20,15 @@ trait HasRolesAndPermissions
      */
     public function permissions()
     {
-        return $this->belongsToMany(Permissions::class,'permission_user');
+        return $this->belongsToMany(Permissions::class, 'permission_user');
     }
 
     /**
      * @param mixed ...$roles
      * @return bool
      */
-    public function hasRole(...$roles) {
+    public function hasRole(...$roles)
+    {
         foreach ($roles as $role) {
             if ($this->roles->contains('slug', $role)) {
                 return true;
@@ -59,8 +61,8 @@ trait HasRolesAndPermissions
      */
     public function hasPermissionThroughRole($permission)
     {
-        foreach ($permission->roles as $role){
-            if($this->roles->contains($role)) {
+        foreach ($permission->roles as $role) {
+            if ($this->roles->contains($role)) {
                 return true;
             }
         }
@@ -83,7 +85,7 @@ trait HasRolesAndPermissions
     public function givePermissionsTo(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
-        if($permissions === null) {
+        if ($permissions === null) {
             return $this;
         }
         $this->permissions()->saveMany($permissions);
@@ -94,7 +96,7 @@ trait HasRolesAndPermissions
      * @param mixed ...$permissions
      * @return $this
      */
-    public function deletePermissions(...$permissions )
+    public function deletePermissions(...$permissions)
     {
         $permissions = $this->getAllPermissions($permissions);
         $this->permissions()->detach($permissions);
@@ -105,7 +107,7 @@ trait HasRolesAndPermissions
      * @param mixed ...$permissions
      * @return HasRolesAndPermissions
      */
-    public function refreshPermissions(...$permissions )
+    public function refreshPermissions(...$permissions)
     {
         $this->permissions()->detach();
         return $this->givePermissionsTo($permissions);

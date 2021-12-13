@@ -12,7 +12,10 @@ use Kodeine\Acl\Traits\HasRole;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRole;
+    use HasApiTokens;
+    use HasFactory;
+    use Notifiable;
+    use HasRole;
 
     const PASSWORD_REGEX = '';
 
@@ -50,5 +53,4 @@ class User extends Authenticatable
      * @var string[]
      */
 //    protected $with = ['permissions', 'role'];
-
 }

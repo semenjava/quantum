@@ -1,6 +1,6 @@
 <?php
-namespace Modules\Auth\Entities;
 
+namespace Modules\Auth\Entities;
 
 class AuthToken
 {

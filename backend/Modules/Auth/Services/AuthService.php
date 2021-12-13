@@ -32,7 +32,7 @@ class AuthService
      */
     public function login($fields)
     {
-        if(!$user_id = UserEntity::hasEmailUser($fields['email'])) {
+        if (!$user_id = UserEntity::hasEmailUser($fields['email'])) {
             //Unauthenticated
             throw new NotAuthorized();
         }
@@ -41,8 +41,8 @@ class AuthService
         $user =  UserRepository::init()->getById($user_id);
 
         // Check password
-        if(!$user || !UserEntity::hasPasswordHash($fields['password'], $user)) {
-             //Unauthenticated
+        if (!$user || !UserEntity::hasPasswordHash($fields['password'], $user)) {
+            //Unauthenticated
             throw new NotAuthorized();
         }
 
@@ -70,7 +70,7 @@ class AuthService
      */
     public function verify($dto)
     {
-        if($userId = UserEntity::hasHash($dto->get('hash'))) {
+        if ($userId = UserEntity::hasHash($dto->get('hash'))) {
             $user = UserRepository::init()->getById($userId);
             $token = $user->createToken('myapptoken')->plainTextToken;
             $user->api_token = $token;

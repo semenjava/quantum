@@ -52,29 +52,29 @@ class VerificationAction extends BaseController
      */
     public function verify(Request $request)
     {
-        if(!$user = User::find($request->get('id')) ) {
-            throw new AuthorizationException;
+        if (!$user = User::find($request->get('id'))) {
+            throw new AuthorizationException();
         }
 
         $this->make(new UserPresenter($user));
 
         if (! hash_equals((string) $request->get('id'), (string) $user->getKey())) {
             $user->sendEmailVerificationNotification();
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if (! hash_equals((string) $request->get('hash'), sha1($user->getEmailForVerification()))) {
             $user->sendEmailVerificationNotification();
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if ($user->hasVerifiedEmail()) {
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
-        if(!$this->model->isSignature($request->get('signature'))){
+        if (!$this->model->isSignature($request->get('signature'))) {
             $user->sendEmailVerificationNotification();
-            throw new AuthorizationException;
+            throw new AuthorizationException();
         }
 
         if ($user->markEmailAsVerified()) {
@@ -99,7 +99,7 @@ class VerificationAction extends BaseController
      */
     public function resend(Request $request)
     {
-        if(!$user = User::getUserByEmail($request->get('email')) ) {
+        if (!$user = User::getUserByEmail($request->get('email'))) {
             return $this->sendError('AuthorizationException', ['Email not found'], 400);
         }
 

@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Properties;
 
 use Modules\Auth\Repositories\UserRepository;
@@ -16,7 +17,7 @@ class Property extends BaseProperty
     public function __construct($data = array())
     {
         if (!empty($data)) {
-          $this->setInstaceProperty($data);
+            $this->setInstaceProperty($data);
         }
     }
 
@@ -54,13 +55,14 @@ class Property extends BaseProperty
      * @param $value
      * @return void
      */
-    public function add($key, $value) {
-      if(is_array($value) && is_array($this->get($key))) {
-        $arr = array_merge($this->get($key), $value);
-        $this->set($key, $arr);
-      } else {
-        $this->set($key, $value);
-      }
+    public function add($key, $value)
+    {
+        if (is_array($value) && is_array($this->get($key))) {
+            $arr = array_merge($this->get($key), $value);
+            $this->set($key, $arr);
+        } else {
+            $this->set($key, $value);
+        }
     }
 
     /**
@@ -103,7 +105,7 @@ class Property extends BaseProperty
      */
     public function remove($key)
     {
-        if(!empty($this->property[$key]))  {
+        if (!empty($this->property[$key])) {
             unset($this->property[$key]);
         }
         return null;
@@ -123,7 +125,7 @@ class Property extends BaseProperty
     public function toArray()
     {
         $property = $this->property;
-        if(!empty($property['user']))  {
+        if (!empty($property['user'])) {
             unset($property['user']);
         }
         return $property;
@@ -134,7 +136,7 @@ class Property extends BaseProperty
      */
     public function user()
     {
-        if($this->has('user')) {
+        if ($this->has('user')) {
             return $this->get('user');
         }
         return null;
@@ -144,14 +146,15 @@ class Property extends BaseProperty
      * @param string $str
      * @return mixed|null
      */
-    public function posval(string $str) {
+    public function posval(string $str)
+    {
         $exps = explode('.', $str);
-        if(!empty($exps)) {
+        if (!empty($exps)) {
             $count = count($exps);
             $val = !empty($this->property[$exps[0]]) ? $this->property[$exps[0]] : null;
             $i = 1;
             while ($i < $count) {
-                if(!empty($exps[$i]) && !empty($val[$exps[$i]])) {
+                if (!empty($exps[$i]) && !empty($val[$exps[$i]])) {
                     $val = $val[$exps[$i]];
                 } else {
                     $val = null;
