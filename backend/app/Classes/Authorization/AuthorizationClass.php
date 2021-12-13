@@ -103,22 +103,22 @@ class AuthorizationClass extends Authorization
     }
 
 
-	/**
-	 * Methods which checking permissions.
-	 * Methods should be present only if additional checking needs.
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
      *
      * @param $user
      * @param $manager
      * @param $permission
      * @return bool
      */
-	public function readOwnManager($user, $manager, $permission): bool
+    public function readOwnManager($user, $manager, $permission): bool
     {
-		// This is a helper method for getting the model if $post is id
-		// $post = $this->getModel(\App\Post::class, $post);
+        // This is a helper method for getting the model if $post is id
+        // $post = $this->getModel(\App\Post::class, $post);
 
-		return $user->id === $manager->id;
-	}
+        return $user->id === $manager->id;
+    }
 
     /**
      * Methods which checking permissions.
@@ -457,5 +457,4 @@ class AuthorizationClass extends Authorization
 //
 //        return $user->category_id === $post->category_id;
 //    }
-
 }

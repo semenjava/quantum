@@ -11,5 +11,8 @@
 /backend/Homestead.yaml
 /backend/npm-debug.log
 /backend/yarn-error.log
+/backend/tools/vendor
 /.idea
 /backend/.vscode
+
+.php-cs-fixer.cache
