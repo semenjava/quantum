@@ -5,7 +5,7 @@ namespace Modules\Providers\Http\Actions;
 use App\Http\Actions\BaseAction;
 use App\Contract\Action;
 use App\Properties\Property;
-use Modules\Facilities\Services\FacilityService;
+use Modules\Providers\Services\ProviderService;
 
 class CreateProviderAction extends BaseAction implements Action
 {
@@ -15,8 +15,8 @@ class CreateProviderAction extends BaseAction implements Action
             abort(403);
         }
 
-        $service = new FacilityService($dto);
-        $service->createFacility();
+        $service = new ProviderService($dto);
+        $service->createProvider();
 
         return [
             'success' => true,
