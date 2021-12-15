@@ -38,8 +38,10 @@ class ProviderService
         $this->dto->set('country_id', $data['country_id']);
         $this->dto->set('city_id', $data['city_id']);
 
-        $facilityData = $this->dto->all();
-        $provider = ProviderRepository::init()->create($facilityData);
+        $provider = ProviderRepository::init()->create($this->dto->all());
+        foreach ($data['addresses'] as $address) {
+            $provider->addresses()->attach($address);
+        }
 
         activity()->performedOn($user)
             ->causedBy($provider)

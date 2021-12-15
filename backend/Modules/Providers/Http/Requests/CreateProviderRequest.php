@@ -21,7 +21,7 @@ class CreateProviderRequest extends BaseFormRequest
             'country' => 'required|string',
             'region' => 'required|string',
             'city' => 'required|string',
-            'address' => 'required|string',
+            'address' => 'required|array',
             'postal' => 'required|string',
             'diagnostic_specialty' => 'string',
             '2nd_language' => 'string',

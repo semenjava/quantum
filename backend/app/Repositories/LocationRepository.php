@@ -4,6 +4,7 @@ namespace App\Repositories;
 
 use App\Models\Countries;
 use App\Models\Cities;
+use App\Entities\AddressEntity;
 
 /**
  * Class UserRepository.
@@ -52,9 +53,23 @@ class LocationRepository
         $result['country_id'] = $country->id;
         $result['city_id'] = $city->id;
 
+        foreach ($data['address'] as $item) {
+            $item['country_id'] = $country->id;
+            $item['city_id'] = $city->id;
+
+            $address = new AddressEntity($item);
+            $address = AddressRepository::init()->save($address);
+            $result['addresses'][] = $address;
+        }
+
         return $result;
     }
 
+    /**
+     * @param $countryName
+     * @param $region
+     * @return mixed
+     */
     private function hasCountry($countryName, $region = null)
     {
         $query = Countries::where('local_name', $countryName);
@@ -65,6 +80,10 @@ class LocationRepository
         return $query->first();
     }
 
+    /**
+     * @param string $cityName
+     * @return mixed
+     */
     private function hasCity(string $cityName)
     {
         return Cities::where('name', $cityName)->first();
