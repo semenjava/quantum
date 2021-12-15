@@ -7,10 +7,12 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
     me: User @auth @guard(with: ["sanctum"])
 #    (first: Int!, page: Int)
-    users:[User!]! @paginate(type: SIMPLE)
+    users(search: String, @eq sort: [OrderByClause] @orderBy):[User!]! @paginate(type: SIMPLE  model: "App\\Models\\User") @guard(with: ["sanctum"])
     user(id: ID @eq): User @find @guard(with: ["sanctum"])
     profile: User! @guard(with: ["sanctum"])
     verify(expires: String!, hash: String!, id: Int!, signature: String!): AuthToken @field(resolver: "VerifyQuery@verify")
+#PAGINATOR
+#    managers: [Managers!]! @paginate(type: SIMPLE) @guard(with: ["sanctum"])
 }
 
 type Mutation {
@@ -37,12 +39,32 @@ type User {
     name: String!
     email: String!
     lang: String
-    time_zone: String
+    created_at: String
+    updated_at: String
+    role: String
 }
 
+input OrderByClause{
+    column: String
+    order: SortOrder
+}
+
+enum SortOrder {
+    ASC
+    DESC
+}
+
+#type Managers {
+#    user: User!
+#    manager: Manager!
+#
+#}
+
+
+
 type UserPaginator {
-    paginatorInfo: PaginatorInfo!
     data: [User!]!
+    paginatorInfo: PaginatorInfo!
 }
 
 type PaginatorInfo {
