@@ -7,7 +7,7 @@ scalar DateTime @scalar(class: "Nuwave\\Lighthouse\\Schema\\Types\\Scalars\\Date
 type Query {
     me: User @auth @guard(with: ["sanctum"])
 #    (first: Int!, page: Int)
-    users(search: String, @eq sort: [OrderByClause] @orderBy):[User!]! @paginate(type: SIMPLE  model: "App\\Models\\User") @guard(with: ["sanctum"])
+    users(search: String @search, sort: [OrderByClause] @orderBy):[User!]! @paginate(type: SIMPLE  model: "App\\Models\\User") @guard(with: ["sanctum"]) #@field(resolver: "UsersQuery@resolve")
     user(id: ID @eq): User @find @guard(with: ["sanctum"])
     profile: User! @guard(with: ["sanctum"])
     verify(expires: String!, hash: String!, id: Int!, signature: String!): AuthToken @field(resolver: "VerifyQuery@verify")
