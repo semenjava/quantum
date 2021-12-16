@@ -9,13 +9,13 @@ class Countries extends Model
 {
     use HasFactory;
 
-    const ASIA = 'Asia';
-    const EUROPE = 'Europe';
-    const NORTH_AMERICA = 'North America';
-    const AFRICA = 'Africa';
-    const OCEANIA = 'Oceania';
-    const ANTRACTICA ='Antarctica';
-    const SOUTH_AMERICA = 'South America';
+    public const ASIA = 'Asia';
+    public const EUROPE = 'Europe';
+    public const NORTH_AMERICA = 'North America';
+    public const AFRICA = 'Africa';
+    public const OCEANIA = 'Oceania';
+    public const ANTRACTICA ='Antarctica';
+    public const SOUTH_AMERICA = 'South America';
 
     protected $table = 'countries';
 

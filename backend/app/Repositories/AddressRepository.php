@@ -7,7 +7,6 @@ use App\Models\Addresses;
 
 class AddressRepository
 {
-
     /**
      * @return AddressRepository
      */
@@ -23,8 +22,7 @@ class AddressRepository
      */
     public function save(AddressEntity $entity, int $provider_id = null): Addresses
     {
-        if($entity->hasId() && !$address = Addresses::find($entity->getId()))
-        {
+        if ($entity->hasId() && !$address = Addresses::find($entity->getId())) {
             $address = new Addresses();
         }
 
@@ -33,5 +31,4 @@ class AddressRepository
 
         return $address;
     }
-
 }

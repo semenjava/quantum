@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Properties\Property;
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Facilities\Facades\CreateFacilityFacade;
 use Modules\Facilities\Http\Requests\CreateFacilityRequest;

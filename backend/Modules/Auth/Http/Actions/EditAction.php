@@ -16,7 +16,7 @@ use Modules\Auth\Entities\AuthToken;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 use Modules\Auth\Repositories\UserRepository;
 
-class EditeAction extends BaseAction
+class EditAction extends BaseAction
 {
     /**
      * @param Property $dto

@@ -17,7 +17,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasRole;
 
-    const PASSWORD_REGEX = '';
+    public const PASSWORD_REGEX = '';
 
     /**
      * The attributes that are mass assignable.

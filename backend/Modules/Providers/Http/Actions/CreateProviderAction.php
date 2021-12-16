@@ -9,14 +9,21 @@ use Modules\Providers\Services\ProviderService;
 
 class CreateProviderAction extends BaseAction implements Action
 {
+    private $providerService;
+
+    public function __construct(ProviderService $service)
+    {
+        $this->providerService = $service;
+    }
+
+
     public function run(Property $dto)
     {
         if (\Gate::denies('create-provider')) {
             abort(403);
         }
 
-        $service = new ProviderService($dto);
-        $service->createProvider();
+        $this->providerService->setParam($dto)->createProvider();
 
         return [
             'success' => true,

@@ -9,14 +9,20 @@ use Modules\Facilities\Services\FacilityService;
 
 class CreateFacilityAction extends BaseAction implements Action
 {
+    private $facilityService;
+
+    public function __construct(FacilityService $service)
+    {
+        $this->facilityService = $service;
+    }
+
     public function run(Property $dto)
     {
         if (\Gate::denies('create-facility')) {
             abort(403);
         }
 
-        $service = new FacilityService($dto);
-        $service->createFacility();
+        $this->facilityService->setParam($dto)->createFacility();
 
         return [
             'success' => true,

@@ -25,7 +25,7 @@ type Mutation {
 
     logout: Message @field(resolver: "LogoutMutator@resolve") @guard(with: ["sanctum"])
 
-    edite(lang: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditeMutator@resolve")
+    edite(lang: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditMutator@resolve")
 
 #    createUserManager(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateManagerMutator@resolve") @guard(with: ["sanctum"])
     createUserFacility(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
@@ -54,11 +54,10 @@ enum SortOrder {
     DESC
 }
 
-#type Managers {
-#    user: User!
-#    manager: Manager!
-#
-#}
+type Manager {
+    id: ID!
+
+}
 
 
 

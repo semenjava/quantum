@@ -2,34 +2,57 @@
 
 namespace Modules\Facilities\Services;
 
-use App\Properties\Property;
 use Modules\Facilities\Repositories\FacilityRepository;
 use Hash;
 use App\Repositories\LocationRepository;
 use Modules\Facilities\Repositories\UserRepository;
+use App\Services\BaseService;
 
-class FacilityService
+class FacilityService extends BaseService
 {
-    private $dto = null;
 
-    public function __construct(Property $dto)
+    /**
+     * @var UserRepository
+     */
+    private UserRepository $userRepository;
+
+    /**
+     * @var LocationRepository
+     */
+    private LocationRepository $locationRepository;
+
+    /**
+     * @var FacilityRepository
+     */
+    private FacilityRepository $facilityRepository;
+
+    /**
+     * @param UserRepository $user
+     * @param LocationRepository $local
+     * @param FacilityRepository $facility
+     */
+    public function __construct(UserRepository $user, LocationRepository $local, FacilityRepository $facility)
     {
-        $this->dto = $dto;
+        $this->userRepository = $user;
+        $this->locationRepository = $local;
+        $this->facilityRepository = $facility;
     }
 
+    /**
+     * @return \Illuminate\Database\Eloquent\Model
+     */
     public function createFacility()
     {
         $userData = $facilityData = [];
         $userData['name'] = $this->dto->get('name');
         $userData['email'] = $this->dto->get('email');
         $userData['password'] = $this->dto->has('password') ? Hash::make($this->dto->get('password')) : Hash::make($this->dto->get('name'));
-        $user = UserRepository::init()->create($userData);
+        $user = $this->userRepository->create($userData);
 
         $this->dto->remove('email');
         $this->dto->remove('password');
 
-        $location = new LocationRepository();
-        $data = $location->save($this->dto->all());
+        $data = $this->locationRepository->save($this->dto->all());
 
         $this->dto->remove('country');
         $this->dto->remove('region');
@@ -39,7 +62,7 @@ class FacilityService
         $this->dto->set('city_id', $data['city_id']);
 
         $facilityData = $this->dto->all();
-        $facility = FacilityRepository::init()->create($facilityData);
+        $facility = $this->facilityRepository->create($facilityData);
 
         activity()->performedOn($user)
             ->causedBy($facility)
