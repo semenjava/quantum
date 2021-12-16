@@ -17,6 +17,10 @@ and the project will start installing the docker system.
 
 Once done:
 - `sail artisan key:generate`
+- `sail artisan migrate`
+
+Seed DB:
+- `sail artisan db:seed`
  
 The dev server now runs at http://localhost:8084/
 
