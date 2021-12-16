@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('managers')->group(function() {
+Route::prefix('managers')->group(function () {
     Route::get('/', 'ManagersController@index');
 });

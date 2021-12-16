@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('facilities')->group(function() {
+Route::prefix('facilities')->group(function () {
     Route::get('/', 'FacilitiesController@index');
 });

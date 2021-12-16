@@ -8,6 +8,5 @@ class CreateManagerAction extends BaseAction
 {
     public function run()
     {
-
     }
 }

@@ -28,6 +28,5 @@ class AddProviderColumnAddressIdTable extends Migration
      */
     public function down()
     {
-
     }
 }

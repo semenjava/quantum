@@ -10,7 +10,6 @@ use App\Services\BaseService;
 
 class FacilityService extends BaseService
 {
-
     /**
      * @var UserRepository
      */

@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('providers')->group(function() {
+Route::prefix('providers')->group(function () {
     Route::get('/', 'ProvidersController@index');
 });
