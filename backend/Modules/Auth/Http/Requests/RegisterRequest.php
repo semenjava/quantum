@@ -19,6 +19,8 @@ class RegisterRequest extends BaseFormRequest
             'email' => 'required|string|email|max:255|regex:/[-0-9a-zA-Z.+]+@[-0-9a-zA-Z.+]+.[a-zA-Z]{2,4}/|unique:users',
             'password' => ['required','min:8','max:25', User::PASSWORD_REGEX],
             'c_password' => 'required|same:password',
+            'role' => 'required|string',
+            'time_zone' => 'required|string'
         ];
     }
 

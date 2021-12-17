@@ -17,6 +17,13 @@ class User extends Authenticatable
     use Notifiable;
     use HasRole;
 
+    const SUPERADMIN = 'superadmin';
+    const MANAGER    = 'manager';
+    const FACILITY   = 'facility';
+    const PROVIDER   = 'provider';
+    const COMPANY    = 'company';
+    const EMPLOYEE   = 'employee';
+
     public const PASSWORD_REGEX = '';
 
     /**
@@ -28,6 +35,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'time_zone'
     ];
 
     /**

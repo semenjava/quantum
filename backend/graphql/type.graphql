@@ -5,7 +5,8 @@ type User {
     lang: String
     created_at: String
     updated_at: String
-    role: String
+    role: String,
+    time_zone: String
 }
 
 input OrderByClause{
@@ -22,8 +23,6 @@ type Manager {
     id: ID!
 
 }
-
-
 
 type UserPaginator {
     data: [User!]!
@@ -71,4 +70,10 @@ type AuthToken {
 type Message {
     success: Boolean!
     message: String!
+}
+
+type MessageUser {
+    success: Boolean!
+    message: String!
+    user: User
 }
