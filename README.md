@@ -27,6 +27,12 @@ For more information read the sail documentation: https://laravel.com/docs/8.x/s
 - `npm run lint`
 - `npm run build`
 
+### Generate and use GraphQL scheme
+- `sail artisan lighthouse:print-schema --write`
+- Fill `.env` from `.env.example` from the root of the project. 
+- PHPStorm GraphQL plugin: https://plugins.jetbrains.com/plugin/8097-graphql
+- Plugin is using settings from `.graphqlconfig` 
+
 ### How to run PHP CS Fixer inside Docker
 
 - Log inside laravel docker container: 

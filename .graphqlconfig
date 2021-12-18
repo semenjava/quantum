@@ -1,0 +1,19 @@
+{
+  "name": "Default GraphQL Schema",
+  "schemaPath": "./backend/storage/app/lighthouse-schema.graphql",
+  "excludes": [
+    "./backend/graphql/**"
+  ],
+  "extensions": {
+    "endpoints": {
+      "Default GraphQL Endpoint": {
+        "url": "${env:API_URL}",
+        "headers": {
+          "user-agent": "JS GraphQL",
+          "Authorization": "Bearer ${env:API_TOKEN}"
+        },
+        "introspect": false
+      }
+    }
+  }
+}
