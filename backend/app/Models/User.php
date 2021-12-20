@@ -17,12 +17,12 @@ class User extends Authenticatable
     use Notifiable;
     use HasRole;
 
-    const SUPERADMIN = 'superadmin';
-    const MANAGER    = 'manager';
-    const FACILITY   = 'facility';
-    const PROVIDER   = 'provider';
-    const COMPANY    = 'company';
-    const EMPLOYEE   = 'employee';
+    public const SUPERADMIN = 'superadmin';
+    public const MANAGER    = 'manager';
+    public const FACILITY   = 'facility';
+    public const PROVIDER   = 'provider';
+    public const COMPANY    = 'company';
+    public const EMPLOYEE   = 'employee';
 
     public const PASSWORD_REGEX = '';
 

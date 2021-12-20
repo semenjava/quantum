@@ -1,4 +1,5 @@
 <?php
+
 if (! function_exists('get_nearest_timezone')) {
     function get_nearest_timezone($cur_lat, $cur_long, $country_code = '')
     {
@@ -6,7 +7,6 @@ if (! function_exists('get_nearest_timezone')) {
             : DateTimeZone::listIdentifiers();
 
         if ($timezone_ids && is_array($timezone_ids) && isset($timezone_ids[0])) {
-
             $time_zone = '';
             $tz_distance = 0;
 
@@ -14,7 +14,6 @@ if (! function_exists('get_nearest_timezone')) {
             if (count($timezone_ids) == 1) {
                 $time_zone = $timezone_ids[0];
             } else {
-
                 foreach ($timezone_ids as $timezone_id) {
                     $timezone = new DateTimeZone($timezone_id);
                     $location = $timezone->getLocation();
@@ -32,7 +31,6 @@ if (! function_exists('get_nearest_timezone')) {
                         $time_zone = $timezone_id;
                         $tz_distance = $distance;
                     }
-
                 }
             }
             return $time_zone;
