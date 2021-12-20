@@ -2838,6 +2838,10 @@
                 "graphql-playground",
                 "laravel"
             ],
+            "support": {
+                "issues": "https://github.com/mll-lab/laravel-graphql-playground/issues",
+                "source": "https://github.com/mll-lab/laravel-graphql-playground/tree/v2.5.0"
+            },
             "time": "2021-02-01T17:55:49+00:00"
         },
         {

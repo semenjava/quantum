@@ -1,4 +1,7 @@
 {
     "Auth": true,
-    "GraphQL": true
+    "GraphQL": true,
+    "Providers": true,
+    "Facilities": true,
+    "Managers": true
 }

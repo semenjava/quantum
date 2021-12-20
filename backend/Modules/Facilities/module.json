@@ -1,0 +1,13 @@
+{
+    "name": "Facilities",
+    "alias": "facilities",
+    "description": "",
+    "keywords": [],
+    "priority": 0,
+    "providers": [
+        "Modules\\Facilities\\Providers\\FacilitiesServiceProvider"
+    ],
+    "aliases": {},
+    "files": [],
+    "requires": []
+}

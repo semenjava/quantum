@@ -17,6 +17,15 @@ class User extends Authenticatable
     use Notifiable;
     use HasRole;
 
+    public const SUPERADMIN = 'superadmin';
+    public const MANAGER    = 'manager';
+    public const FACILITY   = 'facility';
+    public const PROVIDER   = 'provider';
+    public const COMPANY    = 'company';
+    public const EMPLOYEE   = 'employee';
+
+    public const PASSWORD_REGEX = '';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -26,6 +35,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
+        'time_zone'
     ];
 
     /**
