@@ -20,6 +20,13 @@ class UserSeeder extends Seeder
     {
         $roles = RolesGet::getRoles();
 
+        User::where('role', 'superadmin')->delete();
+        User::where('role', 'manager')->delete();
+        User::where('role', 'facility')->delete();
+        User::where('role', 'provider')->delete();
+        User::where('role', 'company')->delete();
+        User::where('role', 'employee')->delete();
+
         $user1 = new User();
         $user1->name = 'Admin';
         $user1->email = 'admin@admin.com';

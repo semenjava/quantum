@@ -21,7 +21,7 @@ class CreateProviderMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateProviderRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return CreateProviderFacade::run($dto);
     }
 }

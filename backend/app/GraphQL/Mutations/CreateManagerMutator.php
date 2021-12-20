@@ -22,7 +22,7 @@ class CreateManagerMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateManagerRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return ManagerFacade::run($dto);
     }
 }

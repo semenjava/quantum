@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Providers extends Model
+class Provider extends Model
 {
     use HasFactory;
 
@@ -44,11 +44,11 @@ class Providers extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
     public function addresses()
     {
-        return $this->belongsToMany(Addresses::class, 'provider_address', 'provider_id', 'address_id');
+        return $this->belongsToMany(Address::class, 'provider_address', 'provider_id', 'address_id');
     }
 
     /**

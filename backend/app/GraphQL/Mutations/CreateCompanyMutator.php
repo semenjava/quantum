@@ -22,7 +22,7 @@ class CreateCompanyMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new RegisterRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return RegisterAction::register($dto);
     }
 }

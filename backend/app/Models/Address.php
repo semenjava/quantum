@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Addresses extends Model
+class Address extends Model
 {
     use HasFactory;
 
@@ -23,6 +23,7 @@ class Addresses extends Model
         'country_id',
         'city_id',
         'postal',
+        'postal_address',
         'primary_address',
         'billing_address'
     ];
@@ -46,6 +47,15 @@ class Addresses extends Model
     /**
      * @return bool
      */
+    public function isPostal()
+    {
+        return isset($this->postal_address);
+    }
+
+
+    /**
+     * @return bool
+     */
     public function isPrimary()
     {
         return isset($this->primary_address);
@@ -57,5 +67,37 @@ class Addresses extends Model
     public function isBilling()
     {
         return isset($this->billing_address);
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCountryAttribute()
+    {
+        return $this->country()->name();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getRegionAttribute()
+    {
+        return $this->country()->region();
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCityAttribute()
+    {
+        return $this->city()->name();
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function provider()
+    {
+        return $this->belongsToMany(Provider::class, 'provider_address', 'address_id', 'provider_id');
     }
 }

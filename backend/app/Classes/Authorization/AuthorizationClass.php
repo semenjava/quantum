@@ -312,6 +312,40 @@ class AuthorizationClass extends Authorization
      * Methods should be present only if additional checking needs.
      *
      * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function createOwnProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        // $post = $this->getModel(\App\Post::class, $post);
+
+        return $user->id === $provider->id;
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function updateOwnProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        // $post = $this->getModel(\App\Post::class, $post);
+
+        return $user->id === $provider->id;
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
      * @param $company
      * @param $permission
      * @return bool

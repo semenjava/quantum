@@ -22,7 +22,7 @@ class CreateFacilityMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateFacilityRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return CreateFacilityFacade::run($dto);
     }
 }

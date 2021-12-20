@@ -3,7 +3,7 @@
 namespace Modules\Providers\Repositories;
 
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
-use App\Models\Providers;
+use App\Models\Provider;
 
 /**
  * Class UserRepository.
@@ -16,7 +16,7 @@ class ProviderRepository extends BaseRepository
      */
     public function model()
     {
-        return Providers::class;
+        return Provider::class;
     }
 
     /**

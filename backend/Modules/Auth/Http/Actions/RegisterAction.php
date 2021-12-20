@@ -52,6 +52,7 @@ class RegisterAction extends BaseAction
         try {
             $user->sendEmailVerificationNotification();
         } catch (\Exception $e) {
+            \Log::debug($e->getMessage());
         }
 
         return $user->toArray();
