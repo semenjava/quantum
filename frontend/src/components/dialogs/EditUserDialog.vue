@@ -42,6 +42,16 @@
             ]"
             label="Email"
           />
+          <TimezoneInput
+            class="q-mb-md"
+            hide-bottom-space
+            outlined
+            label="Timezone"
+            :rules="[
+            val => !!val || 'Timezone field is required'
+          ]"
+            v-model="userModel.timezone"
+          />
           <q-select
             class="q-mb-md"
             outlined
@@ -53,9 +63,13 @@
               val => !!val || 'Role field is required'
             ]"
           />
+          <FormErrors
+            :error="submitUserError"
+            class="text-red text-center q-my-md"
+          />
           <div class="row justify-between">
             <q-btn label="Cancel" @click="hide()" />
-            <q-btn label="Save" color="primary" type="submit" />
+            <q-btn label="Save" color="primary" type="submit" :loading="isSubmittingUser" />
           </div>
         </q-form>
       </template>
@@ -68,17 +82,19 @@ import {
   defineComponent, toRefs, ref, watch,
 } from 'vue';
 import { roleOptions } from 'src/const/userRoles';
-import { useQuery, useResult, useQueryLoading } from '@vue/apollo-composable';
+import {
+  useQuery, useResult, useQueryLoading, useMutation,
+} from '@vue/apollo-composable';
 import { getUserById } from 'src/graphql/getUser';
-
-const defaultUserModel = {
-  name: '',
-  email: '',
-  role: '',
-};
+import FormErrors from 'components/misc/FormErrors';
+import TimezoneInput from 'components/inputs/TimezoneInput';
+import defaultUserModel from 'src/const/defaultUserModel';
+import { editUser } from 'src/graphql/editUser';
 
 export default defineComponent({
   name: 'EditUserDialog',
+  components: { FormErrors, TimezoneInput },
+  emits: ['save'],
   props: {
     userId: {
       type: Number,
@@ -86,7 +102,7 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
     const { userId } = toRefs(props);
     const {
       result, error, onResult, refetch,
@@ -100,12 +116,31 @@ export default defineComponent({
     const dialog = ref(null);
     const userModel = ref(JSON.parse(JSON.stringify(defaultUserModel)));
 
+    const {
+      mutate: submitUser,
+      loading: isSubmittingUser,
+      error: submitUserError,
+      onDone: submitUserOnDone,
+    } = useMutation(editUser);
+
+    submitUserOnDone(() => {
+      emit('save');
+      isActive.value = false;
+      $q.notify({
+        color: 'green-4',
+        textColor: 'white',
+        icon: 'cloud_done',
+        message: 'User Saved',
+      });
+    });
+
     const updateModel = (res) => {
       if (!res.data || !res.data.user) {
         return;
       }
       userModel.value.name = res.data.user.name;
       userModel.value.email = res.data.user.email;
+      userModel.value.timezone = res.data.user.timezone;
       userModel.value.role = roleOptions.find((option) => option.value === res.data.user.role);
     };
 
@@ -122,6 +157,15 @@ export default defineComponent({
       updateModel(queryResult);
     });
 
+    const onSubmit = () => {
+      submitUser({
+        name: userModel.value.name,
+        email: userModel.value.email,
+        timezone: userModel.value.timezone.value,
+        role: userModel.value.role.value,
+      });
+    };
+
     return {
       user,
       isLoading,
@@ -136,15 +180,9 @@ export default defineComponent({
         isActive.value = false;
       },
       userModel,
-      onSubmit() {
-        isActive.value = false;
-        $q.notify({
-          color: 'green-4',
-          textColor: 'white',
-          icon: 'cloud_done',
-          message: 'Submitted',
-        });
-      },
+      submitUserError,
+      isSubmittingUser,
+      onSubmit,
     };
   },
 });

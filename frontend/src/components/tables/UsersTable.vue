@@ -1,9 +1,14 @@
 <template>
   <q-table
+    ref="table"
     :loading="isLoading"
     title="Users"
     :rows="result && result.users ? result.users.data : []"
     :columns="columns"
+    :filter="filter"
+    v-model:pagination="pagination"
+    :rows-per-page-options="[2, 50, 100]"
+    @request="requestEvent"
     row-key="id"
   >
     <template v-slot:top-right class="q-gutter-md">
@@ -13,16 +18,8 @@
           dense
           clearable
           label="Search"
-          v-model="filterSearch"
-        />
-        <q-select
-          outlined
-          dense
-          clearable
-          style="min-width: 160px;"
-          v-model="filterRole"
-          :options="roleOptions"
-          label="User Role"
+          v-model="filter.search"
+          debounce="1000"
         />
         <q-btn
           no-wrap
@@ -32,6 +29,13 @@
           @click="createUser"
         />
       </div>
+    </template>
+    <template v-slot:body-cell-email="props">
+      <q-td :props="props">
+        <a :href="'mailto:' + props.value">
+          {{ props.value }}
+        </a>
+      </q-td>
     </template>
     <template v-slot:body-cell-buttons="props">
       <q-td :props="props">
@@ -56,13 +60,15 @@
       </q-td>
     </template>
   </q-table>
-  <CreateUserDialog ref="createUserDialog" />
-  <EditUserDialog v-if="editUserId" :user-id="editUserId" ref="editUserDialog" />
+  <CreateUserDialog ref="createUserDialog" @save="resetTable" />
+  <EditUserDialog v-if="editUserId" :user-id="editUserId" ref="editUserDialog" @save="resetTable" />
 </template>
 
 <script>
 import { useQuery, useQueryLoading } from '@vue/apollo-composable';
-import { defineComponent, nextTick, ref } from 'vue';
+import {
+  defineComponent, nextTick, ref,
+} from 'vue';
 import { format, useQuasar } from 'quasar';
 import { getUsers } from 'src/graphql/getUsers';
 import CreateUserDialog from 'components/dialogs/CreateUserDialog';
@@ -92,23 +98,23 @@ const columns = [
     field: (row) => row.email,
   },
   {
-    name: 'time_zone',
+    name: 'timezone',
     label: 'Timezone',
     align: 'left',
-    field: (row) => row.time_zone,
+    field: (row) => row.timezone,
   },
   {
-    name: 'created_at',
+    name: 'createdAt',
     label: 'Created',
     align: 'left',
-    field: (row) => row.created_at,
+    field: (row) => row.createdAt,
     sortable: true,
   },
   {
-    name: 'updated_at',
+    name: 'updatedAt',
     label: 'Updated',
     align: 'left',
-    field: (row) => row.updated_at,
+    field: (row) => row.updatedAt,
     sortable: true,
   },
   {
@@ -132,21 +138,92 @@ export default defineComponent({
     EditUserDialog,
   },
   setup() {
-    const { result } = useQuery(getUsers, {
-      first: 100,
-      page: 1,
-    });
     const isLoading = useQueryLoading();
     const $q = useQuasar();
+    const table = ref(null);
     const createUserDialog = ref(null);
     const editUserDialog = ref(null);
-    const filterRole = ref(null);
-    const filterSearch = ref(null);
     const editUserId = ref(null);
+    const pagination = ref({
+      sortBy: 'id',
+      descending: true,
+      page: 1,
+      rowsPerPage: 5,
+      rowsNumber: 10,
+    });
+    const filter = ref({
+      search: null,
+    });
+    const resetTable = () => {
+      filter.value.search = null;
+      pagination.value.sortBy = 'id';
+      pagination.value.descending = true;
+      pagination.value.page = 1;
+      pagination.value.rowsPerPage = 5;
+      pagination.value.rowsNumber = 10;
+      table.value.requestServerInteraction();
+    };
+    const { result, fetchMore } = useQuery(getUsers, {
+      first: pagination.value.rowsPerPage,
+      page: pagination.value.page,
+      search: filter.value.search,
+      sort: {
+        value: {
+          column: pagination.value.sortBy,
+          order: pagination.value.descending ? 'DESC' : 'ASC',
+        },
+      },
+    });
+    const requestEvent = (req) => {
+      fetchMore({
+        variables: {
+          first: req.pagination.rowsPerPage,
+          page: req.pagination.page,
+          // TODO: add search
+          sort: {
+            value: {
+              column: req.pagination.sortBy || 'id',
+              order: req.pagination.descending ? 'DESC' : 'ASC',
+            },
+          },
+        },
+        updateQuery: (prev, { fetchMoreResult }) => {
+          pagination.value.page = fetchMoreResult.users.paginatorInfo.currentPage;
+          pagination.value.rowsPerPage = fetchMoreResult.users.paginatorInfo.perPage;
+          pagination.value.rowsNumber = 10;
+          pagination.value.sortBy = req.pagination.sortBy;
+          pagination.value.descending = req.pagination.descending;
+          return fetchMoreResult;
+        },
+      });
+    };
+    const deleteUser = (user) => {
+      $q.dialog({
+        title: `Delete User ${user.name || user.email}`,
+        message: `Do you really want to delete user ${user.name || user.email}?`,
+        cancel: true,
+        persistent: true,
+      })
+        .onOk(() => {
+          // TODO: add delete user request
+          $q.notify({
+            type: 'positive',
+            message: `User #${user.id} has been deleted`,
+          });
+        });
+    };
+    const editUser = (id) => {
+      editUserId.value = +id;
+      nextTick(() => {
+        editUserDialog.value.dialog.show();
+      });
+    };
+    const createUser = () => {
+      createUserDialog.value.dialog.show();
+    };
 
     return {
-      filterRole,
-      filterSearch,
+      filter,
       roleOptions,
       createUserDialog,
       editUserDialog,
@@ -154,30 +231,13 @@ export default defineComponent({
       columns,
       isLoading,
       editUserId,
-      createUser() {
-        createUserDialog.value.dialog.show();
-      },
-      deleteUser(user) {
-        $q.dialog({
-          title: `Delete User ${user.name || user.email}`,
-          message: `Do you really want to delete user ${user.name || user.email}?`,
-          cancel: true,
-          persistent: true,
-        })
-          .onOk(() => {
-            // TODO: add delete user request
-            $q.notify({
-              type: 'positive',
-              message: `User #${user.id} has been deleted`,
-            });
-          });
-      },
-      editUser(id) {
-        editUserId.value = +id;
-        nextTick(() => {
-          editUserDialog.value.dialog.show();
-        });
-      },
+      createUser,
+      deleteUser,
+      editUser,
+      pagination,
+      requestEvent,
+      table,
+      resetTable,
     };
   },
 });
