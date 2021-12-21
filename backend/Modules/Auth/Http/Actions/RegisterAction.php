@@ -15,31 +15,45 @@ use Modules\Auth\Entities\User;
 use Modules\Auth\Entities\AuthToken;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 use Modules\Auth\Repositories\UserRepository;
+use App\Traits\DateTimeTrait;
 
 class RegisterAction extends BaseAction
 {
     /**
+     * @var UserRepository
+     */
+    private UserRepository $userRepository;
+
+    /**
+     * @param UserRepository $user
+     */
+    public function __construct(UserRepository $user)
+    {
+        $this->userRepository = $user;
+    }
+
+    /**
      * @param Property $dto
      * @return array
      */
-    public static function register(Property $dto)
+    public function register(Property $dto)
     {
         $fields = $dto->toArray();
 
-        $user = UserRepository::init()->create([
+        $user = $this->userRepository->create([
             'name' => $fields['name'],
             'email' => $fields['email'],
-            'password' => Hash::make($fields['password'])
+            'password' => Hash::make($fields['password']),
+            'role' => $fields['role'],
+            'time_zone' => $fields['time_zone']
         ]);
 
         // send email verification
-        $user->sendEmailVerificationNotification();
+        try {
+            $user->sendEmailVerificationNotification();
+        } catch (\Exception $e) {
+        }
 
-        $response = [
-            'success' => true,
-            'message' => 'A letter has been sent to your mail'
-        ];
-
-        return $response;
+        return $user->toArray();
     }
 }

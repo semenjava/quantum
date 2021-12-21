@@ -3,10 +3,9 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Providers\Http\Requests\CreateProviderRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Http\Actions\AuthAction;
+use Modules\Providers\Facades\CreateProviderFacade;
 
 class CreateProviderMutator
 {
@@ -21,8 +20,8 @@ class CreateProviderMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new RegisterRequest();
+        $request = new CreateProviderRequest();
         $dto = $request->valid($args);
-        return RegisterAction::register($dto);
+        return CreateProviderFacade::run($dto);
     }
 }

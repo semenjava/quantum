@@ -2,11 +2,11 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Properties\Property;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Facilities\Facades\CreateFacilityFacade;
+use Modules\Facilities\Http\Requests\CreateFacilityRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Http\Actions\AuthAction;
 
 class CreateFacilityMutator
 {
@@ -21,8 +21,8 @@ class CreateFacilityMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new RegisterRequest();
+        $request = new CreateFacilityRequest();
         $dto = $request->valid($args);
-        return RegisterAction::register($dto);
+        return CreateFacilityFacade::run($dto);
     }
 }

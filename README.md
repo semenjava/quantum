@@ -2,7 +2,13 @@
 
 ## Local Development Environment Setup
 
-- `composer install`
+- `cd backend`
+- `docker run --rm \
+  -u "$(id -u):$(id -g)" \
+  -v $(pwd):/var/www/html \
+  -w /var/www/html \
+  laravelsail/php80-composer:latest \
+  composer install --ignore-platform-reqs`
 - run `alias sail='[ -f sail ] && bash sail || bash vendor/bin/sail'`
 - add the same command to your .bashrc /.zshrc / etc.
 - `sail up -d`
@@ -11,6 +17,10 @@ and the project will start installing the docker system.
 
 Once done:
 - `sail artisan key:generate`
+- `sail artisan migrate`
+
+Seed DB:
+- `sail artisan db:seed`
  
 The dev server now runs at http://localhost:8084/
 
@@ -51,7 +61,7 @@ For more information read the sail documentation: https://laravel.com/docs/8.x/s
 
 `./tools/php-cs-fixer/vendor/bin/php-cs-fixer fix -vvv --config=tools/php-cs-fixer/.php-cs-fixer.dist.php`
 
-### Hot to setup PhpStorm
+### How to setup PhpStorm
 
 #### Set up ESLint
 Settings → Languages & Frameworks → JavaScript → Code Quality Tools → ESLint
@@ -72,3 +82,8 @@ Editor → Inspections → Quality tools → PHP CS Fixer validation
 - Ruleset: Custom
 - Path: `/var/www/html/tools/php-cs-fixer/.php-cs-fixer.dist.php`
 - Optional: Choose Error severity in All Scopes
+
+### How to run multiple instances of the project on the same machine
+- Copy project to another folder
+- Change `PROJECT_TAG`, `COMPOSE_PROJECT_NAME` and service ports to be unique inside **backend** .env
+- Change `GRAPHQL_URI`, `DEV_SERVER_PORT` inside **frontend** .env accordingly

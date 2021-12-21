@@ -22,10 +22,6 @@ class Providers extends Model
         'first_name',
         'surname',
         'last_name',
-        'country_id',
-        'city_id',
-        'address',
-        'postal',
         'diagnostic_specialty',
         '2nd_language',
         'status'
@@ -48,19 +44,11 @@ class Providers extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function country()
+    public function addresses()
     {
-        return $this->belongsTo(Countries::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(Cities::class);
+        return $this->belongsToMany(Addresses::class, 'provider_address', 'provider_id', 'address_id');
     }
 
     /**
