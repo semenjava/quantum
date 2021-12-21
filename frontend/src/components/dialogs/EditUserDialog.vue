@@ -138,6 +138,7 @@ export default defineComponent({
       if (!res.data || !res.data.user) {
         return;
       }
+      userModel.value.id = +res.data.user.id;
       userModel.value.name = res.data.user.name;
       userModel.value.email = res.data.user.email;
       userModel.value.timezone = res.data.user.timezone;
@@ -159,6 +160,7 @@ export default defineComponent({
 
     const onSubmit = () => {
       submitUser({
+        id: userModel.value.id,
         name: userModel.value.name,
         email: userModel.value.email,
         timezone: userModel.value.timezone.value,
