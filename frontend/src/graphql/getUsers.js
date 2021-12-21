@@ -1,19 +1,20 @@
 import gql from 'graphql-tag';
 
 export const getUsers = gql`
-  query getUsers($first: Int!, $page: Int) {
-    users(first: $first, page: $page) {
+  query getUsers($first: Int!, $page: Int, $search: String, $sort: [OrderByClause!]) {
+    users(first: $first, page: $page, search: $search, sort: $sort) {
       data {
         id
         name
         email
-        created_at
-        updated_at
+        timezone: time_zone
+        createdAt: created_at
+        updatedAt: updated_at
         role
       }
       paginatorInfo {
-        currentPage
         count
+        currentPage
         firstItem
         lastItem
         perPage
