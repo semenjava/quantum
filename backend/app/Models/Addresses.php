@@ -23,6 +23,7 @@ class Addresses extends Model
         'country_id',
         'city_id',
         'postal',
+        'postal_address',
         'primary_address',
         'billing_address'
     ];
@@ -41,6 +42,14 @@ class Addresses extends Model
     public function city()
     {
         return $this->belongsTo(Cities::class);
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPostal()
+    {
+        return isset($this->postal_address);
     }
 
     /**

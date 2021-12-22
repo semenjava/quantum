@@ -58,4 +58,9 @@ class Providers extends Model
     {
         return $this->belongsToMany(Specialties::class, 'provider_specialty', 'provider_id', 'specialty_id');
     }
+
+    public function get2ndLanguage()
+    {
+        return $this->{'2nd_language'};
+    }
 }
