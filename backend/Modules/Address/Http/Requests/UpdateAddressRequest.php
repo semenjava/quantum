@@ -14,6 +14,7 @@ class UpdateAddressRequest extends BaseFormRequest
     public function rules()
     {
         return [
+            'id' => 'required',
             'provider_id' => 'required',
             'address_line_1' => 'required|string',
             'address_line_2' => 'string',

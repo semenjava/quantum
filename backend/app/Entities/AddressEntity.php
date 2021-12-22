@@ -2,51 +2,39 @@
 
 namespace App\Entities;
 
+use App\Models\Address;
+use App\Models\ProviderAddress;
+
 class AddressEntity extends EntityBase
 {
-    /**
-     * @var int
-     */
-    private int $id;
 
     /**
-     * @var string
+     * @param array $data
+     * @return void
      */
-    private string $address_line_1;
+    public function instance(array $data)
+    {
+        parent::instance($data);
+    }
 
     /**
-     * @var string
+     * @return bool
      */
-    private string $address_line_2;
-
-    /**
-     * @var int
-     */
-    private int $country_id;
-
-    /**
-     * @var int
-     */
-    private int $city_id;
-
-    /**
-     * @var string
-     */
-    private string $postal;
-
-    /**
-     * @var bool
-     */
-    private bool $primary_address;
-
-    /**
-     * @var bool
-     */
-    private bool $billing_address;
-
     public function hasId()
     {
-        return isset($this->id);
+        $model = Address::select('id')
+            ->where('address_line_1', $this->getAddressLine1())
+            ->where('address_line_2', $this->getAddressLine2())
+            ->where('country_id', $this->getCountryId())
+            ->where('city_id', $this->getCityId())
+            ->where('postal', $this->getPostal())
+            ->first();
+
+        if($model) {
+            $this->collect->put('id', $model->id);
+        }
+
+        return $this->collect->has('id');
     }
 
     /**
@@ -54,7 +42,7 @@ class AddressEntity extends EntityBase
      */
     public function getId(): int
     {
-        return $this->id;
+        return $this->collect->get('id');
     }
 
     /**
@@ -62,7 +50,7 @@ class AddressEntity extends EntityBase
      */
     public function getAddressLine1(): string
     {
-        return $this->address_line_1;
+        return $this->collect->get('address_line_1');
     }
 
     /**
@@ -70,7 +58,7 @@ class AddressEntity extends EntityBase
      */
     public function getAddressLine2(): string
     {
-        return $this->address_line_2;
+        return $this->collect->get('address_line_2');
     }
 
     /**
@@ -78,7 +66,7 @@ class AddressEntity extends EntityBase
      */
     public function getCountryId(): int
     {
-        return $this->country_id;
+        return $this->collect->get('country_id');
     }
 
     /**
@@ -86,7 +74,7 @@ class AddressEntity extends EntityBase
      */
     public function getCityId(): int
     {
-        return $this->city_id;
+        return $this->collect->get('city_id');
     }
 
     /**
@@ -94,7 +82,7 @@ class AddressEntity extends EntityBase
      */
     public function getPostal(): string
     {
-        return $this->postal;
+        return $this->collect->get('postal');
     }
 
     /**
@@ -102,7 +90,7 @@ class AddressEntity extends EntityBase
      */
     public function isPrimaryAddress(): bool
     {
-        return $this->primary_address;
+        return $this->collect->get('primary_address');
     }
 
     /**
@@ -110,6 +98,14 @@ class AddressEntity extends EntityBase
      */
     public function isBillingAddress(): bool
     {
-        return $this->billing_address;
+        return $this->collect->get('billing_address');
+    }
+
+    /**
+     * @return bool
+     */
+    public function isPostalAddress(): bool
+    {
+        return $this->collect->get('postal_address');
     }
 }

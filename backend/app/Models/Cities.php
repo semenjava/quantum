@@ -11,6 +11,8 @@ class Cities extends Model
 
     protected $table = 'cities';
 
+    public $timestamps = false;
+
     /**
      * @var string[]
      */

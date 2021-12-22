@@ -6,9 +6,18 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Facades\CreateAddressFacade;
 use Modules\Address\Http\Requests\CreateAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Modules\Address\Http\Actions\CreateAddressAction;
+use App\Contract\Action;
 
 class CreateAddressMutator
 {
+    private Action $action;
+
+    public function __construct(CreateAddressAction $action)
+    {
+        $this->action = $action;
+    }
+
     /**
      * Return a value for the field.
      *
@@ -21,6 +30,6 @@ class CreateAddressMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $dto = (new CreateAddressRequest())->valid($args)->toDto();
-        return CreateAddressFacade::run($dto);
+        return $this->action->run($dto);
     }
 }

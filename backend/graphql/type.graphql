@@ -82,9 +82,9 @@ type Address {
     id: ID!
     address_line_1: String!,
     address_line_2: String,
-    country: String @method(name: "getCountryAttribute"),
-    region: String @method(name: "getCountryAttribute"),
-    city: String @method(name: "getCityAttribute"),
+    country: String @method(name: "getCountryName"),
+    region: String @method(name: "getRegionName"),
+    city: String @method(name: "getCityName"),
     postal: String,
     postal_address: Boolean,
     primary_address: Boolean,

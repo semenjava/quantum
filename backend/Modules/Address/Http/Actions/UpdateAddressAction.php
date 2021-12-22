@@ -30,12 +30,12 @@ class UpdateAddressAction extends BaseAction implements Action
      */
     public function run(Property $dto)
     {
-        if (\Gate::denies('update-own-provider-address')) {
+        if (\Gate::denies('update-provider-address', $dto->get('provider_id'))) {
             abort(403);
         }
 
         $address = $this->addressService->setParam($dto)->storeAdress();
 
-        return $address->toArray();
+        return $address;
     }
 }

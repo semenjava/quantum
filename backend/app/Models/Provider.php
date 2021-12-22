@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use phpDocumentor\Reflection\Types\Boolean;
 
 class Provider extends Model
 {
@@ -28,11 +29,11 @@ class Provider extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -57,5 +58,18 @@ class Provider extends Model
     public function specialties()
     {
         return $this->belongsToMany(Specialties::class, 'provider_specialty', 'provider_id', 'specialty_id');
+    }
+
+    /**
+     * @return Address ?? null
+     */
+    public function address($address_id)
+    {
+        $isAddress = ProviderAddress::where('provider_id', $this->id)->where('address_id', $address_id)->first();
+        if($isAddress) {
+            return Address::find($address_id);
+        }
+
+        return null;
     }
 }

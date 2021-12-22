@@ -313,6 +313,20 @@ class PermissionSeeder extends Seeder
         $createProvider->roles()->attach($roles->get('superadmin'));
         $createProvider->roles()->attach($roles->get('provider'));
 
+        $createProvider = new Permission();
+        $createProvider->name = 'Create Provider Address ';
+        $createProvider->slug = 'create-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Update Provider Address ';
+        $createProvider->slug = 'update-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
+
         // Company
         $createCompany = new Permission();
         $createCompany->name = 'Create Company';

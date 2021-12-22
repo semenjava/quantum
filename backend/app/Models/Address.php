@@ -72,25 +72,25 @@ class Address extends Model
     /**
      * @return mixed
      */
-    public function getCountryAttribute()
+    public function getCountryName()
     {
-        return $this->country()->name();
+        return $this->country->name;
     }
 
     /**
      * @return mixed
      */
-    public function getRegionAttribute()
+    public function getRegionName()
     {
-        return $this->country()->region();
+        return $this->country->region;
     }
 
     /**
      * @return mixed
      */
-    public function getCityAttribute()
+    public function getCityName()
     {
-        return $this->city()->name();
+        return $this->city->name;
     }
 
     /**

@@ -2,9 +2,11 @@
 
 namespace App\Repositories;
 
+use App\Models\Address;
 use App\Models\Countries;
 use App\Models\Cities;
 use App\Entities\AddressEntity;
+use App\Models\ProviderAddress;
 
 /**
  * Class UserRepository.
@@ -33,7 +35,7 @@ class LocationRepository
             $country = new Countries();
             $country->code = mb_strtoupper(mb_substr($data['country'], 0, 2));
             $country->name = $data['country'];
-            $country->continent = Countries::EUROPE;
+            $country->continent = Countries::SOUTH_AMERICA;
             $country->region = isset($data['region']) ? $data['region'] : 'no-region';
             $country->surface_area = round(100, 1000000);
             $country->local_name = $data['country'];
@@ -53,13 +55,27 @@ class LocationRepository
         $result['country_id'] = $country->id;
         $result['city_id'] = $city->id;
 
-        foreach ($data['address'] as $item) {
-            $item['country_id'] = $country->id;
-            $item['city_id'] = $city->id;
+        if(isset($data['address']) && is_array($data['address'])) {
+            foreach ($data['address'] as $entity) {
+                $addresses = [];
+                $entity['country_id'] = $country->id;
+                $entity['city_id'] = $city->id;
 
-            $address = new AddressEntity($item);
-            $address = AddressRepository::init()->save($address);
-            $result['addresses'][] = $address;
+                $address = new AddressEntity($entity);
+                $address = AddressRepository::init()->save($address, $entity['provider_id']);
+                $addresses['address_id'] = $address->id;
+                $addresses['provider_id'] = $entity['provider_id'];
+                $result['addresses'][] = $addresses;
+            }
+        } else {
+            $entity = $data;
+            $entity['country_id'] = $country->id;
+            $entity['city_id'] = $city->id;
+
+            $address = new AddressEntity($entity);
+            $address = AddressRepository::init()->save($address, $entity['provider_id']);
+
+            return $address;
         }
 
         return $result;

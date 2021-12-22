@@ -2,6 +2,8 @@
 
 namespace Modules\Address\Services;
 
+use App\Models\Address;
+use App\Models\ProviderAddress;
 use App\Repositories\LocationRepository;
 use App\Services\BaseService;
 use App\Models\User;
@@ -27,18 +29,19 @@ class AddressService extends BaseService
      */
     public function storeAdress()
     {
-        $provider = Provider::find($this->dto->get('provider_id'))->load('user');
-        $user = $provider->user;
+        $provider = Provider::find($this->dto->get('provider_id'));
 
-        $this->locationRepository->save($this->dto->all());
+        $address = $this->locationRepository->save($this->dto->all());
 
-        $provider->addresses()->attach($this->dto->all());
+        if(!$provider->address($address->id)) {
+            $provider->addresses()->attach($address);
+        }
 
-        activity()->performedOn($provider)
-            ->causedBy($provider->addresses())
-            ->withProperties(['user_id' => request()->user()->id, 'create_provider_address' => $user->id])
+        activity()->performedOn(request()->user())
+            ->causedBy($provider->user)
+            ->withProperties(['user_id' => request()->user()->id, 'provider_id' => $provider->id, 'address' => $address->toJson()])
             ->log('User use create provider address');
 
-        return $provider->addresses();
+        return $address;
     }
 }

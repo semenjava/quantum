@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Contract\Action;
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Http\Actions\UpdateAddressAction;
 use Modules\Address\Http\Requests\UpdateAddressRequest;
@@ -9,6 +10,14 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UpdateAddressMutator
 {
+
+    private Action $action;
+
+    public function __construct(UpdateAddressAction $action)
+    {
+        $this->action = $action;
+    }
+
     /**
      * Return a value for the field.
      *
@@ -21,6 +30,6 @@ class UpdateAddressMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $dto = (new UpdateAddressRequest())->valid($args)->toDto();
-        return UpdateAddressAction::run($dto);
+        return $this->action->run($dto);
     }
 }
