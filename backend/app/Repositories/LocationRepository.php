@@ -55,7 +55,7 @@ class LocationRepository
         $result['country_id'] = $country->id;
         $result['city_id'] = $city->id;
 
-        if(isset($data['address']) && is_array($data['address'])) {
+        if (isset($data['address']) && is_array($data['address'])) {
             foreach ($data['address'] as $entity) {
                 $addresses = [];
                 $entity['country_id'] = $country->id;

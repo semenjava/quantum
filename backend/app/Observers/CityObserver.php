@@ -17,5 +17,4 @@ class CityObserver
         $lastId = City::orderBy('id', 'desc')->first();
         $city->setAttribute('id', $lastId->id+1);
     }
-
 }

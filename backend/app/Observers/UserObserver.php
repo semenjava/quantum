@@ -26,5 +26,4 @@ class UserObserver
     {
         $this->addPermissions($user);
     }
-
 }

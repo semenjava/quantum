@@ -7,7 +7,6 @@ use App\Models\ProviderAddress;
 
 class AddressEntity extends EntityBase
 {
-
     /**
      * @param array $data
      * @return void
@@ -30,7 +29,7 @@ class AddressEntity extends EntityBase
             ->where('postal', $this->getPostal())
             ->first();
 
-        if($model) {
+        if ($model) {
             $this->collect->put('id', $model->id);
         }
 

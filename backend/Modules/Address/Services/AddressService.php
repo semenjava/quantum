@@ -33,7 +33,7 @@ class AddressService extends BaseService
 
         $address = $this->locationRepository->save($this->dto->all());
 
-        if(!$provider->address($address->id)) {
+        if (!$provider->address($address->id)) {
             $provider->addresses()->attach($address);
         }
 

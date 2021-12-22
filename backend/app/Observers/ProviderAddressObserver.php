@@ -15,7 +15,7 @@ class ProviderAddressObserver
     public function creating(ProviderAddress $providerAddress)
     {
         $model = ProviderAddress::where('provider_id', $providerAddress->provider_id)->where('address_id', $providerAddress->address_id)->first();
-        if($model) {
+        if ($model) {
             $model->delete();
         }
     }

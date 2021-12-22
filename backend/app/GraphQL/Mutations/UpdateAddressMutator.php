@@ -10,7 +10,6 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class UpdateAddressMutator
 {
-
     private Action $action;
 
     public function __construct(UpdateAddressAction $action)

@@ -20,7 +20,7 @@ class AddressRepository extends BaseRepository
      */
     public function save(AddressEntity $entity, int $provider_id = null): Address
     {
-        if($entity->hasId()) {
+        if ($entity->hasId()) {
             $address = Address::find($entity->getId());
         } else {
             $address = new Address();

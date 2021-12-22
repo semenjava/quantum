@@ -66,7 +66,7 @@ class Provider extends Model
     public function address($address_id)
     {
         $isAddress = ProviderAddress::where('provider_id', $this->id)->where('address_id', $address_id)->first();
-        if($isAddress) {
+        if ($isAddress) {
             return Address::find($address_id);
         }
 
