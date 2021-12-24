@@ -41,7 +41,7 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->where('archived', true)
+        $pagination = $builder->where('archived', $data['archived'] ?? false)
             ->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;

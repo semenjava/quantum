@@ -1,7 +1,7 @@
 type Query {
     me: User @auth @guard(with: ["sanctum"])
     #    (first: Int!, page: Int)
-    users(search: String @search, sort: [OrderByClause] @orderBy, first: Int! page: Int!): UserPaginator  @guard(with: ["sanctum"]) @field(resolver: "UsersQuery@resolve") #@paginate(type: PAGINATOR  model: "App\\Models\\User")
+    users(search: String @search, sort: [OrderByClause] @orderBy, first: Int! page: Int!, archived: Boolean): UserPaginator  @guard(with: ["sanctum"]) @field(resolver: "UsersQuery@resolve") #@paginate(type: PAGINATOR  model: "App\\Models\\User")
     user(id: ID @eq): User @find @guard(with: ["sanctum"])
 #    profile: User! @guard(with: ["sanctum"])
     verify(expires: String!, hash: String!, id: Int!, signature: String!): AuthToken @field(resolver: "VerifyQuery@verify")

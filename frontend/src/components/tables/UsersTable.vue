@@ -1,4 +1,7 @@
 <template>
+  <q-banner v-if="error" dense inline-actions rounded class="text-white bg-red q-mb-md">
+    {{ error }}
+  </q-banner>
   <q-table
     ref="table"
     :loading="isLoading"
@@ -13,6 +16,10 @@
   >
     <template v-slot:top-right class="q-gutter-md">
       <div class="flex content-center" style="gap: 15px;">
+        <q-toggle
+          label="Show Archived"
+          v-model="filter.archived"
+        />
         <q-input
           outlined
           dense
@@ -37,6 +44,24 @@
         </a>
       </q-td>
     </template>
+    <template v-slot:body-cell-created_at="props">
+      <q-td :props="props">
+        <div>
+          {{ currentUserTimezoneDate(props.value) }}
+          <q-tooltip>
+            UTC: {{ UTCtimezoneDate(props.value) }}
+          </q-tooltip>
+        </div>
+      </q-td>
+    </template>
+    <template v-slot:body-cell-updated_at="props">
+      <q-td :props="props">
+        {{ currentUserTimezoneDate(props.value) }}
+        <q-tooltip>
+          UTC: {{ UTCtimezoneDate(props.value) }}
+        </q-tooltip>
+      </q-td>
+    </template>
     <template v-slot:body-cell-buttons="props">
       <q-td :props="props">
         <q-btn-dropdown color="secondary" label="Action">
@@ -48,7 +73,7 @@
                 </q-item-label>
               </q-item-section>
             </q-item>
-            <q-item clickable v-close-popup @click="deleteUser(props.row)">
+            <q-item clickable v-close-popup @click="deleteUserAction(props.row)">
               <q-item-section>
                 <q-item-label class="text-red">
                   Delete
@@ -65,12 +90,14 @@
 </template>
 
 <script>
-import { useQuery, useQueryLoading } from '@vue/apollo-composable';
+import { useMutation, useQuery, useQueryLoading } from '@vue/apollo-composable';
 import {
   defineComponent, nextTick, ref,
 } from 'vue';
 import { format, useQuasar } from 'quasar';
 import { getUsers } from 'src/graphql/getUsers';
+import { deleteUser } from 'src/graphql/deleteUser';
+import { currentUserTimezoneDate, UTCtimezoneDate } from 'src/utils/dateFormat';
 import CreateUserDialog from 'components/dialogs/CreateUserDialog';
 import EditUserDialog from 'components/dialogs/EditUserDialog';
 import { roleOptions } from 'src/const/userRoles';
@@ -98,23 +125,23 @@ const columns = [
     field: (row) => row.email,
   },
   {
-    name: 'timezone',
+    name: 'time_zone',
     label: 'Timezone',
     align: 'left',
-    field: (row) => row.timezone,
+    field: (row) => row.time_zone,
   },
   {
-    name: 'createdAt',
+    name: 'created_at',
     label: 'Created',
     align: 'left',
-    field: (row) => row.createdAt,
+    field: (row) => row.created_at,
     sortable: true,
   },
   {
-    name: 'updatedAt',
+    name: 'updated_at',
     label: 'Updated',
     align: 'left',
-    field: (row) => row.updatedAt,
+    field: (row) => row.updated_at,
     sortable: true,
   },
   {
@@ -147,57 +174,71 @@ export default defineComponent({
     const pagination = ref({
       sortBy: 'id',
       descending: true,
-      page: 1,
+      page: 0,
       rowsPerPage: 5,
-      rowsNumber: 10,
+      rowsNumber: 0,
     });
     const filter = ref({
-      search: null,
+      search: '',
+      archived: false,
     });
     const resetTable = () => {
-      filter.value.search = null;
+      filter.value.search = '';
+      filter.value.archived = false;
       pagination.value.sortBy = 'id';
       pagination.value.descending = true;
-      pagination.value.page = 1;
+      pagination.value.page = 0;
       pagination.value.rowsPerPage = 5;
-      pagination.value.rowsNumber = 10;
+      pagination.value.rowsNumber = 0;
       table.value.requestServerInteraction();
     };
-    const { result, fetchMore } = useQuery(getUsers, {
+    const {
+      result, fetchMore, onResult, error,
+    } = useQuery(getUsers, {
       first: pagination.value.rowsPerPage,
       page: pagination.value.page,
-      search: filter.value.search,
+      search: filter.value.search || '',
       sort: {
         value: {
           column: pagination.value.sortBy,
           order: pagination.value.descending ? 'DESC' : 'ASC',
         },
       },
+      archived: filter.value.archived,
+    });
+    onResult((res) => {
+      if (!res.data) {
+        return;
+      }
+      pagination.value.rowsNumber = res.data.users.paginatorInfo.total;
     });
     const requestEvent = (req) => {
       fetchMore({
         variables: {
           first: req.pagination.rowsPerPage,
           page: req.pagination.page,
-          // TODO: add search
+          search: req.filter.search || '',
           sort: {
             value: {
               column: req.pagination.sortBy || 'id',
               order: req.pagination.descending ? 'DESC' : 'ASC',
             },
           },
+          archived: req.filter.archived,
         },
         updateQuery: (prev, { fetchMoreResult }) => {
           pagination.value.page = fetchMoreResult.users.paginatorInfo.currentPage;
           pagination.value.rowsPerPage = fetchMoreResult.users.paginatorInfo.perPage;
-          pagination.value.rowsNumber = 10;
+          pagination.value.rowsNumber = fetchMoreResult.users.paginatorInfo.total;
           pagination.value.sortBy = req.pagination.sortBy;
           pagination.value.descending = req.pagination.descending;
           return fetchMoreResult;
         },
       });
     };
-    const deleteUser = (user) => {
+
+    const { mutate: deleteUserMutate, onDone: deleteUserOnDone } = useMutation(deleteUser);
+    const deleteUserAction = (user) => {
       $q.dialog({
         title: `Delete User ${user.name || user.email}`,
         message: `Do you really want to delete user ${user.name || user.email}?`,
@@ -205,13 +246,20 @@ export default defineComponent({
         persistent: true,
       })
         .onOk(() => {
-          // TODO: add delete user request
-          $q.notify({
-            type: 'positive',
-            message: `User #${user.id} has been deleted`,
+          deleteUserMutate({
+            id: user.id,
           });
         });
     };
+
+    deleteUserOnDone(() => {
+      $q.notify({
+        type: 'positive',
+        message: 'User has been deleted',
+      });
+      resetTable();
+    });
+
     const editUser = (id) => {
       editUserId.value = +id;
       nextTick(() => {
@@ -228,16 +276,19 @@ export default defineComponent({
       createUserDialog,
       editUserDialog,
       result,
+      error,
       columns,
       isLoading,
       editUserId,
       createUser,
-      deleteUser,
+      deleteUserAction,
       editUser,
       pagination,
       requestEvent,
       table,
       resetTable,
+      currentUserTimezoneDate,
+      UTCtimezoneDate,
     };
   },
 });
