@@ -10,8 +10,8 @@ type Query {
 }
 
 type Mutation {
-    createUser(name: String!, email: String!, password: String!, c_password: String!, role: String!, time_zone: String!): User @field(resolver: "RegisterMutator@resolve")
-    deleteUser(id: ID @eq): User @field(resolver: "DeleteMutator@resolve")
+    createUser(name: String!, email: String!, password: String!, c_password: String!, role: String!, time_zone: String!): User @field(resolver: "RegisterMutator@resolve") @guard(with: ["sanctum"])
+    deleteUser(id: ID @eq): User @field(resolver: "DeleteMutator@resolve") @guard(with: ["sanctum"])
 
     login(
         email: String!,
