@@ -40,7 +40,7 @@ class AuthService
         // Check email
         $user =  UserRepository::init()->getById($user_id);
 
-        if(!$user->isArchived()){
+        if($user->isArchived()){
             throw new NotAuthorized();
         }
 
