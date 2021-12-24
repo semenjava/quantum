@@ -6,7 +6,6 @@ use App\Builders\BaseBuilder;
 
 class UsersBuilder extends BaseBuilder
 {
-
     public function select()
     {
         $this->query->select('*');
@@ -15,7 +14,7 @@ class UsersBuilder extends BaseBuilder
 
     public function search($search)
     {
-        $this->query->where(function($q) use ($search) {
+        $this->query->where(function ($q) use ($search) {
             $q->where('name', 'like', "%$search%")
                 ->orWhere('email', 'like', "%$search%");
         });

@@ -35,15 +35,14 @@ class UserRepository extends BaseRepository
         $builder = new UsersBuilder($this->query);
 
         $builder->select();
-        if(isset($data['search'])) {
+        if (isset($data['search'])) {
             $builder->search($data['search']);
         }
-        if(isset($data['sort'])) {
+        if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }
-
 }

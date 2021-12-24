@@ -21,9 +21,8 @@ class DeleteMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        if(!empty($args['id'])) {
+        if (!empty($args['id'])) {
             $user = User::find($args['id']);
-
         }
         $user->active = 0;
         $user->save();
