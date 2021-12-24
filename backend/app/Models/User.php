@@ -36,7 +36,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'time_zone'
+        'time_zone',
+        'active'
     ];
 
     /**
@@ -62,4 +63,12 @@ class User extends Authenticatable
      * @var string[]
      */
 //    protected $with = ['permissions', 'role'];
+
+    /**
+     * @return boolean
+     */
+    public function isActive()
+    {
+        return $this->active;
+    }
 }
