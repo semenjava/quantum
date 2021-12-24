@@ -4,14 +4,14 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Facades\CreateAddressFacade;
-use Modules\Address\Http\Requests\CreateAddressRequest;
+use Modules\Address\Http\Requests\StoreAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Address\Http\Actions\CreateAddressAction;
+use Modules\Address\Http\Actions\StoreAddressAction;
 use App\Contract\Action;
 
-class CreateAddressMutator  extends BaseMutator
+class StoreAddressMutator extends BaseMutator
 {
-    public function __construct(CreateAddressAction $action)
+    public function __construct(StoreAddressAction $action)
     {
         parent::__construct($action);
     }
@@ -27,7 +27,7 @@ class CreateAddressMutator  extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $dto = (new CreateAddressRequest())->valid($args)->toDto();
+        $dto = (new StoreAddressRequest())->valid($args)->toDto();
         return $this->action->run($dto);
     }
 }

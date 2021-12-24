@@ -83,7 +83,7 @@ type Address {
     address_line_1: String!,
     address_line_2: String,
     country: String @method(name: "getCountryName"),
-    region: String @method(name: "getRegionName"),
+    state: String @method(name: "getStateName"),
     city: String @method(name: "getCityName"),
     postal: String,
     postal_address: Boolean,

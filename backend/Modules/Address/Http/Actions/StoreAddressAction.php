@@ -5,12 +5,9 @@ namespace Modules\Address\Http\Actions;
 use App\Contract\Action;
 use App\Http\Actions\BaseAction;
 use App\Properties\Property;
-use Illuminate\Contracts\Support\Renderable;
-use Illuminate\Http\Request;
-use Illuminate\Routing\Controller;
 use Modules\Address\Services\AddressService;
 
-class UpdateAddressAction extends BaseAction implements Action
+class StoreAddressAction extends BaseAction implements Action
 {
     /**
      * @var AddressService
@@ -26,11 +23,11 @@ class UpdateAddressAction extends BaseAction implements Action
     }
 
     /**
-     * Update the specified resource in storage.
+     * Store a newly created resource in storage.
      */
     public function run(Property $dto)
     {
-        if (\Gate::denies('update-provider-address', $dto->get('provider_id'))) {
+        if (\Gate::denies('create-provider-address', $dto->get('provider_id'))) {
             abort(403);
         }
 

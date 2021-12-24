@@ -8,6 +8,9 @@ use App\Models\ProviderAddress;
 
 class AddressRepository extends BaseRepository
 {
+    /**
+     * @return AddressRepository
+     */
     public static function init()
     {
         return new self();

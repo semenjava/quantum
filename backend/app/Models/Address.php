@@ -20,29 +20,14 @@ class Address extends Model
     protected $fillable = [
         'address_line_1',
         'address_line_2',
-        'country_id',
-        'city_id',
+        'country',
+        'state',
+        'city',
         'postal',
         'postal_address',
         'primary_address',
         'billing_address'
     ];
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function country()
-    {
-        return $this->belongsTo(Countries::class);
-    }
-
-    /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
-     */
-    public function city()
-    {
-        return $this->belongsTo(Cities::class);
-    }
 
     /**
      * @return bool
@@ -74,15 +59,15 @@ class Address extends Model
      */
     public function getCountryName()
     {
-        return $this->country->name;
+        return $this->country;
     }
 
     /**
      * @return mixed
      */
-    public function getRegionName()
+    public function getStateName()
     {
-        return $this->country->region;
+        return $this->state;
     }
 
     /**
@@ -90,7 +75,7 @@ class Address extends Model
      */
     public function getCityName()
     {
-        return $this->city->name;
+        return $this->city;
     }
 
     /**
@@ -99,5 +84,16 @@ class Address extends Model
     public function provider()
     {
         return $this->belongsToMany(Provider::class, 'provider_address', 'address_id', 'provider_id');
+    }
+
+    /**
+     * @param $query
+     * @param $provider_id
+     * @return mixed
+     */
+    public function scopeJoinProvider($query, $provider_id)
+    {
+        return $query->leftJoin('provider_address', 'provider_address.address_id', '=', $this->table.'.id')
+            ->where('provider_address.provider_id', $provider_id);
     }
 }

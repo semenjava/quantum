@@ -4,7 +4,7 @@ namespace Modules\Address\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class CreateAddressRequest extends BaseFormRequest
+class StoreAddressRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -18,7 +18,7 @@ class CreateAddressRequest extends BaseFormRequest
             'address_line_1' => 'required|string',
             'address_line_2' => 'string',
             'country' => 'string',
-            'region' => 'string',
+            'state' => 'string',
             'city' => 'string',
             'postal' => 'string',
             'postal_address' => 'boolean',

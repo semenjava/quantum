@@ -27,7 +27,43 @@ class LocationRepository
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
-    public function save(array $data)
+    public function save(array $entity)
+    {
+        $address = new AddressEntity($entity);
+        $address = AddressRepository::init()->save($address, $entity['provider_id']);
+
+        return $address;
+    }
+
+    /**
+     * @param $countryName
+     * @param $region
+     * @return mixed
+     */
+    private function hasCountry($countryName, $region = null)
+    {
+        $query = Countries::where('local_name', $countryName);
+        if ($region) {
+            $query->where('region', $region);
+        }
+
+        return $query->first();
+    }
+
+    /**
+     * @param string $cityName
+     * @return mixed
+     */
+    private function hasCity(string $cityName)
+    {
+        return Cities::where('name', $cityName)->first();
+    }
+
+    /**
+     * @param array $data
+     * @return Address|array
+     */
+    public function saveCountryAndCity(array $data)
     {
         $result = [];
 
@@ -79,29 +115,5 @@ class LocationRepository
         }
 
         return $result;
-    }
-
-    /**
-     * @param $countryName
-     * @param $region
-     * @return mixed
-     */
-    private function hasCountry($countryName, $region = null)
-    {
-        $query = Countries::where('local_name', $countryName);
-        if ($region) {
-            $query->where('region', $region);
-        }
-
-        return $query->first();
-    }
-
-    /**
-     * @param string $cityName
-     * @return mixed
-     */
-    private function hasCity(string $cityName)
-    {
-        return Cities::where('name', $cityName)->first();
     }
 }

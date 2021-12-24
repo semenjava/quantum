@@ -21,12 +21,8 @@ class AddressEntity extends EntityBase
      */
     public function hasId()
     {
-        $model = Address::select('id')
-            ->where('address_line_1', $this->getAddressLine1())
-            ->where('address_line_2', $this->getAddressLine2())
-            ->where('country_id', $this->getCountryId())
-            ->where('city_id', $this->getCityId())
-            ->where('postal', $this->getPostal())
+        $model = Address::select('*')
+            ->joinProvider($this->getProviderId())
             ->first();
 
         if ($model) {
@@ -74,6 +70,38 @@ class AddressEntity extends EntityBase
     public function getCityId(): int
     {
         return $this->collect->get('city_id');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCountry(): string
+    {
+        return $this->collect->get('country');
+    }
+
+    /**
+     * @return string
+     */
+    public function getState(): string
+    {
+        return $this->collect->get('state');
+    }
+
+    /**
+     * @return string
+     */
+    public function getCity(): string
+    {
+        return $this->collect->get('city');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getProviderId()
+    {
+        return $this->collect->get('provider_id');
     }
 
     /**
