@@ -37,6 +37,6 @@ class UsersBuilder extends BaseBuilder
 
     public function pagination($first = 10, $page = 0)
     {
-        return $this->query->limit($first)->offset(($page>0) ? ($page-1) : $page)->paginate();
+        return $this->query->limit($first)->paginate($page);
     }
 }
