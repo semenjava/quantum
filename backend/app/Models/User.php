@@ -37,7 +37,7 @@ class User extends Authenticatable
         'password',
         'role',
         'time_zone',
-        'active'
+        'archived'
     ];
 
     /**
@@ -67,8 +67,8 @@ class User extends Authenticatable
     /**
      * @return boolean
      */
-    public function isActive()
+    public function isArchived()
     {
-        return $this->active;
+        return $this->archived;
     }
 }

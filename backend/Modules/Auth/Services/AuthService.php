@@ -40,6 +40,10 @@ class AuthService
         // Check email
         $user =  UserRepository::init()->getById($user_id);
 
+        if(!$user->isArchived()){
+            throw new NotAuthorized();
+        }
+
         // Check password
         if (!$user || !UserEntity::hasPasswordHash($fields['password'], $user)) {
             //Unauthenticated

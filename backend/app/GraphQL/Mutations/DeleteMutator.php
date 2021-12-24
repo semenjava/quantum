@@ -23,7 +23,7 @@ class DeleteMutator
     {
         if (!empty($args['id'])) {
             $user = User::find($args['id']);
-            $user->active = 0;
+            $user->archived = false;
             $user->save();
             return $user;
         }
