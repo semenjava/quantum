@@ -3,13 +3,17 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Managers\Http\Actions\CreateManagerAction;
 use Modules\Managers\Http\Requests\CreateManagerRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Managers\Facades\ManagerFacade;
 
-class CreateManagerMutator
+class CreateManagerMutator extends BaseMutator
 {
+    public function __construct(CreateManagerAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -23,6 +27,6 @@ class CreateManagerMutator
     {
         $request = new CreateManagerRequest();
         $dto = $request->valid($args)->toDto();
-        return ManagerFacade::run($dto);
+        return $this->action->run($dto);
     }
 }

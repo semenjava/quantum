@@ -9,13 +9,11 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Address\Http\Actions\CreateAddressAction;
 use App\Contract\Action;
 
-class CreateAddressMutator
+class CreateAddressMutator  extends BaseMutator
 {
-    private Action $action;
-
     public function __construct(CreateAddressAction $action)
     {
-        $this->action = $action;
+        parent::__construct($action);
     }
 
     /**

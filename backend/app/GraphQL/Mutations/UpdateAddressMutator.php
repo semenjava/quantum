@@ -7,14 +7,13 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Http\Actions\UpdateAddressAction;
 use Modules\Address\Http\Requests\UpdateAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use App\GraphQL\Mutations\BaseMutator;
 
-class UpdateAddressMutator
+class UpdateAddressMutator extends BaseMutator
 {
-    private Action $action;
-
     public function __construct(UpdateAddressAction $action)
     {
-        $this->action = $action;
+        parent::__construct($action);
     }
 
     /**

@@ -7,8 +7,13 @@ use Modules\Providers\Http\Requests\CreateProviderRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Providers\Facades\CreateProviderFacade;
 
-class CreateProviderMutator
+class CreateProviderMutator extends BaseMutator
 {
+    public function __construct(CreateProviderAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -22,6 +27,6 @@ class CreateProviderMutator
     {
         $request = new CreateProviderRequest();
         $dto = $request->valid($args)->toDto();
-        return CreateProviderFacade::run($dto);
+        return $this->action->run($dto);
     }
 }
