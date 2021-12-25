@@ -3,5 +3,6 @@
     "GraphQL": true,
     "Providers": true,
     "Facilities": true,
-    "Managers": true
+    "Managers": true,
+    "Notification": true
 }
