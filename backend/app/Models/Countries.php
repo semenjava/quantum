@@ -19,6 +19,8 @@ class Countries extends Model
 
     protected $table = 'countries';
 
+    public $timestamps = false;
+
     /**
      * The attributes that are mass assignable.
      *

@@ -3,14 +3,15 @@
 namespace App\Repositories;
 
 use App\Entities\AddressEntity;
-use App\Models\Addresses;
+use App\Models\Address;
+use App\Models\ProviderAddress;
 
-class AddressRepository
+class AddressRepository extends BaseRepository
 {
     /**
      * @return AddressRepository
      */
-    public function init()
+    public static function init()
     {
         return new self();
     }
@@ -18,15 +19,18 @@ class AddressRepository
     /**
      * @param AddressEntity $entity
      * @param int|null $provider_id
-     * @return Addresses
+     * @return Address
      */
-    public function save(AddressEntity $entity, int $provider_id = null): Addresses
+    public function save(AddressEntity $entity, int $provider_id = null): Address
     {
-        if ($entity->hasId() && !$address = Addresses::find($entity->getId())) {
-            $address = new Addresses();
+        if ($entity->hasId()) {
+            $address = Address::find($entity->getId());
+        } else {
+            $address = new Address();
         }
 
         $address->fill($entity->toArray());
+
         $address->save();
 
         return $address;

@@ -71,4 +71,52 @@ class User extends Authenticatable
     {
         return $this->archived;
     }
+
+    /**
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role == self::SUPERADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isManager()
+    {
+        return $this->role == self::MANAGER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFacility()
+    {
+        return $this->role == self::FACILITY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProvider()
+    {
+        return $this->role == self::PROVIDER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompany()
+    {
+        return $this->role == self::COMPANY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmployee()
+    {
+        return $this->role == self::EMPLOYEE;
+    }
 }

@@ -107,14 +107,15 @@ type City {
 
 type Address {
     id: ID!
-    address_line_1: String
-    address_line_2: String
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    postal: String
-    postal_address: Boolean @method(name: "isPostal")
-    primary_address: Boolean @method(name: "isPrimary")
-    billing_address: Boolean @method(name: "isBilling")
+    address_line_1: String!,
+    address_line_2: String,
+    country: String @method(name: "getCountryName"),
+    state: String @method(name: "getStateName"),
+    city: String @method(name: "getCityName"),
+    postal: String,
+    postal_address: Boolean,
+    primary_address: Boolean,
+    billing_address: Boolean
 }
 
 type Specialty {

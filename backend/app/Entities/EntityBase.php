@@ -10,23 +10,20 @@ abstract class EntityBase
     public $collect = [];
 
     /**
-     * @param ...$data
+     * @param array $data
      */
-    public function __construct(...$data)
+    public function __construct(array $data)
     {
         $this->instance($data);
     }
 
     /**
-     * @param ...$data
+     * @param $data
      * @return void
      */
-    public function instance(...$data)
+    public function instance(array $data)
     {
         $this->collect = collect($data);
-        foreach ($data as $key => $val) {
-            $this->{$key} = $val;
-        }
     }
 
     /**

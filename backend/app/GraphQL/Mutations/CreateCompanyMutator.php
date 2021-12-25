@@ -8,7 +8,7 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Actions\AuthAction;
 
-class CreateCompanyMutator
+class CreateCompanyMutator extends BaseMutator
 {
     /**
      * Return a value for the field.
@@ -22,7 +22,7 @@ class CreateCompanyMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new RegisterRequest();
-        $dto = $request->valid($args);
+        $dto = $request->valid($args)->toDto();
         return RegisterAction::register($dto);
     }
 }

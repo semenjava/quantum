@@ -22,7 +22,7 @@ class EditUserAction extends BaseAction
      * @param Property $dto
      * @return mixed
      */
-    public static function edit(Property $dto)
+    public function edit(Property $dto)
     {
         $user = User::edit($dto);
         $response = $user->toArray();
