@@ -5,5 +5,6 @@
     "Facilities": true,
     "Managers": true,
     "Notification": true,
-    "Address": true
+    "Address": true,
+    "Export": true
 }

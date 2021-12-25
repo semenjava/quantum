@@ -185,3 +185,7 @@ type Employees {
     postal: String
     status: Boolean
 }
+
+type Export {
+    path: String!
+}
