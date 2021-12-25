@@ -25,6 +25,8 @@ export async function login({ commit }, { email, password }) {
     email: user.email,
     lang: user.lang,
     timezone: user.timezone,
+    // TODO: temp
+    isAdmin: true,
     token,
   });
 }

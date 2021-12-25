@@ -25,6 +25,7 @@ class UserSeeder extends Seeder
         $user1->email = 'admin@admin.com';
         $user1->password = Hash::make('admin');
         $user1->role = 'superadmin';
+        $user1->time_zone = 'America/New_York';
         $user1->save();
         $user1->roles()->attach($roles->get('superadmin'));
         foreach ($roles->get('superadmin')->permissions as $permission) {
@@ -36,6 +37,7 @@ class UserSeeder extends Seeder
         $user2->email = 'manager@manager.com';
         $user2->password = Hash::make('manager');
         $user2->role = 'manager';
+        $user2->time_zone = 'America/New_York';
         $user2->save();
         $user2->roles()->attach($roles->get('manager'));
         foreach ($roles->get('manager')->permissions as $permission) {
@@ -47,6 +49,7 @@ class UserSeeder extends Seeder
         $user3->email = 'facility@facility.com';
         $user3->password = Hash::make('facility');
         $user3->role = 'facility';
+        $user3->time_zone = 'America/New_York';
         $user3->save();
         $user3->roles()->attach($roles->get('facility'));
         foreach ($roles->get('facility')->permissions as $permission) {
@@ -58,6 +61,7 @@ class UserSeeder extends Seeder
         $user4->email = 'provider@provider.com';
         $user4->password = Hash::make('provider');
         $user4->role = 'provider';
+        $user4->time_zone = 'America/New_York';
         $user4->save();
         $user4->roles()->attach($roles->get('provider'));
         foreach ($roles->get('provider')->permissions as $permission) {
@@ -69,6 +73,7 @@ class UserSeeder extends Seeder
         $user5->email = 'company@company.com';
         $user5->password = Hash::make('company');
         $user5->role = 'company';
+        $user5->time_zone = 'America/New_York';
         $user5->save();
         $user5->roles()->attach($roles->get('company'));
         foreach ($roles->get('company')->permissions as $permission) {
@@ -80,6 +85,7 @@ class UserSeeder extends Seeder
         $user6->email = 'employee@employee.com';
         $user6->password = Hash::make('employee');
         $user6->role = 'employee';
+        $user6->time_zone = 'America/New_York';
         $user6->save();
         $user6->roles()->attach($roles->get('employee'));
         foreach ($roles->get('employee')->permissions as $permission) {

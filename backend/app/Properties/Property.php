@@ -131,6 +131,11 @@ class Property extends BaseProperty
         return $property;
     }
 
+    public function toJson()
+    {
+        return json_encode($this->property);
+    }
+
     /**
      * @return mixed|null
      */

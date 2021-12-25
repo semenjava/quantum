@@ -45,11 +45,10 @@ class User extends BaseUser
      * @param Property $dto
      * @return mixed
      */
-    public function edite(Property $dto)
+    public static function edit(Property $dto)
     {
-        $user = request()->user();
-        $user->lang = $dto->get('lang');
-        $user->time_zone = $dto->get('time_zone');
+        $user = self::find($dto->get('user_id'));
+        $user->fill($dto->all());
         $user->save();
 
         return $user;

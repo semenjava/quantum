@@ -4,7 +4,7 @@
       <q-toolbar>
         <q-btn flat @click="toggleLeftDrawer" round dense icon="menu" />
         <q-toolbar-title>
-          Quantum Health Connect
+          {{ pageHeaderTitle }}
         </q-toolbar-title>
 
         <q-btn-dropdown color="secondary" :label="userName">
@@ -150,9 +150,10 @@ const adminLinksList = [
   },
 ];
 
-import { inject, defineComponent, ref } from 'vue';
+import { defineComponent, ref, watch } from 'vue';
 import SidebarMenuItem from 'components/SidebarMenuItem';
-import { useRouter } from 'vue-router';
+import { useStore } from 'vuex';
+import { useRouter, useRoute } from 'vue-router';
 import { useQuasar } from 'quasar';
 
 export default defineComponent({
@@ -163,15 +164,28 @@ export default defineComponent({
   },
 
   setup() {
-    const leftDrawerOpen = ref(false);
     const $q = useQuasar();
-    const $store = inject('store');
-    const userName = $store.getters['app/user'].name;
+    const $store = useStore();
     const $router = useRouter();
+    const $route = useRoute();
+    const leftDrawerOpen = ref(false);
+    const userName = $store.getters['app/user'].name;
+    const pageHeaderTitle = ref('Quantum Health Connect');
+    if ($route.meta && $route.meta.title) {
+      pageHeaderTitle.value = $route.meta.title;
+    }
+
+    watch(
+      () => $route.path,
+      () => {
+        pageHeaderTitle.value = $route.meta.title ? $route.meta.title : 'Quantum Health Connect';
+      },
+    );
 
     return {
       essentialLinks: [...linksList, ...($store.getters['app/isAdmin'] ? adminLinksList : [])],
       leftDrawerOpen,
+      pageHeaderTitle,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;
       },
