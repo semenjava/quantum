@@ -67,7 +67,6 @@ class Provider extends Model
     public function get2ndLanguage()
     {
         return $this->{'2nd_language'};
-
     }
 
     /**

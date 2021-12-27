@@ -41,5 +41,4 @@ class UserRepository extends BaseRepository implements ExportRepository
 
         return $result;
     }
-
 }

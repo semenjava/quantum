@@ -25,10 +25,8 @@ class UserMultion implements MultionInterface
      */
     public function __construct(
         UserRepository $userRepository
-    )
-    {
+    ) {
         $this->userRepository    = $userRepository;
-
     }
 
     public function instanceUserExport($users, $type = 'Xls')

@@ -11,6 +11,6 @@
 |
 */
 
-Route::prefix('export')->group(function() {
+Route::prefix('export')->group(function () {
     Route::get('/', 'ExportAction@index');
 });
