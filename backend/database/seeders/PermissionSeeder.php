@@ -68,6 +68,17 @@ class PermissionSeeder extends Seeder
         $delete->roles()->attach($roles->get('superadmin'));
         $delete->roles()->attach($roles->get('manager'));
 
+        $export = new Permission();
+        $export->name = 'Export';
+        $export->slug = 'export';
+        $export->save();
+        $export->roles()->attach($roles->get('superadmin'));
+        $export->roles()->attach($roles->get('manager'));
+        $export->roles()->attach($roles->get('facility'));
+        $export->roles()->attach($roles->get('provider'));
+        $export->roles()->attach($roles->get('company'));
+        $export->roles()->attach($roles->get('employee'));
+
         // Manager
         $createManager = new Permission();
         $createManager->name = 'Create Manager';

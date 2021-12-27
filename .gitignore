@@ -17,3 +17,4 @@
 /backend/.vscode
 
 .php-cs-fixer.cache
+/backend/public/download/

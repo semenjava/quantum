@@ -16,7 +16,7 @@ class ExportRequest extends BaseFormRequest
         return [
             'model' => 'required',
             'format' => 'required|string',
-            'param' => 'string'
+            'param' => 'array'
         ];
     }
 

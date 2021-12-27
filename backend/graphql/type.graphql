@@ -186,6 +186,14 @@ type Employees {
     status: Boolean
 }
 
-type Export {
+type ExportFile {
     path: String!
+}
+
+input ExportType {
+    search: String
+    sort: [OrderByClause]
+    first: Int
+    page: Int
+    archived: Boolean
 }

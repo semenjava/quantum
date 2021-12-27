@@ -1,14 +1,13 @@
 <?php
 
-namespace App\GraphQL\Queries;
+namespace App\GraphQL\Mutations;
 
-use App\GraphQL\Mutations\BaseMutator;
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Export\Http\Actions\ExportAction;
 use Modules\Export\Http\Requests\ExportRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class ExportQuery extends BaseMutator
+class ExportMutator extends BaseMutator
 {
     public function __construct(ExportAction $action)
     {
@@ -26,7 +25,6 @@ class ExportQuery extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        dd($args);
         $request = new ExportRequest();
         $dto = $request->valid($args)->toDto();
         return $this->action->run($dto);
