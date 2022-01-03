@@ -116,7 +116,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $manager->id;
+        return $user->id === $manager->id;
     }
 
     /**
@@ -133,7 +133,7 @@ class AuthorizationClass extends Authorization
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
 
-        return !$user->isArchived() && $user->id === $manager->id;
+        return $user->id === $manager->id;
     }
 
     /**
@@ -149,7 +149,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $manager->id;
+        return $user->id === $manager->id;
     }
 
     /**
@@ -165,7 +165,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $manager->id;
+        return $user->id === $manager->id;
     }
 
     /**
@@ -181,7 +181,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $organization->id;
+        return $user->id === $organization->id;
     }
 
     /**
@@ -197,7 +197,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $organization->id;
+        return $user->id === $organization->id;
     }
 
     /**
@@ -213,7 +213,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $organization->id;
+        return $user->id === $organization->id;
     }
 
     /**
@@ -229,7 +229,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $organization->id;
+        return $user->id === $organization->id;
     }
 
     /**
@@ -245,7 +245,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $provider->id;
+        return $user->id === $provider->id;
     }
 
     /**
@@ -261,7 +261,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $provider->id;
+        return $user->id === $provider->id;
     }
 
     /**
@@ -277,7 +277,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $provider->id;
+        return $user->id === $provider->id;
     }
 
     /**
@@ -293,7 +293,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $provider->id;
+        return $user->id === $provider->id;
     }
 
     /**
@@ -309,7 +309,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $company->id;
+        return $user->id === $company->id;
     }
 
     /**
@@ -325,7 +325,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $company->id;
+        return $user->id === $company->id;
     }
 
     /**
@@ -341,7 +341,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $company->id;
+        return $user->id === $company->id;
     }
 
     /**
@@ -357,7 +357,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $company->id;
+        return $user->id === $company->id;
     }
 
     /**
@@ -373,7 +373,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $employee->id;
+        return $user->id === $employee->id;
     }
 
     /**
@@ -389,7 +389,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $employee->id;
+        return $user->id === $employee->id;
     }
 
     /**
@@ -405,7 +405,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $employee->id;
+        return $user->id === $employee->id;
     }
 
     /**
@@ -421,7 +421,7 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
-        return !$user->isArchived() && $user->id === $employee->id;
+        return $user->id === $employee->id;
     }
 
     /**
