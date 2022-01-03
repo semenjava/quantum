@@ -1,23 +1,15 @@
 <?php
 
-namespace App\GraphQL\Queries;
+namespace App\GraphQL\Mutations;
 
+use App\Models\User;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\VerificationAction;
-use Modules\Auth\Http\Requests\VerifyRequest;
+use Modules\Providers\Facades\CreateProviderFacade;
+use Modules\Providers\Http\Requests\CreateProviderRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\UsersRequest;
-use Modules\Auth\Http\Actions\UsersAction;
 
-class UsersQuery
+class DeleteMutator
 {
-    private UsersAction $action;
-
-    public function __construct(UsersAction $action)
-    {
-        $this->action = $action;
-    }
-
     /**
      * Return a value for the field.
      *
@@ -29,8 +21,11 @@ class UsersQuery
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new UsersRequest();
-        $dto = $request->valid($args)->toDto();
-        return $this->action->users($dto);
+        if (!empty($args['id'])) {
+            $user = User::find($args['id']);
+            $user->delete();
+            return $user;
+        }
+        return null;
     }
 }

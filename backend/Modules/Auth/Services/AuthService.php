@@ -82,8 +82,8 @@ class AuthService
             ];
 
             return $response;
-        } else {
-            throw new AuthorizationException();
         }
+
+        throw new AuthorizationException();
     }
 }

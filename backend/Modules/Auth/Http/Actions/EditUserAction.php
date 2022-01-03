@@ -16,15 +16,15 @@ use Modules\Auth\Entities\AuthToken;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
 use Modules\Auth\Repositories\UserRepository;
 
-class EditAction extends BaseAction
+class EditUserAction extends BaseAction
 {
     /**
      * @param Property $dto
      * @return mixed
      */
-    public static function edite(Property $dto)
+    public static function edit(Property $dto)
     {
-        $user = User::edite($dto);
+        $user = User::edit($dto);
         $response = $user->toArray();
         return $response;
     }

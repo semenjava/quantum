@@ -36,7 +36,7 @@ export default route(({ store }) => {
       next({ name: 'login', query: { next: to.fullPath } });
     } else if (
       to.matched.some((record) => record.meta && record.meta.requiresAdmin)
-      && !store.getters['auth/isAdmin']
+      && !store.getters['app/isAdmin']
     ) {
       next({ name: 'forbidden' });
     } else {
