@@ -108,7 +108,7 @@ class LocationRepository
                 $entity['city_id'] = $city->id;
 
                 $address = new AddressEntity($entity);
-                $address = AddressRepository::init()->save($address, $entity['provider_id']);
+                $address = $this->addressRepository->save($address, $entity['provider_id']);
                 $addresses['address_id'] = $address->id;
                 $addresses['provider_id'] = $entity['provider_id'];
                 $result['addresses'][] = $addresses;
@@ -119,7 +119,7 @@ class LocationRepository
             $entity['city_id'] = $city->id;
 
             $address = new AddressEntity($entity);
-            $address = AddressRepository::init()->save($address, $entity['provider_id']);
+            $address = $this->addressRepository->save($address, $entity['provider_id']);
 
             return $address;
         }
