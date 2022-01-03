@@ -116,9 +116,9 @@ class User extends Authenticatable
         return $this->role == self::EMPLOYEE;
     }
 
-     /**
-     * @return boolean
-     */
+    /**
+    * @return boolean
+    */
     public function isArchived()
     {
         return $this->trashed();
