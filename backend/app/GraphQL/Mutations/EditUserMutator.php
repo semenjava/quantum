@@ -27,6 +27,6 @@ class EditUserMutator extends BaseMutator
     {
         $request = new EditUserRequest();
         $dto = $request->valid($args)->toDto();
-        return $this->action->edite($dto);
+        return $this->action->run($dto);
     }
 }

@@ -114,6 +114,7 @@ class User extends Authenticatable
     public function isEmployee()
     {
         return $this->role == self::EMPLOYEE;
+    }
 
      /**
      * @return boolean

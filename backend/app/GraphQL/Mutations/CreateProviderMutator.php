@@ -6,6 +6,7 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Providers\Http\Requests\CreateProviderRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Providers\Facades\CreateProviderFacade;
+use Modules\Providers\Http\Actions\CreateProviderAction;
 
 class CreateProviderMutator extends BaseMutator
 {
