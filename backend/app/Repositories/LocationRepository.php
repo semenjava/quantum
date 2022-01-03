@@ -24,13 +24,23 @@ class LocationRepository
     private $city = null;
 
     /**
+     * @var AddressRepository
+     */
+    private $addressRepository;
+
+    public function __construct(AddressRepository $addressRepository)
+    {
+        $this->addressRepository = $addressRepository;
+    }
+
+    /**
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function save(array $entity)
     {
         $address = new AddressEntity($entity);
-        $address = AddressRepository::init()->save($address, $entity['provider_id']);
+        $address = $this->addressRepository->save($address, $entity['provider_id']);
 
         return $address;
     }
