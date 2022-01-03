@@ -73,6 +73,6 @@ class User extends Authenticatable
      */
     public function isArchived()
     {
-        return $this->archived;
+        return $this->trashed();
     }
 }
