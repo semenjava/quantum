@@ -3,13 +3,13 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\EditAction;
-use Modules\Auth\Http\Requests\EditeRequest;
+use Modules\Auth\Http\Actions\EditUserAction;
+use Modules\Auth\Http\Requests\EditUserRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class EditMutator extends BaseMutator
+class EditUserMutator extends BaseMutator
 {
-    public function __construct(EditAction $action)
+    public function __construct(EditUserAction $action)
     {
         parent::__construct($action);
     }
@@ -25,7 +25,7 @@ class EditMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new EditeRequest();
+        $request = new EditUserRequest();
         $dto = $request->valid($args)->toDto();
         return $this->action->edite($dto);
     }

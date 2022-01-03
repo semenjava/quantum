@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -16,6 +17,9 @@ class User extends Authenticatable
     use HasFactory;
     use Notifiable;
     use HasRole;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     public const SUPERADMIN = 'superadmin';
     public const MANAGER    = 'manager';
@@ -36,7 +40,8 @@ class User extends Authenticatable
         'email',
         'password',
         'role',
-        'time_zone'
+        'time_zone',
+        'archived'
     ];
 
     /**
@@ -109,5 +114,12 @@ class User extends Authenticatable
     public function isEmployee()
     {
         return $this->role == self::EMPLOYEE;
+
+     /**
+     * @return boolean
+     */
+    public function isArchived()
+    {
+        return $this->trashed();
     }
 }

@@ -4,7 +4,7 @@ namespace Modules\Auth\Http\Requests;
 
 use App\Http\Requests\BaseFormRequest;
 
-class EditeRequest extends BaseFormRequest
+class UsersRequest extends BaseFormRequest
 {
     /**
      * Get the validation rules that apply to the request.
@@ -14,8 +14,10 @@ class EditeRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'lang' => 'string',
-            'time_zone' => 'string'
+            'search' => 'string',
+            'sort' => 'array',
+            'first' => 'required|integer',
+            'page' => 'required|integer'
         ];
     }
 

@@ -3,11 +3,24 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/Index.vue') },
-      { path: 'cases', component: () => import('pages/Cases.vue') },
-      { path: 'cases/authorizations', component: () => import('pages/Authorizations.vue') },
+      {
+        path: '',
+        component: () => import('pages/Index.vue'),
+      },
+      {
+        path: 'cases',
+        meta: { title: 'Cases' },
+        component: () => import('pages/Cases.vue'),
+      },
+      {
+        path: 'cases/authorizations',
+        meta: { title: 'Cases / Authorizations' },
+        component: () => import('pages/Authorizations.vue'),
+      },
       {
         path: '/admin',
+        meta: { title: 'Admin / Users', requiresAdmin: true },
+        component: () => import('pages/Users.vue'),
         children: [
           {
             path: 'users',
