@@ -3,7 +3,7 @@ export function user(state) {
 }
 
 export function isAdmin(state) {
-  return state.user.isAdmin;
+  return state.user.role === 'superadmin';
 }
 
 export function isLoggedIn(state) {
