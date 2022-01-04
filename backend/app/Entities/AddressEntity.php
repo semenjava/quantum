@@ -22,16 +22,16 @@ class AddressEntity extends EntityBase
     public function hasId()
     {
         $query = Address::select('addresses.*');
-        if($this->collect->has('provider_id')) {
+        if ($this->collect->has('provider_id')) {
             $query->joinProvider($this->getProviderId());
         }
-        if($this->collect->has('facility_id')) {
+        if ($this->collect->has('facility_id')) {
             $query->joinFacility($this->getFacilityId());
         }
-        if($this->collect->has('company_id')) {
+        if ($this->collect->has('company_id')) {
             $query->joinCompany($this->getCompanyId());
         }
-        if($this->collect->has('employee_id')) {
+        if ($this->collect->has('employee_id')) {
             $query->joinEmployee($this->getEmployeeId());
         }
         $model = $query->first();

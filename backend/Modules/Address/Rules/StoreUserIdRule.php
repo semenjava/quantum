@@ -32,7 +32,7 @@ class StoreUserIdRule implements Rule
         $arrAttr  = array_diff($ruleAttr, [$attribute]);
 
         foreach ($arrAttr as $attr) {
-            if($this->dto->has($attr)) {
+            if ($this->dto->has($attr)) {
                 return false;
             }
         }
