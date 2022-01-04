@@ -3,10 +3,11 @@
 namespace Modules\Address\Services;
 
 use App\Models\Address;
-use App\Models\ProviderAddress;
+use App\Models\Companies;
+use App\Models\Employees;
+use App\Models\Facilities;
 use App\Repositories\LocationRepository;
 use App\Services\BaseService;
-use App\Models\User;
 use App\Models\Provider;
 
 class AddressService extends BaseService
@@ -16,6 +17,8 @@ class AddressService extends BaseService
      */
     private LocationRepository $locationRepository;
 
+    private $userAddress;
+
     /**
      * @param LocationRepository $location
      */
@@ -24,22 +27,41 @@ class AddressService extends BaseService
         $this->locationRepository = $location;
     }
 
+    public function instanceUserAddess()
+    {
+        if($this->dto->has('provider_id')) {
+            $this->userAddress = Provider::find($this->dto->get('provider_id'));
+        }
+
+        if($this->dto->has('facility_id')) {
+            $this->userAddress = Facilities::find($this->dto->get('facility_id'));
+        }
+
+        if($this->dto->has('company_id')) {
+            $this->userAddress = Companies::find($this->dto->get('company_id'));
+        }
+
+        if($this->dto->has('employee_id')) {
+            $this->userAddress = Employees::find($this->dto->get('employee_id'));
+        }
+    }
+
     /**
      * @return mixed
      */
     public function storeAdress()
     {
-        $provider = Provider::find($this->dto->get('provider_id'));
+        $this->instanceUserAddess();
 
         $address = $this->locationRepository->save($this->dto->all());
 
-        if (!$provider->address($address->id)) {
-            $provider->addresses()->attach($address);
+        if (!$this->userAddress->address($address->id)) {
+            $this->userAddress->addresses()->attach($address);
         }
 
         activity()->performedOn(request()->user())
-            ->causedBy($provider->user)
-            ->withProperties(['user_id' => request()->user()->id, 'provider_id' => $provider->id, 'address' => $address->toJson()])
+            ->causedBy($this->userAddress->user)
+            ->withProperties(['user_id' => request()->user()->id, 'user_address_id' => $this->userAddress->id, 'address' => $address->toJson()])
             ->log('User use create provider address');
 
         return $address;

@@ -2,6 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Companies;
+use App\Models\Employees;
 use App\Models\Facilities;
 use App\Models\Manager;
 use App\Models\Provider;
@@ -81,10 +83,6 @@ class UserSeeder extends Seeder
         $facility = new Facilities();
         $facility->user_id = $user3->id;
         $facility->name = $user3->name;
-        $facility->country_id = 1;
-        $facility->city_id = 1;
-        $facility->address = 'address';
-        $facility->postal = 'postal';
         $facility->save();
 
         $user4 = new User();
@@ -118,6 +116,11 @@ class UserSeeder extends Seeder
             $user5->permissions()->attach($permission);
         }
 
+        $company = new Companies();
+        $company->user_id = $user5->id;
+        $company->name = $user5->name;
+        $company->save();
+
         $user6 = new User();
         $user6->name = 'Employee';
         $user6->email = 'employee@employee.com';
@@ -129,5 +132,13 @@ class UserSeeder extends Seeder
         foreach ($roles->get('employee')->permissions as $permission) {
             $user6->permissions()->attach($permission);
         }
+
+        $employee = new Employees();
+        $employee->user_id = $user6->id;
+        $employee->company_id = $company->id;
+        $employee->first_name = $user6->name;
+        $employee->surname = $user6->name;
+        $employee->last_name = $user6->name;
+        $employee->save();
     }
 }

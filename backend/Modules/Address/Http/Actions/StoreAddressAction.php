@@ -27,7 +27,19 @@ class StoreAddressAction extends BaseAction implements Action
      */
     public function run(Property $dto)
     {
-        if (\Gate::denies('create-provider-address', $dto->get('provider_id'))) {
+        if ($dto->has('provider_id') && \Gate::denies('store-provider-address', $dto->get('provider_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('facility_id') && \Gate::denies('store-facility-address', $dto->get('facility_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('company_id') && \Gate::denies('store-company-address', $dto->get('company_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('employee_id') && \Gate::denies('store-employee-address', $dto->get('employee_id'))) {
             abort(403);
         }
 

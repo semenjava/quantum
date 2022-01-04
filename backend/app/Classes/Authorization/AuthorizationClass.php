@@ -2,6 +2,9 @@
 
 namespace App\Classes\Authorization;
 
+use App\Models\Companies;
+use App\Models\Employees;
+use App\Models\Facilities;
 use App\Models\Provider;
 use Dlnsk\HierarchicalRBAC\Authorization;
 use App\Traits\RolesGet;
@@ -329,6 +332,74 @@ class AuthorizationClass extends Authorization
         $provider = $this->getModel(Provider::class, $provider);
 
         return $provider->user->isSuperAdmin() || $provider->user->isProvider();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function storeProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $provider = $this->getModel(Provider::class, $provider);
+
+        return $provider->user->isSuperAdmin() || $provider->user->isProvider();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $facility
+     * @param $permission
+     * @return bool
+     */
+    public function storeFacilityAddress($user, $facility, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $facility = $this->getModel(Facilities::class, $facility);
+
+        return $facility->user->isSuperAdmin() || $facility->user->isFacility();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $company
+     * @param $permission
+     * @return bool
+     */
+    public function storeCompanyAddress($user, $company, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $company = $this->getModel(Companies::class, $company);
+
+        return $company->user->isSuperAdmin() || $company->user->isCompany();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $employee
+     * @param $permission
+     * @return bool
+     */
+    public function storeEmployeeAddress($user, $employee, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $employee = $this->getModel(Employees::class, $employee);
+
+        return $employee->user->isSuperAdmin() || $employee->user->isEmployee();
     }
 
     /**

@@ -40,7 +40,7 @@ class LocationRepository
     public function save(array $entity)
     {
         $address = new AddressEntity($entity);
-        $address = $this->addressRepository->save($address, $entity['provider_id']);
+        $address = $this->addressRepository->save($address);
 
         return $address;
     }

@@ -21,9 +21,20 @@ class AddressEntity extends EntityBase
      */
     public function hasId()
     {
-        $model = Address::select('*')
-            ->joinProvider($this->getProviderId())
-            ->first();
+        $query = Address::select('addresses.*');
+        if($this->collect->has('provider_id')) {
+            $query->joinProvider($this->getProviderId());
+        }
+        if($this->collect->has('facility_id')) {
+            $query->joinFacility($this->getFacilityId());
+        }
+        if($this->collect->has('company_id')) {
+            $query->joinCompany($this->getCompanyId());
+        }
+        if($this->collect->has('employee_id')) {
+            $query->joinEmployee($this->getEmployeeId());
+        }
+        $model = $query->first();
 
         if ($model) {
             $this->collect->put('id', $model->id);
@@ -102,6 +113,30 @@ class AddressEntity extends EntityBase
     public function getProviderId()
     {
         return $this->collect->get('provider_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFacilityId()
+    {
+        return $this->collect->get('facility_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCompanyId()
+    {
+        return $this->collect->get('company_id');
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEmployeeId()
+    {
+        return $this->collect->get('employee_id');
     }
 
     /**
