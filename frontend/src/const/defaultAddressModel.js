@@ -5,5 +5,7 @@ export default {
   state: '',
   postalCode: '',
   addressType: '',
-  primaryAddress: false,
+  postalAddress: false,
+  billingAddress: false,
+  officeAddress: false,
 };

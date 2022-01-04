@@ -3,7 +3,10 @@
     <UsersTable />
     <q-card class="q-mt-lg">
       <q-card-section>
-        <AddressEditor />
+        <div class="q-mb-md">
+          Address Editor for Company id: 1
+        </div>
+        <AddressEditor entity-type="company" :entity-id="1" />
       </q-card-section>
     </q-card>
   </q-page>
