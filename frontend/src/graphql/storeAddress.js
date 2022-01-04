@@ -31,7 +31,7 @@ export const storeProviderAddress = gql`
       country
       postal
       state
-      primary_address
+      office_address
       billing_address
       postal_address
     }

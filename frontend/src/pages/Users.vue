@@ -4,9 +4,9 @@
     <q-card class="q-mt-lg">
       <q-card-section>
         <div class="q-mb-md">
-          Address Editor for Company id: 1
+          Address Editor for Provider id: 1
         </div>
-        <AddressEditor entity-type="company" :entity-id="1" />
+        <AddressEditor entity-type="provider" :entity-id="1" />
       </q-card-section>
     </q-card>
   </q-page>

@@ -1,11 +1,10 @@
 export default {
-  address1: '',
-  address2: '',
+  address_line_1: '',
+  address_line_2: '',
   city: '',
   state: '',
-  postalCode: '',
-  addressType: '',
-  postalAddress: false,
-  billingAddress: false,
-  officeAddress: false,
+  postal: '',
+  postal_address: false,
+  billing_address: false,
+  office_address: false,
 };

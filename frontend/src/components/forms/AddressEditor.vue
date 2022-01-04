@@ -11,7 +11,7 @@
               outlined
               hide-bottom-space
               dense
-              v-model="address.address1"
+              v-model="address.address_line_1"
               label="Address Line 1"
               :rules="[ val => (val.length === 0 || val.length > 2) || 'Please fill address field']"
             />
@@ -25,7 +25,7 @@
         </div>
         <div class="row q-col-gutter-md">
           <div class="col-12 col-lg-4">
-            <q-input outlined hide-bottom-space dense v-model="address.address2" label="Address Line 2" />
+            <q-input outlined hide-bottom-space dense v-model="address.address_line_2" label="Address Line 2" />
           </div>
           <div class="col-12 col-lg-4">
             <q-input
@@ -33,7 +33,7 @@
               outlined
               hide-bottom-space
               dense
-              v-model="address.postalCode"
+              v-model="address.postal"
               label="Postal Code"
               :rules="[ val => val.length === 5 || 'Please use 5 digits code']"
             />
@@ -44,13 +44,13 @@
                 Address Type
               </div>
               <div class="col-4">
-                <q-checkbox dense v-model="address.postalAddress" label="Postal Address" />
+                <q-checkbox dense v-model="address.postal_address" label="Postal Address" />
               </div>
               <div class="col-4">
-                <q-checkbox dense v-model="address.billingAddress" label="Billing Address" />
+                <q-checkbox dense v-model="address.billing_address" label="Billing Address" />
               </div>
               <div class="col-4">
-                <q-checkbox dense v-model="address.officeAddress" label="Office Address" />
+                <q-checkbox dense v-model="address.office_address" label="Office Address" />
               </div>
             </div>
           </div>
@@ -62,18 +62,26 @@
     </div>
     <q-separator v-if="index !== addresses.length - 1" class="q-mb-md" />
   </div>
-  <div v-if="showErrors && errors.length" class="q-mb-md text-red">
-    Errors: {{ errors.join(', ') }}
+  <div v-if="showErrors && validationErrors.length" class="q-mb-md text-red">
+    Errors: {{ validationErrors.join(', ') }}
   </div>
+  <FormErrors
+    v-for="(submitError, index) in submitErrors"
+    :key="index"
+    :error="submitError"
+    class="q-mb-md text-red"
+  />
   <div class="row justify-between">
     <q-btn
       label="Save"
+      :loading="isLoading"
       color="secondary"
       @click.prevent="save(entityType, entityId)"
     >
     </q-btn>
     <q-btn
       :disabled="(entityType === 'employee' && addresses.length > 0) || addresses.length > 2"
+      :loading="isLoading"
       label="Add address"
       color="primary"
       @click.prevent="addAddress"
@@ -86,10 +94,14 @@ import {
 } from 'vue';
 import defaultAddressModel from 'src/const/defaultAddressModel';
 import StateInput from 'components/inputs/StateInput';
+import { useMutationLoading, useMutation } from '@vue/apollo-composable';
+import { storeProviderAddress } from 'src/graphql/storeAddress';
+import FormErrors from 'components/misc/FormErrors';
 
 const addresses = ref([]);
 const showErrors = ref(false);
-const errors = ref([]);
+const submitErrors = ref([]);
+const validationErrors = ref([]);
 
 const addAddress = () => {
   addresses.value.push(JSON.parse(JSON.stringify(defaultAddressModel)));
@@ -100,45 +112,40 @@ const deleteAddress = (i) => {
 };
 
 const validate = (entityType) => {
-  errors.value = [];
+  validationErrors.value = [];
   // Validate first
   // Companies, facilities and providers can have:
   // 0 or 1 postal address
   // 0 or 1 billing address
   // 0 or 1 office address
   if (['company', 'facility', 'provider'].includes(entityType)) {
-    if (addresses.value.filter((a) => a.postalAddress).length > 1) {
-      errors.value.push('Only one postal address is allowed');
+    if (addresses.value.filter((a) => a.postal_address).length > 1) {
+      validationErrors.value.push('Only one postal address is allowed');
     }
-    if (addresses.value.filter((a) => a.billingAddress).length > 1) {
-      errors.value.push('Only one billing address is allowed');
+    if (addresses.value.filter((a) => a.billing_address).length > 1) {
+      validationErrors.value.push('Only one billing address is allowed');
     }
-    if (addresses.value.filter((a) => a.officeAddress).length > 1) {
-      errors.value.push('Only one office address is allowed');
+    if (addresses.value.filter((a) => a.office_address).length > 1) {
+      validationErrors.value.push('Only one office address is allowed');
     }
   }
   if (
     addresses.value.length > 1
-    && addresses.value.filter((a) => !a.postalAddress && !a.billingAddress && !a.officeAddress).length
+    && addresses.value.filter((a) => !a.postal_address && !a.billing_address && !a.office_address).length
   ) {
-    errors.value.push('Address type should not be empty');
+    validationErrors.value.push('Address type should not be empty');
   }
 
-  return errors.value.length <= 0;
-};
-
-const save = (entityType, entityId) => {
-  showErrors.value = true;
-  if (validate(entityType)) {
-    console.log(entityType, entityId);
-  }
+  return validationErrors.value.length <= 0;
 };
 
 export default defineComponent({
   name: 'AddressEditor',
   components: {
+    FormErrors,
     StateInput,
   },
+  emits: ['save', 'error'],
   props: {
     entityType: {
       type: String,
@@ -154,14 +161,49 @@ export default defineComponent({
       required: true,
     },
   },
-  setup(props) {
+  setup(props, { emit }) {
+    const save = (entityType, entityId) => {
+      showErrors.value = true;
+      submitErrors.value = [];
+      if (!validate(entityType)) {
+        return false;
+      }
+
+      addresses.value.forEach(async (address) => {
+        const { mutate, onError } = useMutation(storeProviderAddress);
+        onError((e) => {
+          submitErrors.value.push(e);
+          emit('error', e);
+          return false;
+        });
+        const variables = {
+          address_line_1: address.address_line_1,
+          address_line_2: address.address_line_2,
+          city: address.city,
+          postal: address.postal,
+          state: address.state,
+          postal_address: address.postal_address,
+          billing_address: address.billing_address,
+          office_address: address.office_address,
+        };
+        if (entityType === 'provider') {
+          variables.provider_id = entityId;
+        }
+        await mutate(variables);
+      });
+
+      emit('save');
+
+      return true;
+    };
+
     watch(addresses, () => {
       // If only one address is present it should be postal, billing and office address
       if (addresses.value.length === 1) {
         addresses.value.forEach((address) => {
-          address.postalAddress = true;
-          address.billingAddress = true;
-          address.officeAddress = true;
+          address.postal_address = true;
+          address.billing_address = true;
+          address.office_address = true;
         });
       }
       validate(props.entityType);
@@ -169,13 +211,17 @@ export default defineComponent({
       deep: true,
     });
 
+    const isLoading = useMutationLoading();
+
     return {
       addresses,
       addAddress,
       deleteAddress,
       save,
-      errors,
+      validationErrors,
       showErrors,
+      submitErrors,
+      isLoading,
     };
   },
 });
