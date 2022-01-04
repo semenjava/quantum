@@ -4,6 +4,7 @@ namespace Modules\Auth\Repositories;
 
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use App\Models\User;
+use Modules\Auth\Builders\UsersBuilder;
 
 /**
  * Class UserRepository.
@@ -25,5 +26,24 @@ class UserRepository extends BaseRepository
     public static function init()
     {
         return new self();
+    }
+
+    public function users(array $data)
+    {
+        $this->newQuery()->eagerLoad();
+
+        $builder = new UsersBuilder($this->query);
+
+        $builder->select();
+        if (isset($data['search'])) {
+            $builder->search($data['search']);
+        }
+        if (isset($data['sort'])) {
+            $builder->orderBy($data['sort']);
+        }
+        $pagination = $builder->where('archived', $data['archived'] ?? false)
+            ->pagination($data['first'] ?? null, $data['page'] ?? null);
+
+        return $pagination;
     }
 }

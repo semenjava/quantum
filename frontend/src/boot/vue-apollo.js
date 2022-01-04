@@ -33,6 +33,7 @@ const authMiddleware = new ApolloLink((operation, forward) => {
 const apolloClient = new ApolloClient({
   link: authMiddleware.concat(httpLink),
   cache,
+  connectToDevTools: true,
 });
 
 const apolloProvider = createApolloProvider({

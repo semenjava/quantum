@@ -6,9 +6,18 @@ use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Auth\Http\Actions\VerificationAction;
 use Modules\Auth\Http\Requests\VerifyRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Modules\Auth\Http\Requests\UsersRequest;
+use Modules\Auth\Http\Actions\UsersAction;
 
 class UsersQuery
 {
+    private UsersAction $action;
+
+    public function __construct(UsersAction $action)
+    {
+        $this->action = $action;
+    }
+
     /**
      * Return a value for the field.
      *
@@ -20,6 +29,8 @@ class UsersQuery
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        dd($args);
+        $request = new UsersRequest();
+        $dto = $request->valid($args)->toDto();
+        return $this->action->users($dto);
     }
 }

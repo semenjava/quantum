@@ -3,14 +3,14 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\EditAction;
+use Modules\Auth\Http\Actions\EditUserAction;
 use Modules\Auth\Http\Requests\AuthRequest;
-use Modules\Auth\Http\Requests\EditeRequest;
+use Modules\Auth\Http\Requests\EditUserRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Actions\AuthAction;
 
-class EditMutator
+class EditUserMutator
 {
     /**
      * Return a value for the field.
@@ -23,8 +23,8 @@ class EditMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new EditeRequest();
-        $dto = $request->valid($args);
-        return EditAction::edite($dto);
+        $request = new EditUserRequest();
+        $dto = $request->valid($args)->toDto();
+        return EditUserAction::edit($dto);
     }
 }
