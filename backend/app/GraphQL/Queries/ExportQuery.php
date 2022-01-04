@@ -26,7 +26,6 @@ class ExportQuery extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        dd($args);
         $request = new ExportRequest();
         $dto = $request->valid($args)->toDto();
         return $this->action->run($dto);

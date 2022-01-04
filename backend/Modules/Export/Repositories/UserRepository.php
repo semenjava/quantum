@@ -37,7 +37,7 @@ class UserRepository extends BaseRepository implements ExportRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $result = $builder->where('archived', $data['archived'] ?? false)->all();
+        $result = $builder->all();
 
         return $result;
     }
