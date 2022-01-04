@@ -30,6 +30,11 @@ class UserSeeder extends Seeder
         User::where('role', 'company')->delete();
         User::where('role', 'employee')->delete();
 
+        \DB::table('managers')->truncate();
+        \DB::table('facilities')->truncate();
+        \DB::table('providers')->truncate();
+        \DB::table('users')->truncate();
+
         $user1 = new User();
         $user1->name = 'Admin';
         $user1->email = 'admin@admin.com';
