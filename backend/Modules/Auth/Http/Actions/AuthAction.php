@@ -2,20 +2,20 @@
 
 namespace Modules\Auth\Http\Actions;
 
+use App\Contract\Action;
 use App\Http\Actions\BaseAction;
 use Modules\Auth\Facades\AuthFacade;
 use App\Properties\Property;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
-use App\Models\Countries;
 
-class AuthAction extends BaseAction
+class AuthAction extends BaseAction implements Action
 {
     /**
      * @param Property $dto
      * @return array
      * @throws AuthorizationException
      */
-    public static function verify(Property $dto)
+    public function verify(Property $dto)
     {
         return AuthFacade::verify($dto);
     }
@@ -24,9 +24,14 @@ class AuthAction extends BaseAction
      * @param Property $dto
      * @return array|string[]
      */
-    public static function login(Property $dto)
+    public function login(Property $dto)
     {
         $response = AuthFacade::login($dto->toArray());
         return $response;
+    }
+
+    public function run(Property $dto)
+    {
+        return $this->run($dto);
     }
 }

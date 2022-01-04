@@ -10,6 +10,11 @@ use Modules\Auth\Http\Actions\AuthAction;
 
 class CreateEmployeeMutator extends BaseMutator
 {
+    public function __construct(RegisterAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -23,6 +28,6 @@ class CreateEmployeeMutator extends BaseMutator
     {
         $request = new RegisterRequest();
         $dto = $request->valid($args)->toDto();
-        return RegisterAction::register($dto);
+        return $this->action->run($dto);
     }
 }
