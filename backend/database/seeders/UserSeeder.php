@@ -2,6 +2,9 @@
 
 namespace Database\Seeders;
 
+use App\Models\Facilities;
+use App\Models\Manager;
+use App\Models\Provider;
 use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -51,6 +54,13 @@ class UserSeeder extends Seeder
             $user2->permissions()->attach($permission);
         }
 
+        $manager = new Manager();
+        $manager->user_id = $user2->id;
+        $manager->first_name = $user2->name;
+        $manager->surname = $user2->name;
+        $manager->last_name = $user2->name;
+        $manager->save();
+
         $user3 = new User();
         $user3->name = 'Facility';
         $user3->email = 'facility@facility.com';
@@ -63,6 +73,15 @@ class UserSeeder extends Seeder
             $user3->permissions()->attach($permission);
         }
 
+        $facility = new Facilities();
+        $facility->user_id = $user3->id;
+        $facility->name = $user3->name;
+        $facility->country_id = 1;
+        $facility->city_id = 1;
+        $facility->address = 'address';
+        $facility->postal = 'postal';
+        $facility->save();
+
         $user4 = new User();
         $user4->name = 'Provider';
         $user4->email = 'provider@provider.com';
@@ -74,6 +93,13 @@ class UserSeeder extends Seeder
         foreach ($roles->get('provider')->permissions as $permission) {
             $user4->permissions()->attach($permission);
         }
+
+        $provider = new Provider();
+        $provider->user_id = $user4->id;
+        $provider->first_name = $user4->name;
+        $provider->surname = $user4->name;
+        $provider->last_name = $user4->name;
+        $provider->save();
 
         $user5 = new User();
         $user5->name = 'Company';
