@@ -9,8 +9,12 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\LoginRequest;
 use Modules\Auth\Http\Actions\AuthAction;
 
-class AuthMutator
+class AuthMutator extends BaseMutator
 {
+    public function __construct(AuthAction $action)
+    {
+        parent::__construct($action);
+    }
     /**
      * Return a value for the field.
      *
@@ -24,6 +28,6 @@ class AuthMutator
     {
         $request = new LoginRequest();
         $dto = $request->valid($args)->toDto();
-        return AuthAction::login($dto);
+        return $this->action->login($dto);
     }
 }

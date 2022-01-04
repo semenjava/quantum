@@ -4,14 +4,16 @@ namespace App\GraphQL\Mutations;
 
 use App\Contract\Action;
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Address\Http\Actions\StoreAddressAction;
 use Modules\Address\Http\Actions\UpdateAddressAction;
+use Modules\Address\Http\Requests\StoreAddressRequest;
 use Modules\Address\Http\Requests\UpdateAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use App\GraphQL\Mutations\BaseMutator;
 
 class UpdateAddressMutator extends BaseMutator
 {
-    public function __construct(UpdateAddressAction $action)
+    public function __construct(StoreAddressAction $action)
     {
         parent::__construct($action);
     }
@@ -27,7 +29,7 @@ class UpdateAddressMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $dto = (new UpdateAddressRequest())->valid($args)->toDto();
+        $dto = (new StoreAddressRequest())->valid($args)->toDto();
         return $this->action->run($dto);
     }
 }

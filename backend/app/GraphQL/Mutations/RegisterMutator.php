@@ -3,12 +3,18 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Providers\Http\Actions\CreateProviderAction;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Facades\RegistrationFacade;
 
-class RegisterMutator
+class RegisterMutator extends BaseMutator
 {
+    public function __construct(RegisterAction $action)
+    {
+        parent::__construct($action);
+    }
     /**
      * Return a value for the field.
      *
@@ -22,6 +28,6 @@ class RegisterMutator
     {
         $request = new RegisterRequest();
         $dto = $request->valid($args)->toDto();
-        return RegistrationFacade::register($dto);
+        return $this->action->run($dto);
     }
 }
