@@ -7,6 +7,12 @@ type Query {
     verify(expires: String!, hash: String!, id: Int!, signature: String!): AuthToken @field(resolver: "VerifyQuery@verify")
     #PAGINATOR
     #    managers: [Managers!]! @paginate(type: SIMPLE) @guard(with: ["sanctum"])
+
+    getAddresses(
+        provider_id: Int,
+        facility_id: Int,
+        company_id: Int,
+        employee_id: Int): [Address] @field(resolver: "AddressesQuery@resolve") @guard(with: ["sanctum"])
 }
 
 type Mutation {

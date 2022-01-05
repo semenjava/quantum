@@ -148,6 +148,19 @@ class Property extends BaseProperty
     }
 
     /**
+     * @param $key
+     * @return int
+     */
+    public function count($key = null)
+    {
+        if ($key) {
+            return isset($this->property[$key]) ? count($this->property[$key]) : 0;
+        }
+
+        return isset($this->property) ? count($this->property) : 0;
+    }
+
+    /**
      * @param string $str
      * @return mixed|null
      */

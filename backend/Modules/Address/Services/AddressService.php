@@ -9,15 +9,16 @@ use App\Models\Facilities;
 use App\Repositories\LocationRepository;
 use App\Services\BaseService;
 use App\Models\Provider;
+use App\Traits\UserAddress;
 
 class AddressService extends BaseService
 {
+    use UserAddress;
+
     /**
      * @var LocationRepository
      */
     private LocationRepository $locationRepository;
-
-    private $userAddress;
 
     /**
      * @param LocationRepository $location
@@ -27,33 +28,12 @@ class AddressService extends BaseService
         $this->locationRepository = $location;
     }
 
-    public function instanceUserAddess()
-    {
-        if ($this->dto->has('provider_id')) {
-            $this->userAddress = Provider::find($this->dto->get('provider_id'));
-        }
-
-        if ($this->dto->has('facility_id')) {
-            $this->userAddress = Facilities::find($this->dto->get('facility_id'));
-        }
-
-        if ($this->dto->has('company_id')) {
-            $this->userAddress = Companies::find($this->dto->get('company_id'));
-        }
-
-        if ($this->dto->has('employee_id')) {
-            $this->userAddress = Employees::find($this->dto->get('employee_id'));
-        }
-
-        return $this;
-    }
-
     /**
      * @return mixed
      */
     public function storeAdress()
     {
-        if(!$this->userAddress) {
+        if (!$this->userAddress) {
             $this->instanceUserAddess();
         }
 
@@ -71,10 +51,25 @@ class AddressService extends BaseService
         return $address;
     }
 
+    /**
+     * @return $this
+     */
     public function clearAdressUser()
     {
         $this->userAddress->addresses()->delete();
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddresses()
+    {
+        if (!$this->userAddress) {
+            $this->instanceUserAddess();
+        }
+
+        return $this->userAddress->addresses()->get();
     }
 }

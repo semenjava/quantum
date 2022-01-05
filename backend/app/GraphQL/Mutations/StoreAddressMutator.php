@@ -4,6 +4,7 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Facades\CreateAddressFacade;
+use Modules\Address\Http\Requests\AddressBoolRequest;
 use Modules\Address\Http\Requests\StoreAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Address\Http\Actions\StoreAddressAction;
@@ -27,11 +28,22 @@ class StoreAddressMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $dtos = [];
-        if(isset($args['addresses'])) {
+        $dtos = $address_bool = [];
+        if (isset($args['addresses'])) {
             foreach ($args['addresses'] as $address) {
                 $dtos[] = (new StoreAddressRequest())->valid($address)->toDto();
+                if ($address['postal_address']) {
+                    $address_bool['postal_address'][] = $address['postal_address'];
+                }
+                if ($address['office_address']) {
+                    $address_bool['office_address'][] = $address['office_address'];
+                }
+                if ($address['billing_address']) {
+                    $address_bool['billing_address'][] = $address['billing_address'];
+                }
             }
+
+            (new AddressBoolRequest())->valid($address_bool)->toDto();
 
             $result = $this->action->storeAdrress($dtos);
         }
