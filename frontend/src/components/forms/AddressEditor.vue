@@ -1,5 +1,5 @@
 <template>
-  <div v-if="addresses.length === 0" class="q-mb-md">
+  <div v-if="addresses.length === 0 && !isLoading" class="q-mb-md">
     No addresses specified
   </div>
   <div v-for="(address, index) in addresses" :key="index">
@@ -13,7 +13,7 @@
               dense
               v-model="address.address_line_1"
               label="Address Line 1"
-              :rules="[ val => (val.length === 0 || val.length > 2) || 'Please fill address field']"
+              :rules="[ val => val.length > 2 || 'Please fill address field']"
             />
           </div>
           <div class="col-12 col-lg-4">
@@ -66,22 +66,20 @@
     Errors: {{ validationErrors.join(', ') }}
   </div>
   <FormErrors
-    v-for="(submitError, index) in submitErrors"
-    :key="index"
     :error="submitError"
     class="q-mb-md text-red"
   />
   <div class="row justify-between">
     <q-btn
       label="Save"
-      :loading="isLoading"
+      :loading="isSubmitting || isLoading"
       color="secondary"
-      @click.prevent="save(entityType, entityId)"
+      @click.prevent="save()"
     >
     </q-btn>
     <q-btn
       :disabled="(entityType === 'employee' && addresses.length > 0) || addresses.length > 2"
-      :loading="isLoading"
+      :loading="isSubmitting || isLoading"
       label="Add address"
       color="primary"
       @click.prevent="addAddress"
@@ -90,18 +88,22 @@
 </template>
 <script>
 import {
-  defineComponent, ref, watch,
+  defineComponent, ref, toRefs, watch, onMounted,
 } from 'vue';
 import defaultAddressModel from 'src/const/defaultAddressModel';
 import StateInput from 'components/inputs/StateInput';
-import { useMutationLoading, useMutation } from '@vue/apollo-composable';
-import { storeProviderAddress } from 'src/graphql/storeAddress';
+import { useQuery, useMutation } from '@vue/apollo-composable';
+import { getAddresses } from 'src/graphql/getAddresses';
+import { storeProviderAddresses } from 'src/graphql/storeAddresses';
 import FormErrors from 'components/misc/FormErrors';
+import { useQuasar } from 'quasar';
 
 const addresses = ref([]);
 const showErrors = ref(false);
-const submitErrors = ref([]);
+const submitError = ref(null);
 const validationErrors = ref([]);
+const isLoading = ref(false);
+const isSubmitting = ref(false);
 
 const addAddress = () => {
   addresses.value.push(JSON.parse(JSON.stringify(defaultAddressModel)));
@@ -162,35 +164,80 @@ export default defineComponent({
     },
   },
   setup(props, { emit }) {
-    const save = (entityType, entityId) => {
+    const $q = useQuasar();
+    const { entityId, entityType } = toRefs(props);
+    const fetchAddresses = () => {
+      isLoading.value = true;
+      const queryVariables = {};
+      queryVariables[`${entityType.value}_id`] = entityId.value;
+      const { onResult, onError } = useQuery(getAddresses, queryVariables);
+
+      onResult((res) => {
+        if (res.data && res.data.getAddresses) {
+          addresses.value = JSON.parse(JSON.stringify(res.data.getAddresses));
+        }
+        isLoading.value = false;
+      });
+
+      onError((e) => {
+        $q.notify({
+          message: `Error fetching addresses: ${e.message}`,
+          type: 'negative',
+        });
+        isLoading.value = false;
+      });
+    };
+
+    onMounted(fetchAddresses);
+
+    const save = async () => {
       showErrors.value = true;
-      submitErrors.value = [];
+      submitError.value = null;
       if (!validate(entityType)) {
         return false;
       }
+      isLoading.value = true;
 
-      addresses.value.forEach(async (address) => {
-        const { mutate, onError } = useMutation(storeProviderAddress);
-        onError((e) => {
-          submitErrors.value.push(e);
-          emit('error', e);
-          return false;
-        });
-        const variables = {
-          address_line_1: address.address_line_1,
-          address_line_2: address.address_line_2,
-          city: address.city,
-          postal: address.postal,
-          state: address.state,
-          postal_address: address.postal_address,
-          billing_address: address.billing_address,
-          office_address: address.office_address,
-        };
-        if (entityType === 'provider') {
-          variables.provider_id = entityId;
-        }
-        await mutate(variables);
+      const {
+        mutate: saveMutate,
+        onError: onSaveError,
+        onDone: onSaveDone,
+      } = useMutation(storeProviderAddresses);
+
+      onSaveError((e) => {
+        submitError.value = e;
+        isLoading.value = false;
+        emit('error', e);
+        return false;
       });
+
+      onSaveDone(() => {
+        $q.notify({
+          message: 'Addresses saved',
+          type: 'positive',
+        });
+        isLoading.value = false;
+      });
+
+      const addressesVariable = {
+        addresses: addresses.value.map((address) => {
+          const variable = {
+            address_line_1: address.address_line_1,
+            address_line_2: address.address_line_2,
+            city: address.city,
+            postal: address.postal,
+            state: address.state,
+            postal_address: address.postal_address,
+            billing_address: address.billing_address,
+            office_address: address.office_address,
+          };
+          variable[`${entityType.value}_id`] = entityId.value;
+
+          return variable;
+        }),
+      };
+
+      await saveMutate(addressesVariable);
 
       emit('save');
 
@@ -211,8 +258,6 @@ export default defineComponent({
       deep: true,
     });
 
-    const isLoading = useMutationLoading();
-
     return {
       addresses,
       addAddress,
@@ -220,8 +265,9 @@ export default defineComponent({
       save,
       validationErrors,
       showErrors,
-      submitErrors,
+      submitError,
       isLoading,
+      isSubmitting,
     };
   },
 });
