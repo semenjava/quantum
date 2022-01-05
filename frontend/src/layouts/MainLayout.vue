@@ -196,7 +196,13 @@ export default defineComponent({
           message: 'Logging out',
         });
         await $store.dispatch('app/logout');
-        $router.push({ name: 'login' });
+        $router.push({
+          name: 'login',
+          params: {
+            messageText: 'Goodbye!',
+            messageType: 'info',
+          },
+        });
         $q.loading.hide();
       },
     };

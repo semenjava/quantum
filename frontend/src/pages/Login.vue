@@ -1,5 +1,5 @@
 <template>
-  <q-page class="flex flex-center bg-blue-grey-5">
+  <q-page class="column flex-center bg-blue-grey-5">
     <q-card bordered class="q-pa-lg shadow-5">
       <q-card-section>
         <q-form @submit="login">
@@ -33,7 +33,7 @@
 <script>
 import { useQuasar } from 'quasar';
 import { ref, defineComponent, inject } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
 export default defineComponent({
   name: 'Login',
@@ -44,6 +44,15 @@ export default defineComponent({
     const $q = useQuasar();
     const $store = inject('store');
     const $router = useRouter();
+    const $route = useRoute();
+
+    if ($route.params.messageText) {
+      $q.notify({
+        position: 'top',
+        type: $route.params.messageType || 'info',
+        message: $route.params.messageText,
+      });
+    }
 
     return {
       email,
