@@ -23,9 +23,10 @@ class StoreAddressAction extends BaseAction implements Action
     }
 
     /**
-     * Store a newly created resource in storage.
+     * @param Property $dto
+     * @return void
      */
-    public function run(Property $dto)
+    public function gateUser(Property $dto)
     {
         if ($dto->has('provider_id') && \Gate::denies('store-provider-address', $dto->get('provider_id'))) {
             abort(403);
@@ -42,9 +43,33 @@ class StoreAddressAction extends BaseAction implements Action
         if ($dto->has('employee_id') && \Gate::denies('store-employee-address', $dto->get('employee_id'))) {
             abort(403);
         }
+    }
 
+
+
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function run(Property $dto)
+    {
         $address = $this->addressService->setParam($dto)->storeAdress();
 
         return $address;
+    }
+
+    public function storeAdrress(array $dtos): array
+    {
+        $result = [];
+
+        foreach ($dtos as $dto) {
+            $this->gateUser($dto);
+            $this->addressService->setParam($dto)->instanceUserAddess()->clearAdressUser();
+        }
+
+        foreach ($dtos as $dto) {
+            $result[] = $this->run($dto);
+        }
+
+        return $result;
     }
 }

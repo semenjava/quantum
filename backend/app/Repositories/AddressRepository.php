@@ -29,6 +29,25 @@ class AddressRepository extends BaseRepository
             $address = new Address();
         }
 
+        return $this->fillArrayAndSave($address, $entity);
+    }
+
+    /**
+     * @param AddressEntity $entity
+     * @return Address
+     */
+    public function create(AddressEntity $entity): Address
+    {
+        return $this->fillArrayAndSave(new Address(), $entity);
+    }
+
+    /**
+     * @param $address
+     * @param AddressEntity $entity
+     * @return Address
+     */
+    public function fillArrayAndSave($address, AddressEntity $entity): Address
+    {
         $address->fill($entity->toArray());
 
         $address->save();

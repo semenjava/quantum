@@ -34,13 +34,34 @@ class LocationRepository
     }
 
     /**
+     * @param array $entity
+     * @return AddressEntity
+     */
+    public function instanceEntity(array $entity): AddressEntity
+    {
+        return new AddressEntity($entity);
+    }
+
+    /**
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function save(array $entity)
     {
-        $address = new AddressEntity($entity);
+        $address = $this->instanceEntity($entity);
         $address = $this->addressRepository->save($address);
+
+        return $address;
+    }
+
+    /**
+     * @param array $entity
+     * @return Address
+     */
+    public function create(array $entity)
+    {
+        $address = $this->instanceEntity($entity);
+        $address = $this->addressRepository->create($address);
 
         return $address;
     }

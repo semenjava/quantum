@@ -27,7 +27,15 @@ class StoreAddressMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $dto = (new StoreAddressRequest())->valid($args)->toDto();
-        return $this->action->run($dto);
+        $dtos = [];
+        if(isset($args['addresses'])) {
+            foreach ($args['addresses'] as $address) {
+                $dtos[] = (new StoreAddressRequest())->valid($address)->toDto();
+            }
+
+            $result = $this->action->storeAdrress($dtos);
+        }
+
+        return $result;
     }
 }

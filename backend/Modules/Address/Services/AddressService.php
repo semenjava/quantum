@@ -44,6 +44,8 @@ class AddressService extends BaseService
         if ($this->dto->has('employee_id')) {
             $this->userAddress = Employees::find($this->dto->get('employee_id'));
         }
+
+        return $this;
     }
 
     /**
@@ -51,9 +53,11 @@ class AddressService extends BaseService
      */
     public function storeAdress()
     {
-        $this->instanceUserAddess();
+        if(!$this->userAddress) {
+            $this->instanceUserAddess();
+        }
 
-        $address = $this->locationRepository->save($this->dto->all());
+        $address = $this->locationRepository->create($this->dto->all());
 
         if (!$this->userAddress->address($address->id)) {
             $this->userAddress->addresses()->attach($address);
@@ -65,5 +69,12 @@ class AddressService extends BaseService
             ->log('User use create provider address');
 
         return $address;
+    }
+
+    public function clearAdressUser()
+    {
+        $this->userAddress->addresses()->delete();
+
+        return $this;
     }
 }
