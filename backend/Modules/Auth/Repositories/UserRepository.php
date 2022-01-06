@@ -2,6 +2,10 @@
 
 namespace Modules\Auth\Repositories;
 
+use App\Models\Companies;
+use App\Models\Employees;
+use App\Models\Facilities;
+use App\Models\Provider;
 use JasonGuru\LaravelMakeRepository\Repository\BaseRepository;
 use App\Models\User;
 use Modules\Auth\Builders\CompanyBuilder;
@@ -53,11 +57,9 @@ class UserRepository extends BaseRepository
 
     public function getFacility(array $data)
     {
-        $this->newQuery()->eagerLoad();
+        $builder = new FacilityBuilder(Facilities::query());
 
-        $builder = new FacilityBuilder($this->query);
-
-        $builder->select();
+        $builder->select()->where('user_id', $data['user_id'])->joinUser();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
@@ -71,11 +73,9 @@ class UserRepository extends BaseRepository
 
     public function getProvider(array $data)
     {
-        $this->newQuery()->eagerLoad();
+        $builder = new ProviderBuilder(Provider::query());
 
-        $builder = new ProviderBuilder($this->query);
-
-        $builder->select();
+        $builder->select()->where('user_id', $data['user_id'])->joinUser();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
@@ -89,11 +89,9 @@ class UserRepository extends BaseRepository
 
     public function getCompany(array $data)
     {
-        $this->newQuery()->eagerLoad();
+        $builder = new CompanyBuilder(Companies::query());
 
-        $builder = new CompanyBuilder($this->query);
-
-        $builder->select();
+        $builder->select()->where('user_id', $data['user_id'])->joinUser();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
@@ -107,11 +105,9 @@ class UserRepository extends BaseRepository
 
     public function getEmployee(array $data)
     {
-        $this->newQuery()->eagerLoad();
+        $builder = new EmployeeBuilder(Employees::query());
 
-        $builder = new EmployeeBuilder($this->query);
-
-        $builder->select();
+        $builder->select()->where('user_id', $data['user_id'])->joinUser();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }

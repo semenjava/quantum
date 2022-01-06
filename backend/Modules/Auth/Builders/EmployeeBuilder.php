@@ -8,16 +8,24 @@ class EmployeeBuilder extends BaseBuilder
 {
     public function select()
     {
-        $this->query->select('*');
+        $this->query->select('employees.*');
         return $this;
     }
 
     public function search($search)
     {
         $this->query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
+            $q->where('employees.first_name', 'like', "%$search%")
+                ->orWhere('employees.surname', 'like', "%$search%")
+                ->orWhere('employees.last_name', 'like', "%$search%")
+                ->orWhere('employees.company_id', 'like', "%$search%");
         });
+        return $this;
+    }
+
+    public function joinUser()
+    {
+        $this->query->leftJoin('users', 'users.id', '=', 'employees.user_id');
         return $this;
     }
 

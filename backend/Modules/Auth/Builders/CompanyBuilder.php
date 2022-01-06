@@ -8,16 +8,23 @@ class CompanyBuilder extends BaseBuilder
 {
     public function select()
     {
-        $this->query->select('*');
+        $this->query->select('companies.*');
         return $this;
     }
 
     public function search($search)
     {
         $this->query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
+            $q->where('companies.name', 'like', "%$search%")
+                ->orWhere('companies.phone', 'like', "%$search%")
+                ->orWhere('companies.fax', 'like', "%$search%");
         });
+        return $this;
+    }
+
+    public function joinUser()
+    {
+        $this->query->leftJoin('users', 'users.id', '=', 'companies.user_id');
         return $this;
     }
 

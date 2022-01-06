@@ -8,7 +8,7 @@ class FacilityBuilder extends BaseBuilder
 {
     public function select()
     {
-        $this->query->select('*');
+        $this->query->select('facilities.*');
         return $this;
     }
 
@@ -28,7 +28,7 @@ class FacilityBuilder extends BaseBuilder
 
     public function joinUser()
     {
-        $this->query->leftJoin('users', 'users.id', '=', 'posts.user_id');
+        $this->query->leftJoin('users', 'users.id', '=', 'facilities.user_id');
         return $this;
     }
 

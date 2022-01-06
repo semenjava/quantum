@@ -8,16 +8,24 @@ class ProviderBuilder extends BaseBuilder
 {
     public function select()
     {
-        $this->query->select('*');
+        $this->query->select('providers.*');
         return $this;
     }
 
     public function search($search)
     {
         $this->query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%")
-                ->orWhere('email', 'like', "%$search%");
+            $q->where('providers.first_name', 'like', "%$search%")
+                ->orWhere('providers.surname', 'like', "%$search%")
+                ->orWhere('providers.last_name', 'like', "%$search%")
+                ->orWhere('providers.diagnostic_specialty', 'like', "%$search%");
         });
+        return $this;
+    }
+
+    public function joinUser()
+    {
+        $this->query->leftJoin('users', 'users.id', '=', 'providers.user_id');
         return $this;
     }
 
