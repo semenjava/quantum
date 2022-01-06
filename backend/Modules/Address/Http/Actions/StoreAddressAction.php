@@ -52,18 +52,18 @@ class StoreAddressAction extends BaseAction implements Action
      */
     public function run(Property $dto)
     {
-        $address = $this->addressService->setParam($dto)->storeAdress();
+        $address = $this->addressService->setParam($dto)->storeAddress();
 
         return $address;
     }
 
-    public function storeAdrress(array $dtos): array
+    public function storeAddress(array $dtos): array
     {
         $result = [];
 
         foreach ($dtos as $dto) {
             $this->gateUser($dto);
-            $this->addressService->setParam($dto)->instanceUserAddess()->clearAdressUser();
+            $this->addressService->setParam($dto)->instanceUserAddress()->clearAdressUser();
         }
 
         foreach ($dtos as $dto) {

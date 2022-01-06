@@ -12,9 +12,12 @@ use App\Contract\Action;
 
 class StoreAddressMutator extends BaseMutator
 {
-    public function __construct(StoreAddressAction $action)
+    private $request;
+
+    public function __construct(StoreAddressAction $action, StoreAddressRequest $request)
     {
         parent::__construct($action);
+        $this->request = $request;
     }
 
     /**
@@ -31,7 +34,7 @@ class StoreAddressMutator extends BaseMutator
         $dtos = $address_bool = [];
         if (isset($args['addresses'])) {
             foreach ($args['addresses'] as $address) {
-                $dtos[] = (new StoreAddressRequest())->valid($address)->toDto();
+                $dtos[] = $this->request->valid($address)->toDto();
                 if ($address['postal_address']) {
                     $address_bool['postal_address'][] = $address['postal_address'];
                 }
@@ -45,7 +48,7 @@ class StoreAddressMutator extends BaseMutator
 
             (new AddressBoolRequest())->valid($address_bool)->toDto();
 
-            $result = $this->action->storeAdrress($dtos);
+            $result = $this->action->storeAddress($dtos);
         }
 
         return $result;

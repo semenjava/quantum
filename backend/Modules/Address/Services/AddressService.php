@@ -31,11 +31,9 @@ class AddressService extends BaseService
     /**
      * @return mixed
      */
-    public function storeAdress()
+    public function storeAddress()
     {
-        if (!$this->userAddress) {
-            $this->instanceUserAddess();
-        }
+        $this->instanceUserAddress();
 
         $address = $this->locationRepository->create($this->dto->all());
 
@@ -66,9 +64,7 @@ class AddressService extends BaseService
      */
     public function getAddresses()
     {
-        if (!$this->userAddress) {
-            $this->instanceUserAddess();
-        }
+        $this->instanceUserAddress();
 
         return $this->userAddress->addresses()->get();
     }

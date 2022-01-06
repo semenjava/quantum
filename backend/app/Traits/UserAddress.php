@@ -15,7 +15,7 @@ trait UserAddress
     /**
      * @return $this
      */
-    public function instanceUserAddess()
+    public function instanceUserAddress()
     {
         if ($this->dto->has('provider_id')) {
             $this->userAddress = Provider::find($this->dto->get('provider_id'));
