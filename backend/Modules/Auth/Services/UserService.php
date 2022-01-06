@@ -19,4 +19,28 @@ class UserService
         $users = $this->repository->users($data);
         return $users;
     }
+
+    public function getFacility(array $data)
+    {
+        $users = $this->repository->getFacility($data);
+        return $users;
+    }
+
+    public function getProvider(array $data)
+    {
+        $users = $this->repository->getProvider($data);
+        return $users;
+    }
+
+    public function getCompany(array $data)
+    {
+        $users = $this->repository->getCompany($data);
+        return $users;
+    }
+
+    public function getEmployee(array $data)
+    {
+        $users = $this->repository->getEmployee($data);
+        return $users;
+    }
 }

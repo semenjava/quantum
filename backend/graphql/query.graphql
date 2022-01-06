@@ -8,6 +8,11 @@ type Query {
     verify(expires: String!, hash: String!, id: Int!, signature: String!): AuthToken @field(resolver: "VerifyQuery@verify")
     #PAGINATOR
     #    managers: [Managers!]! @paginate(type: SIMPLE) @guard(with: ["sanctum"])
+
+    getUserFacility(search: String @search, sort: [OrderByClause] @orderBy, first: Int!, page: Int!, archived: Boolean): FacilityPaginator @guard(with: ["sanctum"]) @field(resolver: "FacilityQuery@resolve")
+    getUserProvider(search: String @search, sort: [OrderByClause] @orderBy, first: Int!, page: Int!, archived: Boolean): ProviderPaginator @guard(with: ["sanctum"]) @field(resolver: "ProviderQuery@resolve")
+    getUserCompany(search: String @search, sort: [OrderByClause] @orderBy, first: Int!, page: Int!, archived: Boolean): CompanyPaginator @guard(with: ["sanctum"]) @field(resolver: "CompanyQuery@resolve")
+    getUserEmployee(search: String @search, sort: [OrderByClause] @orderBy, first: Int!, page: Int!, archived: Boolean): EmployeePaginator @guard(with: ["sanctum"]) @field(resolver: "EmployeeQuery@resolve")
 }
 
 type Mutation {
@@ -26,10 +31,10 @@ type Mutation {
     editUser(user_id: Int!, name: String, email: String, role: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditUserMutator@resolve")
 
     #    createUserManager(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateManagerMutator@resolve") @guard(with: ["sanctum"])
-    createUserFacility(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
-    createUserProvider(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateProviderMutator@resolve") @guard(with: ["sanctum"])
-    createUserCompany(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateCompanyMutator@resolve") @guard(with: ["sanctum"])
-    createUserEmployee(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateEmployeeMutator@resolve") @guard(with: ["sanctum"])
+    createUserFacility(name: String!, email: String!, password: String!, c_password: String!): Facility @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
+    createUserProvider(name: String!, email: String!, password: String!, c_password: String!): Provider @field(resolver: "CreateProviderMutator@resolve") @guard(with: ["sanctum"])
+    createUserCompany(name: String!, email: String!, password: String!, c_password: String!): Company @field(resolver: "CreateCompanyMutator@resolve") @guard(with: ["sanctum"])
+    createUserEmployee(name: String!, email: String!, password: String!, c_password: String!): Employee @field(resolver: "CreateEmployeeMutator@resolve") @guard(with: ["sanctum"])
 
     storeAddress(
         provider_id: Int!,

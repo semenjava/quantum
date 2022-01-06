@@ -172,7 +172,7 @@ type Company {
     count_employee: Int
 }
 
-type Employees {
+type Employee {
     id: ID!
     user: User @hasOne(relation: "user")
     first_name: String
@@ -196,4 +196,24 @@ input ExportType {
     first: Int
     page: Int
     archived: Boolean
+}
+
+type FacilityPaginator {
+    data: [Facility]
+    paginatorInfo: PaginatorInfo!
+}
+
+type ProviderPaginator {
+    data: [Provider]
+    paginatorInfo: PaginatorInfo!
+}
+
+type CompanyPaginator {
+    data: [Company]
+    paginatorInfo: PaginatorInfo!
+}
+
+type EmployeePaginator {
+    data: [Company]
+    paginatorInfo: PaginatorInfo!
 }
