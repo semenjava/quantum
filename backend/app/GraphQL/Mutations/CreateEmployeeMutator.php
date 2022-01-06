@@ -8,8 +8,13 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
 use Modules\Auth\Http\Actions\AuthAction;
 
-class CreateEmployeeMutator
+class CreateEmployeeMutator extends BaseMutator
 {
+    public function __construct(RegisterAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -22,7 +27,7 @@ class CreateEmployeeMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new RegisterRequest();
-        $dto = $request->valid($args);
-        return RegisterAction::register($dto);
+        $dto = $request->valid($args)->toDto();
+        return $this->action->run($dto);
     }
 }

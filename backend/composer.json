@@ -6,10 +6,12 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "beyondcode/laravel-websockets": "*",
         "dlnsk/h-rbac": "^0.4.2",
         "doctrine/dbal": "^3.2",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
+        "guzzlehttp/psr7": "^2.1",
         "jason-guru/laravel-make-repository": "^0.0.3",
         "kodeine/laravel-acl": "^2.0",
         "laravel/framework": "^8.65",
@@ -24,6 +26,7 @@
         "nwidart/laravel-modules": "^8.2",
         "petercoles/multilingual-language-list": "^1.16",
         "pragmarx/google2fa-laravel": "^2.0",
+        "pusher/pusher-php-server": "^7.0",
         "spatie/laravel-activitylog": "^4.3",
         "vinkla/hashids": "^9.1",
         "webonyx/graphql-php": "^14.11"
@@ -71,7 +74,10 @@
     "config": {
         "optimize-autoloader": true,
         "preferred-install": "dist",
-        "sort-packages": true
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
     },
     "minimum-stability": "dev",
     "prefer-stable": true

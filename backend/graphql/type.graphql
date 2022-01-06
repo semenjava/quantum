@@ -19,11 +19,6 @@ enum SortOrder {
     DESC
 }
 
-type Manager {
-    id: ID!
-
-}
-
 type UserPaginator {
     data: [User]
     paginatorInfo: PaginatorInfo!
@@ -81,4 +76,124 @@ type MessageUser {
     success: Boolean!
     message: String!
     user: User
+}
+
+type Country {
+    id: ID!
+    code: String!
+    name: String!
+    continent: String
+    region: String!
+    surface_area: Float
+    indep_year: Int
+    population: Int
+    life_expectancy: Float
+    gnp: Float
+    gnp_old: Float
+    local_name: String
+    government_form: String
+    head_of_state: String
+    capital: Int
+    code2: String
+}
+
+type City {
+    id: ID!
+    name: String!
+    country_code: String!
+    district: String!
+    population: Int
+}
+
+type Address {
+    id: ID!
+    address_line_1: String!,
+    address_line_2: String,
+    country: String @method(name: "getCountryName"),
+    state: String @method(name: "getStateName"),
+    city: String @method(name: "getCityName"),
+    postal: String,
+    postal_address: Boolean,
+    primary_address: Boolean,
+    billing_address: Boolean
+}
+
+type Specialty {
+    id: ID!
+    name: String!
+    param: String
+}
+
+type Provider {
+    id: ID!
+    user: User @hasOne(relation: "user")
+    addresses: [Address] @belongsToMany(relation: "addresses")
+    specialties: [Specialty] @belongsToMany(relation: "specialties")
+    first_name: String
+    surname: String
+    last_name: String
+    diagnostic_specialty: String
+    language2nd: String @method(name: "get2ndLanguage")
+    status: Boolean,
+    created_at: String
+    updated_at: String
+}
+
+type Manager {
+    id: ID!
+    user: User @hasOne(relation: "user")
+    first_name: String
+    surname: String
+    last_name: String
+    address: String
+    postal: String
+    status: Boolean
+}
+
+type Facility {
+    id: ID!
+    user: User @hasOne(relation: "user")
+    name: String!
+    country: Country @belongsTo(relation: "country")
+    city: City @belongsTo(relation: "city")
+    address: String
+    postal: String
+}
+
+type Company {
+    id: ID!
+    name: String!
+    country: Country @belongsTo(relation: "country")
+    city: City @belongsTo(relation: "city")
+    address: String
+    postal: String
+    phone: String
+    fax: String
+    count_employee: Int
+}
+
+type Employees {
+    id: ID!
+    user: User @hasOne(relation: "user")
+    first_name: String
+    surname: String
+    last_name: String
+    company: Company @belongsTo(relation: "company")
+    country: Country @belongsTo(relation: "country")
+    city: City @belongsTo(relation: "city")
+    address: String
+    postal: String
+    status: Boolean
+}
+
+type ExportFile {
+    path: String!
+}
+
+input ExportType {
+    search: String
+    sort: [OrderByClause]
+    first: Int
+    page: Int
+    archived: Boolean
 }

@@ -59,6 +59,6 @@ class Facilities extends Model
      */
     public function providers()
     {
-        return $this->belongsToMany(Providers::class, 'facility_provider', 'facility_id', 'provider_id');
+        return $this->belongsToMany(Provider::class, 'facility_provider', 'facility_id', 'provider_id');
     }
 }

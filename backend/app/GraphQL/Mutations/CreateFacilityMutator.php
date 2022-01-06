@@ -2,14 +2,18 @@
 
 namespace App\GraphQL\Mutations;
 
-use App\Properties\Property;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Facilities\Facades\CreateFacilityFacade;
 use Modules\Facilities\Http\Requests\CreateFacilityRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
+use Modules\Facilities\Http\Actions\CreateFacilityAction;
 
-class CreateFacilityMutator
+class CreateFacilityMutator extends BaseMutator
 {
+    public function __construct(CreateFacilityAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -22,7 +26,7 @@ class CreateFacilityMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateFacilityRequest();
-        $dto = $request->valid($args);
-        return CreateFacilityFacade::run($dto);
+        $dto = $request->valid($args)->toDto();
+        return $this->action->run($dto);
     }
 }

@@ -3,12 +3,18 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
+use Modules\Providers\Http\Actions\CreateProviderAction;
 use Modules\Providers\Http\Requests\CreateProviderRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Providers\Facades\CreateProviderFacade;
 
-class CreateProviderMutator
+class CreateProviderMutator extends BaseMutator
 {
+    public function __construct(CreateProviderAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -21,7 +27,7 @@ class CreateProviderMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateProviderRequest();
-        $dto = $request->valid($args);
-        return CreateProviderFacade::run($dto);
+        $dto = $request->valid($args)->toDto();
+        return $this->action->run($dto);
     }
 }
