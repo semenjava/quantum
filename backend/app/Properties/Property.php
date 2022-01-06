@@ -52,6 +52,24 @@ class Property extends BaseProperty
 
     /**
      * @param $key
+     * @return string
+     */
+    public function getUcfirst($key)
+    {
+        return ucfirst($this->property[$key]);
+    }
+
+    /**
+     * @param $key
+     * @return string
+     */
+    public function getLcfirst($key)
+    {
+        return lcfirst($this->property[$key]);
+    }
+
+    /**
+     * @param $key
      * @param $value
      * @return void
      */
@@ -134,6 +152,11 @@ class Property extends BaseProperty
     public function toJson()
     {
         return json_encode($this->property);
+    }
+
+    public function getDecodeJson($key)
+    {
+        return json_decode($this->property[$key]);
     }
 
     /**

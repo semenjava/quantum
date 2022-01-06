@@ -2,6 +2,7 @@
 
 namespace App\Classes\Authorization;
 
+use App\Models\Provider;
 use Dlnsk\HierarchicalRBAC\Authorization;
 use App\Traits\RolesGet;
 
@@ -100,6 +101,28 @@ class AuthorizationClass extends Authorization
 //                'delete-post',
 //            ]
 //        ];
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $manager
+     * @param $permission
+     * @return bool
+     */
+    public function export($user, $manager, $permission): bool
+    {
+        if ($user->isArchived()) {
+            return false;
+        }
+        return $user->isSuperAdmin() ||
+                $user->isManager() ||
+                $user->isFacility() ||
+                $user->isProvider() ||
+                $user->isCompany() ||
+                $user->isEmployee();
     }
 
 
@@ -293,6 +316,74 @@ class AuthorizationClass extends Authorization
     {
         // This is a helper method for getting the model if $post is id
         // $post = $this->getModel(\App\Post::class, $post);
+        return $user->id === $provider->id;
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function createProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $provider = $this->getModel(Provider::class, $provider);
+
+        return $provider->user->isSuperAdmin() || $provider->user->isProvider();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function updateProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        $provider = $this->getModel(Provider::class, $provider);
+
+        return $provider->user->isSuperAdmin() || $provider->user->isProvider();
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function createOwnProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        // $post = $this->getModel(\App\Post::class, $post);
+
+        return $user->id === $provider->id;
+    }
+
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $provider
+     * @param $permission
+     * @return bool
+     */
+    public function updateOwnProviderAddress($user, $provider, $permission): bool
+    {
+        // This is a helper method for getting the model if $post is id
+        // $post = $this->getModel(\App\Post::class, $post);
+
         return $user->id === $provider->id;
     }
 

@@ -4,14 +4,19 @@ namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Auth\Http\Actions\EditUserAction;
-use Modules\Auth\Http\Requests\AuthRequest;
 use Modules\Auth\Http\Requests\EditUserRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\LoginRequest;
-use Modules\Auth\Http\Actions\AuthAction;
 
-class EditUserMutator
+class EditUserMutator extends BaseMutator
 {
+    /**
+     * @param EditUserAction $action
+     */
+    public function __construct(EditUserAction $action)
+    {
+        parent::__construct($action);
+    }
+
     /**
      * Return a value for the field.
      *
@@ -25,6 +30,6 @@ class EditUserMutator
     {
         $request = new EditUserRequest();
         $dto = $request->valid($args)->toDto();
-        return EditUserAction::edit($dto);
+        return $this->action->edit($dto);
     }
 }

@@ -30,6 +30,8 @@ class User extends Authenticatable
 
     public const PASSWORD_REGEX = '';
 
+    public const EXPORT_NAME_MODEL = 'App\Exports\UsersExport';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -74,5 +76,58 @@ class User extends Authenticatable
     public function isArchived()
     {
         return $this->trashed();
+    }
+
+    /**
+     * @return bool
+     */
+    public function isSuperAdmin()
+    {
+        return $this->role == self::SUPERADMIN;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isManager()
+    {
+        return $this->role == self::MANAGER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isFacility()
+    {
+        return $this->role == self::FACILITY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isProvider()
+    {
+        return $this->role == self::PROVIDER;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isCompany()
+    {
+        return $this->role == self::COMPANY;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isEmployee()
+    {
+        return $this->role == self::EMPLOYEE;
+    }
+
+    public function exportNameModel()
+    {
+        return self::EXPORT_NAME_MODEL;
     }
 }

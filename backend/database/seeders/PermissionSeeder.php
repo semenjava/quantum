@@ -17,6 +17,8 @@ class PermissionSeeder extends Seeder
     {
         $roles = RolesGet::getRoles();
 
+        Permission::query()->truncate();
+
         $create = new Permission();
         $create->name = 'Create';
         $create->slug = 'create';
@@ -65,6 +67,17 @@ class PermissionSeeder extends Seeder
         $delete->save();
         $delete->roles()->attach($roles->get('superadmin'));
         $delete->roles()->attach($roles->get('manager'));
+
+        $export = new Permission();
+        $export->name = 'Export';
+        $export->slug = 'export';
+        $export->save();
+        $export->roles()->attach($roles->get('superadmin'));
+        $export->roles()->attach($roles->get('manager'));
+        $export->roles()->attach($roles->get('facility'));
+        $export->roles()->attach($roles->get('provider'));
+        $export->roles()->attach($roles->get('company'));
+        $export->roles()->attach($roles->get('employee'));
 
         // Manager
         $createManager = new Permission();
@@ -295,6 +308,35 @@ class PermissionSeeder extends Seeder
         $updateOnwProvider->save();
         $updateOnwProvider->roles()->attach($roles->get('superadmin'));
         $updateOnwProvider->roles()->attach($roles->get('provider'));
+
+        // Provider
+        $createProvider = new Permission();
+        $createProvider->name = 'Create Own Provider Address ';
+        $createProvider->slug = 'create-own-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Update Own Provider Address ';
+        $createProvider->slug = 'update-own-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Create Provider Address ';
+        $createProvider->slug = 'create-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Update Provider Address ';
+        $createProvider->slug = 'update-provider-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('provider'));
 
         // Company
         $createCompany = new Permission();
