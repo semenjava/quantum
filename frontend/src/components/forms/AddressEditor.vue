@@ -2,89 +2,91 @@
   <div v-if="addresses.length === 0 && !isLoading" class="q-mb-md">
     No addresses specified
   </div>
-  <div v-for="(address, index) in addresses" :key="index">
-    <div class="row q-col-gutter-md q-mb-md">
-      <div class="col-12 col-lg-11">
-        <div class="row q-col-gutter-md q-mb-md">
-          <div class="col-12 col-lg-4">
-            <q-input
-              outlined
-              hide-bottom-space
-              dense
-              v-model="address.address_line_1"
-              label="Address Line 1"
-              :rules="[ val => val.length > 2 || 'Please fill address field']"
-            />
+  <q-form ref="form">
+    <div v-for="(address, index) in addresses" :key="index">
+      <div class="row q-col-gutter-md q-mb-md">
+        <div class="col-12 col-lg-11">
+          <div class="row q-col-gutter-md q-mb-md">
+            <div class="col-12 col-lg-4">
+              <q-input
+                outlined
+                hide-bottom-space
+                dense
+                v-model="address.address_line_1"
+                label="Address Line 1"
+                :rules="[ val => val.length > 2 || 'Please fill address field']"
+              />
+            </div>
+            <div class="col-12 col-lg-4">
+              <q-input outlined hide-bottom-space dense v-model="address.city" label="City" />
+            </div>
+            <div class="col-12 col-lg-4">
+              <StateInput outlined dense hide-bottom-space v-model="address.state" label="State" />
+            </div>
           </div>
-          <div class="col-12 col-lg-4">
-            <q-input outlined hide-bottom-space dense v-model="address.city" label="City" />
-          </div>
-          <div class="col-12 col-lg-4">
-            <StateInput outlined dense hide-bottom-space v-model="address.state" label="State" />
-          </div>
-        </div>
-        <div class="row q-col-gutter-md">
-          <div class="col-12 col-lg-4">
-            <q-input outlined hide-bottom-space dense v-model="address.address_line_2" label="Address Line 2" />
-          </div>
-          <div class="col-12 col-lg-4">
-            <q-input
-              type="number"
-              outlined
-              hide-bottom-space
-              dense
-              v-model="address.postal"
-              label="Postal Code"
-              :rules="[ val => val.length === 5 || 'Please use 5 digits code']"
-            />
-          </div>
-          <div class="col-12 col-lg-4">
-            <div class="row q-col-gutter-xs">
-              <div class="col-12">
-                Address Type
-              </div>
-              <div class="col-4">
-                <q-checkbox dense v-model="address.postal_address" label="Postal Address" />
-              </div>
-              <div class="col-4">
-                <q-checkbox dense v-model="address.billing_address" label="Billing Address" />
-              </div>
-              <div class="col-4">
-                <q-checkbox dense v-model="address.office_address" label="Office Address" />
+          <div class="row q-col-gutter-md">
+            <div class="col-12 col-lg-4">
+              <q-input outlined hide-bottom-space dense v-model="address.address_line_2" label="Address Line 2" />
+            </div>
+            <div class="col-12 col-lg-4">
+              <q-input
+                type="number"
+                outlined
+                hide-bottom-space
+                dense
+                v-model="address.postal"
+                label="Postal Code"
+                :rules="[ val => (val.length === 5 || val.length === 0) || 'Please use 5 digits code']"
+              />
+            </div>
+            <div class="col-12 col-lg-4">
+              <div class="row q-col-gutter-xs">
+                <div class="col-12">
+                  Address Type
+                </div>
+                <div class="col-4">
+                  <q-checkbox dense v-model="address.postal_address" label="Postal Address" />
+                </div>
+                <div class="col-4">
+                  <q-checkbox dense v-model="address.billing_address" label="Billing Address" />
+                </div>
+                <div class="col-4">
+                  <q-checkbox dense v-model="address.office_address" label="Office Address" />
+                </div>
               </div>
             </div>
           </div>
         </div>
+        <div class="col-12 col-lg-1">
+          <q-btn icon="delete" round color="red" dense @click.prevent="deleteAddress(index)"></q-btn>
+        </div>
       </div>
-      <div class="col-12 col-lg-1">
-        <q-btn icon="delete" round color="red" dense @click.prevent="deleteAddress(index)"></q-btn>
-      </div>
+      <q-separator v-if="index !== addresses.length - 1" class="q-mb-md" />
     </div>
-    <q-separator v-if="index !== addresses.length - 1" class="q-mb-md" />
-  </div>
-  <div v-if="showErrors && validationErrors.length" class="q-mb-md text-red">
-    Errors: {{ validationErrors.join(', ') }}
-  </div>
-  <FormErrors
-    :error="submitError"
-    class="q-mb-md text-red"
-  />
-  <div class="row justify-between">
-    <q-btn
-      label="Save"
-      :loading="isSubmitting || isLoading"
-      color="secondary"
-      @click.prevent="save()"
-    >
-    </q-btn>
-    <q-btn
-      :disabled="(entityType === 'employee' && addresses.length > 0) || addresses.length > 2"
-      :loading="isSubmitting || isLoading"
-      label="Add address"
-      color="primary"
-      @click.prevent="addAddress"
-    ></q-btn>
-  </div>
+    <div v-if="showErrors && validationErrors.length" class="q-mb-md text-red">
+      Errors: {{ validationErrors.join(', ') }}
+    </div>
+    <FormErrors
+      :error="submitError"
+      class="q-mb-md text-red"
+    />
+    <div class="row justify-between">
+      <q-btn
+        label="Save"
+        :loading="isSubmitting || isLoading"
+        color="secondary"
+        @click.prevent="save()"
+      >
+      </q-btn>
+      <q-btn
+        :disabled="(entityType === 'employee' && addresses.length > 0) || addresses.length > 2"
+        :loading="isSubmitting || isLoading"
+        label="Add address"
+        color="primary"
+        @click.prevent="addAddress"
+      ></q-btn>
+    </div>
+  </q-form>
 </template>
 <script>
 import {
@@ -113,34 +115,6 @@ const deleteAddress = (i) => {
   addresses.value.splice(i, 1);
 };
 
-const validate = (entityType) => {
-  validationErrors.value = [];
-  // Validate first
-  // Companies, facilities and providers can have:
-  // 0 or 1 postal address
-  // 0 or 1 billing address
-  // 0 or 1 office address
-  if (['company', 'facility', 'provider'].includes(entityType)) {
-    if (addresses.value.filter((a) => a.postal_address).length > 1) {
-      validationErrors.value.push('Only one postal address is allowed');
-    }
-    if (addresses.value.filter((a) => a.billing_address).length > 1) {
-      validationErrors.value.push('Only one billing address is allowed');
-    }
-    if (addresses.value.filter((a) => a.office_address).length > 1) {
-      validationErrors.value.push('Only one office address is allowed');
-    }
-  }
-  if (
-    addresses.value.length > 1
-    && addresses.value.filter((a) => !a.postal_address && !a.billing_address && !a.office_address).length
-  ) {
-    validationErrors.value.push('Address type should not be empty');
-  }
-
-  return validationErrors.value.length <= 0;
-};
-
 export default defineComponent({
   name: 'AddressEditor',
   components: {
@@ -166,6 +140,8 @@ export default defineComponent({
   setup(props, { emit }) {
     const $q = useQuasar();
     const { entityId, entityType } = toRefs(props);
+    const form = ref(null);
+
     const fetchAddresses = () => {
       isLoading.value = true;
       const queryVariables = {};
@@ -190,10 +166,42 @@ export default defineComponent({
 
     onMounted(fetchAddresses);
 
+    const validate = async () => {
+      const isFormValid = await form.value.validate();
+      if (!isFormValid) {
+        return false;
+      }
+      validationErrors.value = [];
+      // Validate first
+      // Companies, facilities and providers can have:
+      // 0 or 1 postal address
+      // 0 or 1 billing address
+      // 0 or 1 office address
+      if (['company', 'facility', 'provider'].includes(entityType.value)) {
+        if (addresses.value.filter((a) => a.postal_address).length > 1) {
+          validationErrors.value.push('Only one postal address is allowed');
+        }
+        if (addresses.value.filter((a) => a.billing_address).length > 1) {
+          validationErrors.value.push('Only one billing address is allowed');
+        }
+        if (addresses.value.filter((a) => a.office_address).length > 1) {
+          validationErrors.value.push('Only one office address is allowed');
+        }
+      }
+      if (
+        addresses.value.length > 1
+        && addresses.value.filter((a) => !a.postal_address && !a.billing_address && !a.office_address).length
+      ) {
+        validationErrors.value.push('Address type should not be empty');
+      }
+
+      return validationErrors.value.length <= 0;
+    };
+
     const save = async () => {
       showErrors.value = true;
       submitError.value = null;
-      if (!validate(entityType)) {
+      if (!(await validate())) {
         return false;
       }
       isLoading.value = true;
@@ -262,6 +270,7 @@ export default defineComponent({
       addresses,
       addAddress,
       deleteAddress,
+      form,
       save,
       validationErrors,
       showErrors,
