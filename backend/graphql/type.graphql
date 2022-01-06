@@ -119,10 +119,6 @@ type Address {
 }
 
 input StoreAddress{
-    provider_id: Int,
-    facility_id: Int,
-    company_id: Int,
-    employee_id: Int,
     address_line_1: String!,
     address_line_2: String,
     country: String,

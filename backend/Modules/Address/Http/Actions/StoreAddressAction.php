@@ -72,4 +72,12 @@ class StoreAddressAction extends BaseAction implements Action
 
         return $result;
     }
+
+    public function deleteAllAddresses(Property $dto)
+    {
+        $this->gateUser($dto);
+
+        $this->addressService->setParam($dto)->deleteAllAddresses();
+        return [];
+    }
 }

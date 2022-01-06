@@ -2,6 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Properties\Property;
 use GraphQL\Type\Definition\ResolveInfo;
 use Modules\Address\Facades\CreateAddressFacade;
 use Modules\Address\Http\Requests\AddressBoolRequest;
@@ -32,8 +33,13 @@ class StoreAddressMutator extends BaseMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $dtos = $address_bool = [];
-        if (isset($args['addresses'])) {
+        if (!empty($args['addresses'])) {
             foreach ($args['addresses'] as $address) {
+                $address['provider_id'] = $args['provider_id'];
+                $address['facility_id'] = $args['facility_id'];
+                $address['company_id'] = $args['company_id'];
+                $address['employee_id'] = $args['employee_id'];
+
                 $dtos[] = $this->request->valid($address)->toDto();
                 if ($address['postal_address']) {
                     $address_bool['postal_address'][] = $address['postal_address'];
@@ -49,6 +55,15 @@ class StoreAddressMutator extends BaseMutator
             (new AddressBoolRequest())->valid($address_bool)->toDto();
 
             $result = $this->action->storeAddress($dtos);
+        } else {
+            $address['provider_id'] = $args['provider_id'];
+            $address['facility_id'] = $args['facility_id'];
+            $address['company_id'] = $args['company_id'];
+            $address['employee_id'] = $args['employee_id'];
+
+            $data = new Property($address);
+
+            $result = $this->action->deleteAllAddresses($data);
         }
 
         return $result;

@@ -66,4 +66,11 @@ class AddressService extends BaseService
 
         return $this->userAddress->addresses()->get();
     }
+
+    public function deleteAllAddresses()
+    {
+        $this->instanceUserAddress();
+
+        return $this->userAddress->addresses()->delete();
+    }
 }
