@@ -17,7 +17,7 @@ class StoreAddressMutator extends BaseMutator
     public function __construct(StoreAddressAction $action)
     {
         parent::__construct($action);
-        $this->requestStore = new StoreAddressRequest;
+        $this->requestStore = new StoreAddressRequest();
     }
 
     /**
