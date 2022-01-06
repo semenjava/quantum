@@ -37,9 +37,7 @@ class AddressService extends BaseService
 
         $address = $this->locationRepository->create($this->dto->all());
 
-        if (!$this->userAddress->address($address->id)) {
-            $this->userAddress->addresses()->attach($address);
-        }
+        $this->userAddress->addresses()->attach($address);
 
         activity()->performedOn(request()->user())
             ->causedBy($this->userAddress->user)
