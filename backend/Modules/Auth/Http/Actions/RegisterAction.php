@@ -2,11 +2,11 @@
 
 namespace Modules\Auth\Http\Actions;
 
+use App\Contract\Action;
 use App\Http\Actions\BaseAction;
 use Illuminate\Support\Facades\Hash;
 use App\Properties\Property;
 use Modules\Auth\Repositories\UserRepository;
-use App\Contract\Action;
 
 class RegisterAction extends BaseAction implements Action
 {
@@ -27,7 +27,7 @@ class RegisterAction extends BaseAction implements Action
      * @param Property $dto
      * @return array
      */
-    public function run(Property $dto)
+    public function register(Property $dto)
     {
         $fields = $dto->toArray();
 
@@ -47,5 +47,10 @@ class RegisterAction extends BaseAction implements Action
         }
 
         return $user->toArray();
+    }
+
+    public function run(Property $dto)
+    {
+        return $this->register($dto);
     }
 }

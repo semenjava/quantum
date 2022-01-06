@@ -61,6 +61,15 @@ class Provider extends Model implements AddressContract
         return $this->belongsToMany(Specialties::class, 'provider_specialty', 'provider_id', 'specialty_id');
     }
 
+
+    /**
+     * @return mixed
+     */
+    public function get2ndLanguage()
+    {
+        return $this->{'2nd_language'};
+    }
+
     /**
      * @return Address ?? null
      */

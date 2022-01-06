@@ -3,7 +3,6 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Requests\AuthRequest;
 use Modules\Auth\Http\Requests\EditeRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\LoginRequest;
@@ -28,6 +27,6 @@ class AuthMutator extends BaseMutator
     {
         $request = new LoginRequest();
         $dto = $request->valid($args)->toDto();
-        return $this->action->login($dto);
+        return $this->action->run($dto);
     }
 }

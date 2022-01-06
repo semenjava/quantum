@@ -106,6 +106,28 @@ class AuthorizationClass extends Authorization
 //        ];
     }
 
+    /**
+     * Methods which checking permissions.
+     * Methods should be present only if additional checking needs.
+     *
+     * @param $user
+     * @param $manager
+     * @param $permission
+     * @return bool
+     */
+    public function export($user, $manager, $permission): bool
+    {
+        if ($user->isArchived()) {
+            return false;
+        }
+        return $user->isSuperAdmin() ||
+                $user->isManager() ||
+                $user->isFacility() ||
+                $user->isProvider() ||
+                $user->isCompany() ||
+                $user->isEmployee();
+    }
+
 
     /**
      * Methods which checking permissions.

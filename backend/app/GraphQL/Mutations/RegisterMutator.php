@@ -7,7 +7,6 @@ use Modules\Auth\Http\Actions\RegisterAction;
 use Modules\Providers\Http\Actions\CreateProviderAction;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Facades\RegistrationFacade;
 
 class RegisterMutator extends BaseMutator
 {
@@ -15,6 +14,7 @@ class RegisterMutator extends BaseMutator
     {
         parent::__construct($action);
     }
+
     /**
      * Return a value for the field.
      *

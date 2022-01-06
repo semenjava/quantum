@@ -4,5 +4,7 @@
     "Providers": true,
     "Facilities": true,
     "Managers": true,
-    "Address": true
+    "Notification": true,
+    "Address": true,
+    "Export": true
 }

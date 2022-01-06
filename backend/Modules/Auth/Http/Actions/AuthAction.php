@@ -32,6 +32,6 @@ class AuthAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
-        // TODO: Implement run() method.
+        return $this->login($dto);
     }
 }

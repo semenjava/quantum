@@ -9,6 +9,9 @@ use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
 class EditUserMutator extends BaseMutator
 {
+    /**
+     * @param EditUserAction $action
+     */
     public function __construct(EditUserAction $action)
     {
         parent::__construct($action);
