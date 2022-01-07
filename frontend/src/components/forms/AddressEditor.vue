@@ -228,22 +228,19 @@ export default defineComponent({
       });
 
       const addressesVariable = {
-        addresses: addresses.value.map((address) => {
-          const variable = {
-            address_line_1: address.address_line_1,
-            address_line_2: address.address_line_2,
-            city: address.city,
-            postal: address.postal,
-            state: address.state,
-            postal_address: address.postal_address,
-            billing_address: address.billing_address,
-            office_address: address.office_address,
-          };
-          variable[`${entityType.value}_id`] = entityId.value;
-
-          return variable;
-        }),
+        addresses: addresses.value.map((address) => ({
+          address_line_1: address.address_line_1,
+          address_line_2: address.address_line_2,
+          city: address.city,
+          postal: address.postal,
+          state: address.state,
+          postal_address: address.postal_address,
+          billing_address: address.billing_address,
+          office_address: address.office_address,
+        })),
       };
+
+      addressesVariable[`${entityType.value}_id`] = entityId.value;
 
       await saveMutate(addressesVariable);
 
