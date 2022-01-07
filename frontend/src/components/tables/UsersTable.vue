@@ -10,6 +10,7 @@
       :rows="result && result.users ? result.users.data : []"
       :columns="columns"
       :filter="filter"
+      :dense="$q.screen.lt.md"
       v-model:pagination="pagination"
       :rows-per-page-options="[2, 50, 100]"
       @request="requestEvent"
@@ -63,27 +64,8 @@
           </q-tooltip>
         </q-td>
       </template>
-      <template v-slot:body-cell-buttons="props">
-        <q-td :props="props">
-          <q-btn-dropdown color="secondary" label="Action">
-            <q-list>
-              <q-item clickable v-close-popup @click="editUser(+props.value)">
-                <q-item-section>
-                  <q-item-label>
-                    Edit
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-              <q-item clickable v-close-popup @click="deleteUserAction(props.row)">
-                <q-item-section>
-                  <q-item-label class="text-red">
-                    Delete
-                  </q-item-label>
-                </q-item-section>
-              </q-item>
-            </q-list>
-          </q-btn-dropdown>
-        </q-td>
+      <template v-slot:body-cell-buttons="cell">
+        <ActionsTableCell :cell="cell" :actions="tableActions" class="text-right" />
       </template>
     </q-table>
     <CreateUserDialog ref="createUserDialog" @save="resetTable" />
@@ -100,6 +82,7 @@ import { format, useQuasar } from 'quasar';
 import { getUsers } from 'src/graphql/getUsers';
 import { deleteUser } from 'src/graphql/deleteUser';
 import { currentUserTimezoneDate, UTCtimezoneDate } from 'src/utils/dateFormat';
+import ActionsTableCell from 'components/tables/ActionsTableCell';
 import CreateUserDialog from 'components/dialogs/CreateUserDialog';
 import EditUserDialog from 'components/dialogs/EditUserDialog';
 import { roleOptions } from 'src/const/userRoles';
@@ -164,6 +147,7 @@ const columns = [
 export default defineComponent({
   name: 'UsersTable',
   components: {
+    ActionsTableCell,
     CreateUserDialog,
     EditUserDialog,
   },
@@ -181,16 +165,17 @@ export default defineComponent({
     });
 
     const { mutate: deleteUserMutate, onDone: deleteUserOnDone } = useMutation(deleteUser);
-    const deleteUserAction = (user) => {
+    const deleteUserAction = (cell) => {
+      const userId = +cell.value;
       $q.dialog({
-        title: `Delete User ${user.name || user.email}`,
-        message: `Do you really want to delete user ${user.name || user.email}?`,
+        title: `Delete User #${userId}`,
+        message: `Do you really want to delete user #${userId}?`,
         cancel: true,
         persistent: true,
       })
         .onOk(() => {
           deleteUserMutate({
-            id: user.id,
+            id: userId,
           });
         });
     };
@@ -203,24 +188,34 @@ export default defineComponent({
       bTable.resetTable();
     });
 
-    const editUser = (id) => {
-      editUserId.value = +id;
+    const editUserAction = (user) => {
+      editUserId.value = +user.value;
       nextTick(() => {
         editUserDialog.value.dialog.show();
       });
     };
+
+    const tableActions = [
+      {
+        label: 'Edit',
+        icon: 'edit',
+        color: 'primary',
+        action: editUserAction,
+      },
+      {
+        label: 'Delete',
+        icon: 'delete',
+        color: 'negative',
+        action: deleteUserAction,
+      },
+    ];
+
     const createUser = () => {
       createUserDialog.value.dialog.show();
     };
 
     return {
-      result: bTable.result,
-      filter: bTable.filter,
-      pagination: bTable.pagination,
-      requestEvent: bTable.requestEvent,
-      resetTable: bTable.resetTable,
-      isLoading: bTable.loading,
-      error: bTable.error,
+      ...bTable,
 
       roleOptions,
       createUserDialog,
@@ -228,8 +223,7 @@ export default defineComponent({
       columns,
       editUserId,
       createUser,
-      deleteUserAction,
-      editUser,
+      tableActions,
       table,
       currentUserTimezoneDate,
       UTCtimezoneDate,

@@ -43,7 +43,7 @@ export const basicTable = (tableOptions) => {
   });
 
   const {
-    result, fetchMore, onResult, error, loading, refetch,
+    result, fetchMore, onResult, error, loading: isLoading, refetch,
   } = useQuery(options.tableQuery, {
     test: Math.random(),
     first: pagination.value.rowsPerPage,
@@ -109,6 +109,6 @@ export const basicTable = (tableOptions) => {
     pagination,
     filter,
     error,
-    loading,
+    isLoading,
   };
 };
