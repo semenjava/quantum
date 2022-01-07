@@ -23,16 +23,61 @@ class StoreAddressAction extends BaseAction implements Action
     }
 
     /**
+     * @param Property $dto
+     * @return void
+     */
+    public function gateUser(Property $dto)
+    {
+        if ($dto->has('provider_id') && \Gate::denies('store-provider-address', $dto->get('provider_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('facility_id') && \Gate::denies('store-facility-address', $dto->get('facility_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('company_id') && \Gate::denies('store-company-address', $dto->get('company_id'))) {
+            abort(403);
+        }
+
+        if ($dto->has('employee_id') && \Gate::denies('store-employee-address', $dto->get('employee_id'))) {
+            abort(403);
+        }
+    }
+
+
+
+    /**
      * Store a newly created resource in storage.
      */
     public function run(Property $dto)
     {
-        if (\Gate::denies('create-provider-address', $dto->get('provider_id'))) {
-            abort(403);
-        }
-
-        $address = $this->addressService->setParam($dto)->storeAdress();
+        $address = $this->addressService->setParam($dto)->storeAddress();
 
         return $address;
+    }
+
+    public function storeAddress(array $dtos): array
+    {
+        $result = [];
+
+        foreach ($dtos as $dto) {
+            $this->gateUser($dto);
+            $this->addressService->setParam($dto)->instanceUserAddress()->clearAdressUser();
+        }
+
+        foreach ($dtos as $dto) {
+            $result[] = $this->run($dto);
+        }
+
+        return $result;
+    }
+
+    public function deleteAllAddresses(Property $dto)
+    {
+        $this->gateUser($dto);
+
+        $this->addressService->setParam($dto)->deleteAllAddresses();
+        return [];
     }
 }

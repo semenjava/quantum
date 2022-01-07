@@ -8,7 +8,6 @@ use Modules\Auth\Exceptions\NotAuthorized;
 use Modules\Auth\Entities\User as UserEntity;
 use Modules\Auth\Repositories\UserRepository;
 use Nuwave\Lighthouse\Exceptions\AuthorizationException;
-use Spatie\Activitylog\Models\Activity;
 
 class AuthService
 {

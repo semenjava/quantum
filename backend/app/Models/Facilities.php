@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Contract\Address as AddressContract;
 
-class Facilities extends Model
+class Facilities extends Model implements AddressContract
 {
     use HasFactory;
 
@@ -14,36 +15,35 @@ class Facilities extends Model
     protected $fillable = [
         'user_id',
         'name',
-        'country_id',
-        'city_id',
-        'address',
-        'postal'
     ];
 
     /**
-     * Get the phone associated with the user.
-     *
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Address ?? null
      */
-    public function country()
+    public function address($address_id)
     {
-        return $this->belongsTo(Countries::class);
+        $isAddress = \DB::table('facility_address')->where('facility_id', $this->id)->where('address_id', $address_id)->first();
+        if ($isAddress) {
+            return Address::find($address_id);
+        }
+
+        return null;
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function city()
+    public function addresses()
     {
-        return $this->belongsTo(Cities::class);
+        return $this->belongsToMany(Address::class, 'facility_address', 'facility_id', 'address_id');
     }
 
     /**

@@ -107,6 +107,7 @@ module.exports = configure((ctx) => ({
       'Notify',
       'Dialog',
     ],
+    cssAddon: true,
   },
 
   // animations: 'all', // --- includes all animations

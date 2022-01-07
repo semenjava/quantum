@@ -1,18 +1,17 @@
 <?php
 
-namespace App\GraphQL\Mutations;
+namespace App\GraphQL\Queries;
 
+use App\GraphQL\Mutations\BaseMutator;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\EditUserAction;
-use Modules\Auth\Http\Requests\EditUserRequest;
+use Modules\Address\Http\Actions\GetAddressAction;
+use Modules\Address\Http\Requests\GetAddressRequest;
+use Modules\Address\Http\Requests\StoreAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 
-class EditUserMutator extends BaseMutator
+class AddressesQuery extends BaseMutator
 {
-    /**
-     * @param EditUserAction $action
-     */
-    public function __construct(EditUserAction $action)
+    public function __construct(GetAddressAction $action)
     {
         parent::__construct($action);
     }
@@ -28,8 +27,7 @@ class EditUserMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new EditUserRequest();
-        $dto = $request->valid($args)->toDto();
+        $dto = (new GetAddressRequest())->valid($args)->toDto();
         return $this->action->run($dto);
     }
 }

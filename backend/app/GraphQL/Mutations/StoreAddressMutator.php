@@ -2,8 +2,9 @@
 
 namespace App\GraphQL\Mutations;
 
+use App\Properties\Property;
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Address\Facades\CreateAddressFacade;
+use Modules\Address\Http\Requests\AddressBoolRequest;
 use Modules\Address\Http\Requests\StoreAddressRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
 use Modules\Address\Http\Actions\StoreAddressAction;
@@ -11,9 +12,12 @@ use App\Contract\Action;
 
 class StoreAddressMutator extends BaseMutator
 {
+    private $requestStore;
+
     public function __construct(StoreAddressAction $action)
     {
         parent::__construct($action);
+        $this->requestStore = new StoreAddressRequest();
     }
 
     /**
@@ -27,7 +31,56 @@ class StoreAddressMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $dto = (new StoreAddressRequest())->valid($args)->toDto();
-        return $this->action->run($dto);
+        $dtos = $address_bool = [];
+        if (!empty($args['addresses'])) {
+            foreach ($args['addresses'] as $address) {
+                if (isset($args['provider_id'])) {
+                    $address['provider_id'] = $args['provider_id'];
+                }
+                if (isset($args['facility_id'])) {
+                    $address['facility_id'] = $args['facility_id'];
+                }
+                if (isset($args['company_id'])) {
+                    $address['company_id']  = $args['company_id'];
+                }
+                if (isset($args['employee_id'])) {
+                    $address['employee_id'] = $args['employee_id'];
+                }
+
+                $dtos[] = $this->requestStore->valid($address)->toDto();
+                if ($address['postal_address']) {
+                    $address_bool['postal_address'][] = $address['postal_address'];
+                }
+                if ($address['office_address']) {
+                    $address_bool['office_address'][] = $address['office_address'];
+                }
+                if ($address['billing_address']) {
+                    $address_bool['billing_address'][] = $address['billing_address'];
+                }
+            }
+
+            (new AddressBoolRequest())->valid($address_bool)->toDto();
+
+            $result = $this->action->storeAddress($dtos);
+        } else {
+            if (isset($args['provider_id'])) {
+                $address['provider_id'] = $args['provider_id'];
+            }
+            if (isset($args['facility_id'])) {
+                $address['facility_id'] = $args['facility_id'];
+            }
+            if (isset($args['company_id'])) {
+                $address['company_id']  = $args['company_id'];
+            }
+            if (isset($args['employee_id'])) {
+                $address['employee_id'] = $args['employee_id'];
+            }
+
+            $data = new Property($address);
+
+            $result = $this->action->deleteAllAddresses($data);
+        }
+
+        return $result;
     }
 }

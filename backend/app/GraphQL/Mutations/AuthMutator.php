@@ -27,6 +27,6 @@ class AuthMutator extends BaseMutator
     {
         $request = new LoginRequest();
         $dto = $request->valid($args)->toDto();
-        return $this->action->login($dto);
+        return $this->action->run($dto);
     }
 }

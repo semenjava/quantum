@@ -114,7 +114,19 @@ type Address {
     city: String @method(name: "getCityName"),
     postal: String,
     postal_address: Boolean,
-    primary_address: Boolean,
+    office_address: Boolean,
+    billing_address: Boolean
+}
+
+input StoreAddress{
+    address_line_1: String!,
+    address_line_2: String,
+    country: String,
+    state: String,
+    city: String,
+    postal: String,
+    postal_address: Boolean,
+    office_address: Boolean,
     billing_address: Boolean
 }
 
