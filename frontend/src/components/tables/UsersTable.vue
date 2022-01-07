@@ -18,18 +18,7 @@
     >
       <template v-slot:top-right class="q-gutter-md">
         <div class="flex content-center" style="gap: 15px;">
-          <q-toggle
-            label="Show Archived"
-            v-model="filter.archived"
-          />
-          <q-input
-            outlined
-            dense
-            clearable
-            label="Search"
-            v-model="filter.search"
-            debounce="1000"
-          />
+          <BasicTableFilter v-model="filter" />
           <q-btn
             no-wrap
             color="primary"
@@ -83,6 +72,7 @@ import { getUsers } from 'src/graphql/getUsers';
 import { deleteUser } from 'src/graphql/deleteUser';
 import { currentUserTimezoneDate, UTCtimezoneDate } from 'src/utils/dateFormat';
 import ActionsTableCell from 'components/tables/ActionsTableCell';
+import BasicTableFilter from 'components/tables/BasicTableFilter';
 import CreateUserDialog from 'components/dialogs/CreateUserDialog';
 import EditUserDialog from 'components/dialogs/EditUserDialog';
 import { roleOptions } from 'src/const/userRoles';
@@ -148,6 +138,7 @@ export default defineComponent({
   name: 'UsersTable',
   components: {
     ActionsTableCell,
+    BasicTableFilter,
     CreateUserDialog,
     EditUserDialog,
   },
