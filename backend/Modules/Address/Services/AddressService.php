@@ -3,14 +3,18 @@
 namespace Modules\Address\Services;
 
 use App\Models\Address;
-use App\Models\ProviderAddress;
+use App\Models\Companies;
+use App\Models\Employees;
+use App\Models\Facilities;
 use App\Repositories\LocationRepository;
 use App\Services\BaseService;
-use App\Models\User;
 use App\Models\Provider;
+use App\Traits\UserAddress;
 
 class AddressService extends BaseService
 {
+    use UserAddress;
+
     /**
      * @var LocationRepository
      */
@@ -27,21 +31,46 @@ class AddressService extends BaseService
     /**
      * @return mixed
      */
-    public function storeAdress()
+    public function storeAddress()
     {
-        $provider = Provider::find($this->dto->get('provider_id'));
+        $this->instanceUserAddress();
 
-        $address = $this->locationRepository->save($this->dto->all());
+        $address = $this->locationRepository->create($this->dto->all());
 
-        if (!$provider->address($address->id)) {
-            $provider->addresses()->attach($address);
-        }
+        $this->userAddress->addresses()->attach($address);
 
         activity()->performedOn(request()->user())
-            ->causedBy($provider->user)
-            ->withProperties(['user_id' => request()->user()->id, 'provider_id' => $provider->id, 'address' => $address->toJson()])
+            ->causedBy($this->userAddress->user)
+            ->withProperties(['user_id' => request()->user()->id, 'user_address_id' => $this->userAddress->id, 'address' => $address->toJson()])
             ->log('User use create provider address');
 
         return $address;
+    }
+
+    /**
+     * @return $this
+     */
+    public function clearAdressUser()
+    {
+        $this->userAddress->addresses()->delete();
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAddresses()
+    {
+        $this->instanceUserAddress();
+
+        return $this->userAddress->addresses()->get();
+    }
+
+    public function deleteAllAddresses()
+    {
+        $this->instanceUserAddress();
+
+        return $this->userAddress->addresses()->delete();
     }
 }

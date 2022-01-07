@@ -325,11 +325,32 @@ class PermissionSeeder extends Seeder
         $createProvider->roles()->attach($roles->get('provider'));
 
         $createProvider = new Permission();
-        $createProvider->name = 'Create Provider Address ';
-        $createProvider->slug = 'create-provider-address';
+        $createProvider->name = 'Store Provider Address ';
+        $createProvider->slug = 'store-provider-address';
         $createProvider->save();
         $createProvider->roles()->attach($roles->get('superadmin'));
         $createProvider->roles()->attach($roles->get('provider'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Store Facility Address ';
+        $createProvider->slug = 'store-facility-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('facility'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Store Company Address ';
+        $createProvider->slug = 'store-company-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('company'));
+
+        $createProvider = new Permission();
+        $createProvider->name = 'Store Employee Address ';
+        $createProvider->slug = 'store-employee-address';
+        $createProvider->save();
+        $createProvider->roles()->attach($roles->get('superadmin'));
+        $createProvider->roles()->attach($roles->get('employee'));
 
         $createProvider = new Permission();
         $createProvider->name = 'Update Provider Address ';

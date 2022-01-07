@@ -5,8 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use phpDocumentor\Reflection\Types\Boolean;
+use App\Contract\Address as AddressContract;
 
-class Provider extends Model
+class Provider extends Model implements AddressContract
 {
     use HasFactory;
 

@@ -4,8 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Contract\Address as AddressContract;
 
-class Employees extends Model
+class Employees extends Model implements AddressContract
 {
     use HasFactory;
 
@@ -23,19 +24,15 @@ class Employees extends Model
         'surname',
         'last_name',
         'company_id',
-        'country_id',
-        'city_id',
-        'address',
-        'postal',
         'status'
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
      */
     public function user()
     {
-        return $this->hasOne(User::class);
+        return $this->belongsTo(User::class);
     }
 
     /**
@@ -47,18 +44,23 @@ class Employees extends Model
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return Address ?? null
      */
-    public function country()
+    public function address($address_id)
     {
-        return $this->belongsTo(Countries::class);
+        $isAddress = \DB::table('employee_address')->where('employee_id', $this->id)->where('address_id', $address_id)->first();
+        if ($isAddress) {
+            return Address::find($address_id);
+        }
+
+        return null;
     }
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
      */
-    public function city()
+    public function addresses()
     {
-        return $this->belongsTo(Cities::class);
+        return $this->belongsToMany(Address::class, 'employee_address', 'employee_id', 'address_id');
     }
 }

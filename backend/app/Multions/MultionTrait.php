@@ -12,20 +12,6 @@ trait MultionTrait
     private $list = [];
 
     /**
-     * @return void
-     */
-    private function __clone()
-    {
-    }
-
-    /**
-     * @return void
-     */
-    private function __wakeup()
-    {
-    }
-
-    /**
      * @param string $instance
      * @return mixed
      * @throws \Exception
