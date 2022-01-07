@@ -11,6 +11,21 @@
     v-model="filter.search"
     debounce="1000"
   />
+  <q-select
+    v-if="columns"
+    v-model="filter.visibleColumns"
+    multiple
+    outlined
+    dense
+    options-dense
+    :display-value="$q.lang.table.columns"
+    emit-value
+    map-options
+    :options="columns"
+    option-value="name"
+    options-cover
+    style="min-width: 150px"
+  />
 </template>
 <script>
 import { useModelWrapper } from 'src/utils/modelWrapper';
@@ -26,6 +41,13 @@ export default defineComponent({
           search: null,
         };
       },
+    },
+    columns: {
+      type: Array,
+      default() {
+        return [];
+      },
+      required: false,
     },
   },
   setup(props, { emit }) {

@@ -9,6 +9,7 @@
       title="Users"
       :rows="result && result.users ? result.users.data : []"
       :columns="columns"
+      :visible-columns="filter.visibleColumns"
       :filter="filter"
       :dense="$q.screen.lt.md"
       v-model:pagination="pagination"
@@ -18,7 +19,7 @@
     >
       <template v-slot:top-right class="q-gutter-md">
         <div class="flex content-center" style="gap: 15px;">
-          <BasicTableFilter v-model="filter" />
+          <BasicTableFilter v-model="filter" :columns="columns" />
           <q-btn
             no-wrap
             color="primary"
