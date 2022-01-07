@@ -63,10 +63,18 @@ class StoreAddressMutator extends BaseMutator
 
             $result = $this->action->storeAddress($dtos);
         } else {
-            $address['provider_id'] = $args['provider_id'];
-            $address['facility_id'] = $args['facility_id'];
-            $address['company_id'] = $args['company_id'];
-            $address['employee_id'] = $args['employee_id'];
+            if(isset($args['provider_id'])) {
+                $address['provider_id'] = $args['provider_id'];
+            }
+            if(isset($args['facility_id'])) {
+                $address['facility_id'] = $args['facility_id'];
+            }
+            if(isset($args['company_id'])) {
+                $address['company_id']  = $args['company_id'];
+            }
+            if(isset($args['employee_id'])) {
+                $address['employee_id'] = $args['employee_id'];
+            }
 
             $data = new Property($address);
 
