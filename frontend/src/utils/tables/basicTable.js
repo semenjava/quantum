@@ -45,7 +45,6 @@ export const basicTable = (tableOptions) => {
   const {
     result, fetchMore, onResult, error, loading: isLoading, refetch,
   } = useQuery(options.tableQuery, {
-    test: Math.random(),
     first: pagination.value.rowsPerPage,
     page: pagination.value.page,
     search: filter.value.search || '',
