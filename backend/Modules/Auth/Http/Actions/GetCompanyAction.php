@@ -24,6 +24,10 @@ class GetCompanyAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
+        if (\Gate::denies('read-company')) {
+            abort(403);
+        }
+
         return $this->service->getCompany($dto->all());
     }
 }

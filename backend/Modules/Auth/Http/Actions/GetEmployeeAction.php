@@ -24,6 +24,10 @@ class GetEmployeeAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
+        if (\Gate::denies('read-employee')) {
+            abort(403);
+        }
+
         return $this->service->getEmployee($dto->all());
     }
 }

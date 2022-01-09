@@ -24,6 +24,10 @@ class GetProviderAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
+        if (\Gate::denies('read-provider')) {
+            abort(403);
+        }
+
         return $this->service->getProvider($dto->all());
     }
 }

@@ -79,7 +79,6 @@ class User extends Authenticatable
     }
 
     /**
->>>>>>> 2420e699195cda136d254ab18bc9f7a8783e7a72
      * @return bool
      */
     public function isSuperAdmin()

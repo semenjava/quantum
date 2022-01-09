@@ -25,6 +25,10 @@ class GetFacilityAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
+        if (\Gate::denies('read-facility')) {
+            abort(403);
+        }
+
         return $this->service->getFacility($dto->all());
     }
 }

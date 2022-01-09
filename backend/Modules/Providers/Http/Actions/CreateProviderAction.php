@@ -23,11 +23,6 @@ class CreateProviderAction extends BaseAction implements Action
             abort(403);
         }
 
-        $this->providerService->setParam($dto)->createProvider();
-
-        return [
-            'success' => true,
-            'message' => 'Create Provider'
-        ];
+        return $this->providerService->setParam($dto)->createProvider();
     }
 }

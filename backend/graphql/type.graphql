@@ -229,3 +229,15 @@ type EmployeePaginator {
     data: [Company]
     paginatorInfo: PaginatorInfo!
 }
+
+input CreateProvider {
+    first_name: String!
+    surname: String!
+    last_name: String
+    diagnostic_specialty: String
+    language: String
+    status: Boolean
+    email: String!
+    password: String!
+    c_password: String!
+}

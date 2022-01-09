@@ -16,11 +16,6 @@ class CreateFacilityRequest extends BaseFormRequest
     {
         return [
             'name' => 'required|string',
-            'country' => 'required|string',
-            'region' => 'required|string',
-            'city' => 'required|string',
-            'address' => 'required|string',
-            'postal' => 'required|string',
             'email' => 'required|string|email|max:255|regex:/[-0-9a-zA-Z.+]+@[-0-9a-zA-Z.+]+.[a-zA-Z]{2,4}/|unique:users',
             'password' => ['min:8','max:25', User::PASSWORD_REGEX],
             'c_password' => 'same:password',

@@ -3,14 +3,16 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\RegisterAction;
+use Modules\Employee\Http\Actions\CreateEmployeeAction;
+use Modules\Employee\Http\Requests\CreateEmployeeRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Http\Actions\AuthAction;
 
 class CreateEmployeeMutator extends BaseMutator
 {
-    public function __construct(RegisterAction $action)
+    /**
+     * @param CreateEmployeeAction $action
+     */
+    public function __construct(CreateEmployeeAction $action)
     {
         parent::__construct($action);
     }
@@ -26,7 +28,7 @@ class CreateEmployeeMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new RegisterRequest();
+        $request = new CreateEmployeeRequest();
         $dto = $request->valid($args)->toDto();
         return $this->action->run($dto);
     }
