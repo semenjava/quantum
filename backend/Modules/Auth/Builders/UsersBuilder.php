@@ -44,7 +44,7 @@ class UsersBuilder extends BaseBuilder
      */
     public function archived()
     {
-        $this->query->where('deleted_at', 'NULL');
+        $this->query->whereNotNull('deleted_at');
         return $this;
     }
 

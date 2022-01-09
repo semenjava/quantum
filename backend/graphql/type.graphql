@@ -145,7 +145,7 @@ type Provider {
     surname: String
     last_name: String
     diagnostic_specialty: String
-    language2nd: String @method(name: "get2ndLanguage")
+    language: String @method(name: "get2ndLanguage")
     status: Boolean,
     created_at: String
     updated_at: String
@@ -164,12 +164,10 @@ type Manager {
 
 type Facility {
     id: ID!
-    user: User @hasOne(relation: "user")
     name: String!
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    user: User @hasOne(relation: "user")
+    addresses: [Address] @belongsToMany(relation: "addresses")
+    specialties: [Specialty] @belongsToMany(relation: "specialties")
 }
 
 type Company {
@@ -177,8 +175,7 @@ type Company {
     name: String!
     country: Country @belongsTo(relation: "country")
     city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    addresses: [Address] @belongsToMany(relation: "addresses")
     phone: String
     fax: String
     count_employee: Int
@@ -191,10 +188,7 @@ type Employee {
     surname: String
     last_name: String
     company: Company @belongsTo(relation: "company")
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    addresses: [Address] @belongsToMany(relation: "addresses")
     status: Boolean
 }
 
@@ -240,4 +234,5 @@ input CreateProvider {
     email: String!
     password: String!
     c_password: String!
+    time_zone: String
 }

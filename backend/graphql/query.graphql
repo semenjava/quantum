@@ -37,10 +37,10 @@ type Mutation {
     editUser(user_id: Int!, name: String, email: String, role: String, time_zone: String): User! @guard(with: ["sanctum"]) @field(resolver: "EditUserMutator@resolve")
 
     #    createUserManager(name: String!, email: String!, password: String!, c_password: String!): Message @field(resolver: "CreateManagerMutator@resolve") @guard(with: ["sanctum"])
-    createUserFacility(name: String!, email: String!, password: String!, c_password: String!): Facility @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
+    createUserFacility(name: String!, email: String!, password: String!, c_password: String!, time_zone: String): Facility @field(resolver: "CreateFacilityMutator@resolve") @guard(with: ["sanctum"])
     createUserProvider(form: CreateProvider!): Provider @field(resolver: "CreateProviderMutator@resolve") @guard(with: ["sanctum"])
-    createUserCompany(name: String!, email: String!, password: String!, c_password: String!, phone: String, fax: String): Company @field(resolver: "CreateCompanyMutator@resolve") @guard(with: ["sanctum"])
-    createUserEmployee(first_name: String!, surname: String!, last_name: String, company_id: Int! email: String!, password: String!, c_password: String!): Employee @field(resolver: "CreateEmployeeMutator@resolve") @guard(with: ["sanctum"])
+    createUserCompany(name: String!, email: String!, password: String!, c_password: String!, phone: String, fax: String, time_zone: String): Company @field(resolver: "CreateCompanyMutator@resolve") @guard(with: ["sanctum"])
+    createUserEmployee(first_name: String!, surname: String!, last_name: String, company_id: Int! email: String!, password: String!, c_password: String!, time_zone: String): Employee @field(resolver: "CreateEmployeeMutator@resolve") @guard(with: ["sanctum"])
 
     storeAddress(
         provider_id: Int,

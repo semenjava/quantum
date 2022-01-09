@@ -35,7 +35,8 @@ class EmployeeService extends BaseService
             'name' => $this->dto->get('first_name'),
             'email' => $this->dto->get('email'),
             'password' => $this->dto->has('password') ? Hash::make($this->dto->get('password')) : Hash::make($this->dto->get('first_name')),
-            'role' => User::EMPLOYEE
+            'role' => User::EMPLOYEE,
+            'time_zone' =>  $this->dto->has('time_zone') ? $this->dto->get('time_zone') : User::TIME_ZONE_DEFAULT
         ]);
 
         $this->dto->remove('email');

@@ -49,8 +49,10 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->archived()
-            ->pagination($data['first'] ?? null, $data['page'] ?? null);
+        if (isset($data['archived'])) {
+            $builder->archived();
+        }
+        $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }
@@ -66,7 +68,10 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->archived()->pagination($data['first'] ?? null, $data['page'] ?? null);
+        if (isset($data['archived'])) {
+            $builder->archived();
+        }
+        $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }
@@ -82,7 +87,10 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->archived()->pagination($data['first'] ?? null, $data['page'] ?? null);
+        if (isset($data['archived'])) {
+            $builder->archived();
+        }
+        $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }
@@ -98,7 +106,10 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->archived()->pagination($data['first'] ?? null, $data['page'] ?? null);
+        if (isset($data['archived'])) {
+            $builder->archived();
+        }
+        $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }
@@ -114,7 +125,10 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        $pagination = $builder->archived()->pagination($data['first'] ?? null, $data['page'] ?? null);
+        if (isset($data['archived'])) {
+            $builder->archived();
+        }
+        $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
 
         return $pagination;
     }

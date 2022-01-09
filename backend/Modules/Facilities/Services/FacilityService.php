@@ -47,7 +47,8 @@ class FacilityService extends BaseService
             'name' => $this->dto->get('name'),
             'email' => $this->dto->get('email'),
             'password' => $this->dto->has('password') ? Hash::make($this->dto->get('password')) : Hash::make($this->dto->get('name')),
-            'role' => User::FACILITY
+            'role' => User::FACILITY,
+            'time_zone' =>  $this->dto->has('time_zone') ? $this->dto->get('time_zone') : User::TIME_ZONE_DEFAULT
         ]);
 
         $this->dto->remove('email');

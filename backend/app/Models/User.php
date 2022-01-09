@@ -28,6 +28,8 @@ class User extends Authenticatable
     public const COMPANY    = 'company';
     public const EMPLOYEE   = 'employee';
 
+    public const TIME_ZONE_DEFAULT = 'America/New_York';
+
     public const PASSWORD_REGEX = '';
 
     public const EXPORT_NAME_MODEL = 'App\Exports\UsersExport';
