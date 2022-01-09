@@ -11,7 +11,7 @@ class EmployeeQuery
 {
     private GetEmployeeAction $action;
 
-    public function __construct(UsersAction $action)
+    public function __construct(GetEmployeeAction $action)
     {
         $this->action = $action;
     }

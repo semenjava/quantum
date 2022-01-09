@@ -11,7 +11,7 @@ class FacilityQuery
 {
     private GetFacilityAction $action;
 
-    public function __construct(UsersAction $action)
+    public function __construct(GetFacilityAction $action)
     {
         $this->action = $action;
     }

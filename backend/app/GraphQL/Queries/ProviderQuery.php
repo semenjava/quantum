@@ -11,7 +11,7 @@ class ProviderQuery
 {
     private GetProviderAction $action;
 
-    public function __construct(UsersAction $action)
+    public function __construct(GetProviderAction $action)
     {
         $this->action = $action;
     }

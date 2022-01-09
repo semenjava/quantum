@@ -11,7 +11,7 @@ class CompanyQuery
 {
     private GetCompanyAction $action;
 
-    public function __construct(UsersAction $action)
+    public function __construct(GetCompanyAction $action)
     {
         $this->action = $action;
     }
