@@ -25,7 +25,7 @@ class Address extends Model
         'city',
         'postal',
         'postal_address',
-        'primary_address',
+        'office_address',
         'billing_address'
     ];
 
@@ -41,9 +41,9 @@ class Address extends Model
     /**
      * @return bool
      */
-    public function isPrimary()
+    public function isOffice()
     {
-        return isset($this->primary_address);
+        return isset($this->office_address);
     }
 
     /**
@@ -95,5 +95,38 @@ class Address extends Model
     {
         return $query->leftJoin('provider_address', 'provider_address.address_id', '=', $this->table.'.id')
             ->where('provider_address.provider_id', $provider_id);
+    }
+
+    /**
+     * @param $query
+     * @param $facility_id
+     * @return mixed
+     */
+    public function scopejoinFacility($query, $facility_id)
+    {
+        return $query->leftJoin('facility_address', 'facility_address.address_id', '=', $this->table.'.id')
+            ->where('facility_address.facility_id', $facility_id);
+    }
+
+    /**
+     * @param $query
+     * @param $company_id
+     * @return mixed
+     */
+    public function scopejoinCompany($query, $company_id)
+    {
+        return $query->leftJoin('company_address', 'company_address.address_id', '=', $this->table.'.id')
+            ->where('company_address.company_id', $company_id);
+    }
+
+    /**
+     * @param $query
+     * @param $employee_id
+     * @return mixed
+     */
+    public function scopejoinEmployee($query, $employee_id)
+    {
+        return $query->leftJoin('employee_address', 'employee_address.address_id', '=', $this->table.'.id')
+            ->where('employee_address.employee_id', $employee_id);
     }
 }

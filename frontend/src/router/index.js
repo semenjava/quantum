@@ -28,17 +28,39 @@ export default route(({ store }) => {
     history: createHistory(process.env.MODE === 'ssr' ? void 0 : process.env.VUE_ROUTER_BASE),
   });
 
-  Router.beforeEach((to, from, next) => {
+  Router.beforeEach(async (to, from, next) => {
+    // Check if user is logged in while browsing non-public pages
     if (
       to.matched.some((record) => !record.meta || !record.meta.public)
       && !store.getters['app/isLoggedIn']
     ) {
       next({ name: 'login', query: { next: to.fullPath } });
+
+    // Check if user is admin while browsing admin pages
     } else if (
       to.matched.some((record) => record.meta && record.meta.requiresAdmin)
       && !store.getters['app/isAdmin']
     ) {
       next({ name: 'forbidden' });
+
+    // Check logged-in user token every time while browsing non-public pages
+    } else if (
+      to.matched.some((record) => !record.meta || !record.meta.public)
+      && store.getters['app/isLoggedIn']
+    ) {
+      const check = await store.dispatch('app/checkUserToken');
+      if (check) {
+        next();
+      } else {
+        next({
+          name: 'login',
+          query: { next: to.fullPath },
+          params: {
+            messageText: 'Session expired, please login',
+            messageType: 'negative',
+          },
+        });
+      }
     } else {
       next();
     }

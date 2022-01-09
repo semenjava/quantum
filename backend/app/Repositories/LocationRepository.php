@@ -24,13 +24,44 @@ class LocationRepository
     private $city = null;
 
     /**
+     * @var AddressRepository
+     */
+    private $addressRepository;
+
+    public function __construct(AddressRepository $addressRepository)
+    {
+        $this->addressRepository = $addressRepository;
+    }
+
+    /**
+     * @param array $entity
+     * @return AddressEntity
+     */
+    public function instanceEntity(array $entity): AddressEntity
+    {
+        return new AddressEntity($entity);
+    }
+
+    /**
      * @param array $data
      * @return \Illuminate\Database\Eloquent\Model
      */
     public function save(array $entity)
     {
-        $address = new AddressEntity($entity);
-        $address = AddressRepository::init()->save($address, $entity['provider_id']);
+        $address = $this->instanceEntity($entity);
+        $address = $this->addressRepository->save($address);
+
+        return $address;
+    }
+
+    /**
+     * @param array $entity
+     * @return Address
+     */
+    public function create(array $entity)
+    {
+        $address = $this->instanceEntity($entity);
+        $address = $this->addressRepository->create($address);
 
         return $address;
     }
@@ -98,7 +129,7 @@ class LocationRepository
                 $entity['city_id'] = $city->id;
 
                 $address = new AddressEntity($entity);
-                $address = AddressRepository::init()->save($address, $entity['provider_id']);
+                $address = $this->addressRepository->save($address, $entity['provider_id']);
                 $addresses['address_id'] = $address->id;
                 $addresses['provider_id'] = $entity['provider_id'];
                 $result['addresses'][] = $addresses;
@@ -109,7 +140,7 @@ class LocationRepository
             $entity['city_id'] = $city->id;
 
             $address = new AddressEntity($entity);
-            $address = AddressRepository::init()->save($address, $entity['provider_id']);
+            $address = $this->addressRepository->save($address, $entity['provider_id']);
 
             return $address;
         }

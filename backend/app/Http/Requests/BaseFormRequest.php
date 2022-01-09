@@ -20,12 +20,12 @@ abstract class BaseFormRequest extends FormRequest
      */
     public function valid(array $param): BaseFormRequest
     {
+        $this->param = $param;
+
         $validator = Validator::make($param, $this->rules());
         if ($validator->fails()) {
             throw ValidationException::withMessages($validator->errors()->toArray());
         }
-
-        $this->param = $param;
 
         return $this;
     }

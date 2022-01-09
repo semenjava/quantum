@@ -1,6 +1,7 @@
 import { useMutation, provideApolloClient } from '@vue/apollo-composable';
 import { login as loginMutation } from 'src/graphql/login';
 import { logout as logoutMutation } from 'src/graphql/logout';
+import { me as meQuery } from 'src/graphql/me';
 import { apolloClient } from 'boot/vue-apollo';
 import { userDefaultState } from './state';
 
@@ -33,8 +34,25 @@ export async function login({ commit }, { email, password }) {
   });
 }
 
+export async function checkUserToken({ commit }) {
+  const res = await apolloClient.query({
+    query: meQuery,
+    fetchPolicy: 'no-cache',
+  }).catch(() => {
+    commit('updateUser', JSON.parse(JSON.stringify(userDefaultState)));
+    return false;
+  });
+
+  return !!(res.data && res.data.me && res.data.me.id);
+}
+
 export async function logout({ commit }) {
   const { mutate: logoutMutate } = useMutation(logoutMutation);
-  await logoutMutate();
+  try {
+    await logoutMutate();
+  } catch (e) {
+    // Ignore errors
+    // console.log(e)
+  }
   commit('updateUser', JSON.parse(JSON.stringify(userDefaultState)));
 }
