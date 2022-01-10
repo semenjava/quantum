@@ -220,7 +220,7 @@ type CompanyPaginator {
 }
 
 type EmployeePaginator {
-    data: [Company]
+    data: [Employee]
     paginatorInfo: PaginatorInfo!
 }
 
