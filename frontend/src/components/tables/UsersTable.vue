@@ -1,96 +1,70 @@
 <template>
-  <q-banner v-if="error" dense inline-actions rounded class="text-white bg-red q-mb-md">
-    {{ error }}
-  </q-banner>
-  <q-table
-    ref="table"
-    :loading="isLoading"
-    title="Users"
-    :rows="result && result.users ? result.users.data : []"
-    :columns="columns"
-    :filter="filter"
-    v-model:pagination="pagination"
-    :rows-per-page-options="[2, 50, 100]"
-    @request="requestEvent"
-    row-key="id"
-  >
-    <template v-slot:top-right class="q-gutter-md">
-      <div class="flex content-center" style="gap: 15px;">
-        <q-toggle
-          label="Show Archived"
-          v-model="filter.archived"
-        />
-        <q-input
-          outlined
-          dense
-          clearable
-          label="Search"
-          v-model="filter.search"
-          debounce="1000"
-        />
-        <q-btn
-          no-wrap
-          color="primary"
-          icon-right="add"
-          label="Create User"
-          @click="createUser"
-        />
-      </div>
-    </template>
-    <template v-slot:body-cell-email="props">
-      <q-td :props="props">
-        <a :href="'mailto:' + props.value">
-          {{ props.value }}
-        </a>
-      </q-td>
-    </template>
-    <template v-slot:body-cell-created_at="props">
-      <q-td :props="props">
-        <div>
+  <div>
+    <q-banner v-if="error" dense inline-actions rounded class="text-white bg-red q-mb-md">
+      {{ error }}
+    </q-banner>
+    <q-table
+      ref="table"
+      :loading="isLoading"
+      title="Users"
+      :rows="result && result.users ? result.users.data : []"
+      :columns="columns"
+      :visible-columns="filter.visibleColumns"
+      :filter="filter"
+      :dense="$q.screen.lt.md"
+      v-model:pagination="pagination"
+      :rows-per-page-options="[2, 50, 100]"
+      @request="requestEvent"
+      row-key="id"
+    >
+      <template v-slot:top-right class="q-gutter-md">
+        <div class="flex content-center" style="gap: 15px;">
+          <BasicTableFilter v-model="filter" :columns="columns" />
+          <q-btn
+            no-wrap
+            color="primary"
+            icon-right="add"
+            label="Create User"
+            @click="createUser"
+          />
+        </div>
+      </template>
+      <template v-slot:body-cell-email="props">
+        <q-td :props="props">
+          <a :href="'mailto:' + props.value">
+            {{ props.value }}
+          </a>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-created_at="props">
+        <q-td :props="props">
+          <div>
+            {{ currentUserTimezoneDate(props.value) }}
+            <q-tooltip>
+              UTC: {{ UTCtimezoneDate(props.value) }}
+            </q-tooltip>
+          </div>
+        </q-td>
+      </template>
+      <template v-slot:body-cell-updated_at="props">
+        <q-td :props="props">
           {{ currentUserTimezoneDate(props.value) }}
           <q-tooltip>
             UTC: {{ UTCtimezoneDate(props.value) }}
           </q-tooltip>
-        </div>
-      </q-td>
-    </template>
-    <template v-slot:body-cell-updated_at="props">
-      <q-td :props="props">
-        {{ currentUserTimezoneDate(props.value) }}
-        <q-tooltip>
-          UTC: {{ UTCtimezoneDate(props.value) }}
-        </q-tooltip>
-      </q-td>
-    </template>
-    <template v-slot:body-cell-buttons="props">
-      <q-td :props="props">
-        <q-btn-dropdown color="secondary" label="Action">
-          <q-list>
-            <q-item clickable v-close-popup @click="editUser(+props.value)">
-              <q-item-section>
-                <q-item-label>
-                  Edit
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-            <q-item clickable v-close-popup @click="deleteUserAction(props.row)">
-              <q-item-section>
-                <q-item-label class="text-red">
-                  Delete
-                </q-item-label>
-              </q-item-section>
-            </q-item>
-          </q-list>
-        </q-btn-dropdown>
-      </q-td>
-    </template>
-  </q-table>
-  <CreateUserDialog ref="createUserDialog" @save="resetTable" />
-  <EditUserDialog v-if="editUserId" :user-id="editUserId" ref="editUserDialog" @save="resetTable" />
+        </q-td>
+      </template>
+      <template v-slot:body-cell-buttons="cell">
+        <ActionsTableCell :cell="cell" :actions="tableActions" class="text-right" />
+      </template>
+    </q-table>
+    <CreateUserDialog ref="createUserDialog" @save="resetTable" />
+    <EditUserDialog v-if="editUserId" :user-id="editUserId" ref="editUserDialog" @save="resetTable" />
+  </div>
 </template>
 
 <script>
-import { useMutation, useQuery, useQueryLoading } from '@vue/apollo-composable';
+import { useMutation } from '@vue/apollo-composable';
 import {
   defineComponent, nextTick, ref,
 } from 'vue';
@@ -98,9 +72,12 @@ import { format, useQuasar } from 'quasar';
 import { getUsers } from 'src/graphql/getUsers';
 import { deleteUser } from 'src/graphql/deleteUser';
 import { currentUserTimezoneDate, UTCtimezoneDate } from 'src/utils/dateFormat';
+import ActionsTableCell from 'components/tables/ActionsTableCell';
+import BasicTableFilter from 'components/tables/BasicTableFilter';
 import CreateUserDialog from 'components/dialogs/CreateUserDialog';
 import EditUserDialog from 'components/dialogs/EditUserDialog';
 import { roleOptions } from 'src/const/userRoles';
+import { basicTable } from 'src/utils/tables/basicTable';
 
 const columns = [
   {
@@ -161,93 +138,36 @@ const columns = [
 export default defineComponent({
   name: 'UsersTable',
   components: {
+    ActionsTableCell,
+    BasicTableFilter,
     CreateUserDialog,
     EditUserDialog,
   },
   setup() {
-    const isLoading = useQueryLoading();
     const $q = useQuasar();
     const table = ref(null);
     const createUserDialog = ref(null);
     const editUserDialog = ref(null);
     const editUserId = ref(null);
-    const pagination = ref({
-      sortBy: 'id',
-      descending: true,
-      page: 0,
+
+    const bTable = basicTable({
       rowsPerPage: 5,
-      rowsNumber: 0,
+      tableQuery: getUsers,
+      tableRef: table,
     });
-    const filter = ref({
-      search: '',
-      archived: false,
-    });
-    const resetTable = () => {
-      filter.value.search = '';
-      filter.value.archived = false;
-      pagination.value.sortBy = 'id';
-      pagination.value.descending = true;
-      pagination.value.page = 0;
-      pagination.value.rowsPerPage = 5;
-      pagination.value.rowsNumber = 0;
-      table.value.requestServerInteraction();
-    };
-    const {
-      result, fetchMore, onResult, error,
-    } = useQuery(getUsers, {
-      first: pagination.value.rowsPerPage,
-      page: pagination.value.page,
-      search: filter.value.search || '',
-      sort: {
-        value: {
-          column: pagination.value.sortBy,
-          order: pagination.value.descending ? 'DESC' : 'ASC',
-        },
-      },
-      archived: filter.value.archived,
-    });
-    onResult((res) => {
-      if (!res.data) {
-        return;
-      }
-      pagination.value.rowsNumber = res.data.users.paginatorInfo.total;
-    });
-    const requestEvent = (req) => {
-      fetchMore({
-        variables: {
-          first: req.pagination.rowsPerPage,
-          page: req.pagination.page,
-          search: req.filter.search || '',
-          sort: {
-            value: {
-              column: req.pagination.sortBy || 'id',
-              order: req.pagination.descending ? 'DESC' : 'ASC',
-            },
-          },
-          archived: req.filter.archived,
-        },
-        updateQuery: (prev, { fetchMoreResult }) => {
-          pagination.value.page = fetchMoreResult.users.paginatorInfo.currentPage;
-          pagination.value.rowsPerPage = fetchMoreResult.users.paginatorInfo.perPage;
-          pagination.value.rowsNumber = fetchMoreResult.users.paginatorInfo.total;
-          pagination.value.sortBy = req.pagination.sortBy;
-          pagination.value.descending = req.pagination.descending;
-          return fetchMoreResult;
-        },
-      });
-    };
 
     const { mutate: deleteUserMutate, onDone: deleteUserOnDone } = useMutation(deleteUser);
-    const deleteUserAction = (user) => {
+    const deleteUserAction = (cell) => {
+      const userId = +cell.value;
       $q.dialog({
-        title: `Delete User ${user.name || user.email}`,
-        message: `Do you really want to delete user ${user.name || user.email}?`,
+        title: `Delete User #${userId}`,
+        message: `Do you really want to delete user #${userId}?`,
         cancel: true,
         persistent: true,
       })
         .onOk(() => {
           deleteUserMutate({
-            id: user.id,
+            id: userId,
           });
         });
     };
@@ -257,36 +177,46 @@ export default defineComponent({
         type: 'positive',
         message: 'User has been deleted',
       });
-      resetTable();
+      bTable.resetTable();
     });
 
-    const editUser = (id) => {
-      editUserId.value = +id;
+    const editUserAction = (user) => {
+      editUserId.value = +user.value;
       nextTick(() => {
         editUserDialog.value.dialog.show();
       });
     };
+
+    const tableActions = [
+      {
+        label: 'Edit',
+        icon: 'edit',
+        color: 'primary',
+        action: editUserAction,
+      },
+      {
+        label: 'Delete',
+        icon: 'delete',
+        color: 'negative',
+        action: deleteUserAction,
+      },
+    ];
+
     const createUser = () => {
       createUserDialog.value.dialog.show();
     };
 
     return {
-      filter,
+      ...bTable,
+
       roleOptions,
       createUserDialog,
       editUserDialog,
-      result,
-      error,
       columns,
-      isLoading,
       editUserId,
       createUser,
-      deleteUserAction,
-      editUser,
-      pagination,
-      requestEvent,
+      tableActions,
       table,
-      resetTable,
       currentUserTimezoneDate,
       UTCtimezoneDate,
     };
