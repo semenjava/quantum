@@ -16,8 +16,11 @@ frontend_lint:
   image: node:16
   cache:
     paths:
-      - node_modules/
+      - frontend/.npm/
+    key:
+      files:
+        - frontend/package-lock.json
   script:
     - cd ./frontend
-    - npm ci
+    - npm ci --cache .npm --prefer-offline
     - npm run lint
