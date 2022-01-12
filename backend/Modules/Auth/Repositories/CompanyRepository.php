@@ -52,5 +52,4 @@ class CompanyRepository extends BaseRepository
 
         return $pagination;
     }
-
 }

@@ -48,5 +48,4 @@ class FacilityRepository extends BaseRepository
 
         return $pagination;
     }
-
 }
