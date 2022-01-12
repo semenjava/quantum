@@ -28,14 +28,6 @@ class UserRepository extends BaseRepository
         return User::class;
     }
 
-    /**
-     * @return UserRepository
-     */
-    public static function init()
-    {
-        return new self();
-    }
-
     public function users(array $data)
     {
         $this->newQuery()->eagerLoad();
