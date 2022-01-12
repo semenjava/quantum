@@ -9,7 +9,6 @@ use Modules\Auth\Services\UserService;
 
 class GetFacilityAction extends BaseAction implements Action
 {
-
     /**
      * @var UserService
      */
