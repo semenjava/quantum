@@ -22,7 +22,7 @@ class FacilityBuilder extends UsersBuilder
     public function search($search)
     {
         $this->query->where(function ($q) use ($search) {
-            $q->where('name', 'like', "%$search%");
+            $q->where('facilities.name', 'like', "%$search%");
         });
         return $this;
     }
@@ -30,9 +30,9 @@ class FacilityBuilder extends UsersBuilder
     /**
      * @return $this
      */
-    public function joinUser()
+    public function join()
     {
-        $this->query->leftJoin('users', 'users.id', '=', 'facilities.user_id');
+        $this->query->leftJoin('facilities', 'users.id', '=', 'facilities.user_id');
         return $this;
     }
 }

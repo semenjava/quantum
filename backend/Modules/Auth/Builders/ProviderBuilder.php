@@ -33,9 +33,9 @@ class ProviderBuilder extends UsersBuilder
     /**
      * @return $this
      */
-    public function joinUser()
+    public function join()
     {
-        $this->query->leftJoin('users', 'users.id', '=', 'providers.user_id');
+        $this->query->leftJoin('providers', 'users.id', '=', 'providers.user_id');
         return $this;
     }
 }

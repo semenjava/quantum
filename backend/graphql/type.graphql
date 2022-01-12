@@ -138,7 +138,7 @@ type Specialty {
 
 type Provider {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     addresses: [Address] @belongsToMany(relation: "addresses")
     specialties: [Specialty] @belongsToMany(relation: "specialties")
     first_name: String
@@ -153,7 +153,7 @@ type Provider {
 
 type Manager {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     first_name: String
     surname: String
     last_name: String
@@ -165,7 +165,7 @@ type Manager {
 type Facility {
     id: ID!
     name: String!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     addresses: [Address] @belongsToMany(relation: "addresses")
     specialties: [Specialty] @belongsToMany(relation: "specialties")
 }
@@ -173,8 +173,7 @@ type Facility {
 type Company {
     id: ID!
     name: String!
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
+    user: User @belongsTo(relation: "user")
     addresses: [Address] @belongsToMany(relation: "addresses")
     phone: String
     fax: String
@@ -183,7 +182,7 @@ type Company {
 
 type Employee {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     first_name: String
     surname: String
     last_name: String

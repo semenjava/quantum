@@ -32,9 +32,9 @@ class CompanyBuilder extends UsersBuilder
     /**
      * @return $this
      */
-    public function joinUser()
+    public function join()
     {
-        $this->query->leftJoin('users', 'users.id', '=', 'companies.user_id');
+        $this->query->leftJoin('companies', 'users.id', '=', 'companies.user_id');
         return $this;
     }
 }

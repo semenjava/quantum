@@ -29,6 +29,21 @@ class GetFacilityAction extends BaseAction implements Action
             abort(403);
         }
 
-        return $this->service->getFacility($dto->all());
+        $data = $this->service->getFacility($dto->all());
+        $items = $data->items();
+        $response['data'] = collect($items)->toArray();
+        $response['paginatorInfo'] = [
+            'total' => $data->total(),
+            'currentPage' => $data->currentPage(),
+            'lastPage' => $data->lastPage(),
+            'perPage' => $data->perPage(),
+        ];
+
+        activity()->performedOn(request()->user())
+            ->causedBy(request()->user())
+            ->withProperties(['user_id' => request()->user()->id, 'param' => $dto->toJson()])
+            ->log('Get facility list');
+
+        return $response;
     }
 }

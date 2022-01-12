@@ -33,9 +33,9 @@ class EmployeeBuilder extends UsersBuilder
     /**
      * @return $this
      */
-    public function joinUser()
+    public function join()
     {
-        $this->query->leftJoin('users', 'users.id', '=', 'employees.user_id');
+        $this->query->leftJoin('employees', 'users.id', '=', 'employees.user_id');
         return $this;
     }
 }

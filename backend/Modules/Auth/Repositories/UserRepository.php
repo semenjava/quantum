@@ -49,7 +49,7 @@ class UserRepository extends BaseRepository
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        if (isset($data['archived'])) {
+        if (!empty($data['archived'])) {
             $builder->archived();
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
@@ -59,16 +59,18 @@ class UserRepository extends BaseRepository
 
     public function getFacility(array $data)
     {
-        $builder = new FacilityBuilder(Facilities::query());
+        $this->newQuery()->eagerLoad();
 
-        $builder->select()->where('user_id', $data['user_id'])->joinUser();
+        $builder = new FacilityBuilder($this->query);
+
+        $builder->select()->join();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        if (isset($data['archived'])) {
+        if (!empty($data['archived'])) {
             $builder->archived();
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
@@ -78,16 +80,18 @@ class UserRepository extends BaseRepository
 
     public function getProvider(array $data)
     {
-        $builder = new ProviderBuilder(Provider::query());
+        $this->newQuery()->eagerLoad();
 
-        $builder->select()->where('user_id', $data['user_id'])->joinUser();
+        $builder = new ProviderBuilder($this->query);
+
+        $builder->select()->join();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        if (isset($data['archived'])) {
+        if (!empty($data['archived'])) {
             $builder->archived();
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
@@ -97,16 +101,18 @@ class UserRepository extends BaseRepository
 
     public function getCompany(array $data)
     {
-        $builder = new CompanyBuilder(Companies::query());
+        $this->newQuery()->eagerLoad();
 
-        $builder->select()->where('user_id', $data['user_id'])->joinUser();
+        $builder = new CompanyBuilder($this->query);
+
+        $builder->select()->join();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        if (isset($data['archived'])) {
+        if (!empty($data['archived'])) {
             $builder->archived();
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
@@ -116,16 +122,18 @@ class UserRepository extends BaseRepository
 
     public function getEmployee(array $data)
     {
-        $builder = new EmployeeBuilder(Employees::query());
+        $this->newQuery()->eagerLoad();
 
-        $builder->select()->where('user_id', $data['user_id'])->joinUser();
+        $builder = new EmployeeBuilder($this->query);
+
+        $builder->select()->join();
         if (isset($data['search'])) {
             $builder->search($data['search']);
         }
         if (isset($data['sort'])) {
             $builder->orderBy($data['sort']);
         }
-        if (isset($data['archived'])) {
+        if (!empty($data['archived'])) {
             $builder->archived();
         }
         $pagination = $builder->pagination($data['first'] ?? null, $data['page'] ?? null);
