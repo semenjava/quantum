@@ -18,16 +18,14 @@ const routes = [
         component: () => import('pages/Authorizations.vue'),
       },
       {
-        path: '/admin',
+        path: '/admin/users',
         meta: { title: 'Admin / Users', requiresAdmin: true },
         component: () => import('pages/Users.vue'),
-        children: [
-          {
-            path: 'users',
-            meta: { requiresAdmin: true },
-            component: () => import('pages/Users.vue'),
-          },
-        ],
+      },
+      {
+        path: '/admin/demo',
+        meta: { title: 'Admin / Demo', requiresAdmin: true },
+        component: () => import('pages/Demo.vue'),
       },
       {
         name: 'forbidden',

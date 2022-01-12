@@ -148,6 +148,12 @@ const adminLinksList = [
     icon: 'people',
     link: '/admin/communication-templates',
   },
+  {
+    type: 'link',
+    title: 'Demo',
+    icon: 'people',
+    link: '/admin/demo',
+  },
 ];
 
 import { defineComponent, ref, watch } from 'vue';
