@@ -5,7 +5,7 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "require": {
-        "php": "^7.3|^8.0",
+        "php": "^8.0",
         "beyondcode/laravel-websockets": "*",
         "dlnsk/h-rbac": "^0.4.2",
         "doctrine/dbal": "^3.2",
@@ -15,7 +15,6 @@
         "jason-guru/laravel-make-repository": "^0.0.3",
         "kodeine/laravel-acl": "^2.0",
         "laravel/framework": "^8.65",
-        "laravel/sail": "1.7.0",
         "laravel/sanctum": "^2.12",
         "laravel/tinker": "^2.5",
         "laravel/ui": "^3.3",
@@ -32,6 +31,7 @@
         "webonyx/graphql-php": "^14.11"
     },
     "require-dev": {
+        "laravel/sail": "^1.12",
         "fakerphp/faker": "^1.9.1",
         "mockery/mockery": "^1.4.4",
         "phpunit/phpunit": "^9.5.10"
