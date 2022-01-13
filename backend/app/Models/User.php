@@ -28,6 +28,8 @@ class User extends Authenticatable
     public const COMPANY    = 'company';
     public const EMPLOYEE   = 'employee';
 
+    public const TIME_ZONE_DEFAULT = 'America/New_York';
+
     public const PASSWORD_REGEX = '';
 
     public const EXPORT_NAME_MODEL = 'App\Exports\UsersExport';
@@ -79,7 +81,6 @@ class User extends Authenticatable
     }
 
     /**
->>>>>>> 2420e699195cda136d254ab18bc9f7a8783e7a72
      * @return bool
      */
     public function isSuperAdmin()

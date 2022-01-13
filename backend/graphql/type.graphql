@@ -138,14 +138,14 @@ type Specialty {
 
 type Provider {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     addresses: [Address] @belongsToMany(relation: "addresses")
     specialties: [Specialty] @belongsToMany(relation: "specialties")
     first_name: String
     surname: String
     last_name: String
     diagnostic_specialty: String
-    language2nd: String @method(name: "get2ndLanguage")
+    language: String @method(name: "get2ndLanguage")
     status: Boolean,
     created_at: String
     updated_at: String
@@ -153,7 +153,7 @@ type Provider {
 
 type Manager {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     first_name: String
     surname: String
     last_name: String
@@ -164,37 +164,30 @@ type Manager {
 
 type Facility {
     id: ID!
-    user: User @hasOne(relation: "user")
     name: String!
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    user: User @belongsTo(relation: "user")
+    addresses: [Address] @belongsToMany(relation: "addresses")
+    specialties: [Specialty] @belongsToMany(relation: "specialties")
 }
 
 type Company {
     id: ID!
     name: String!
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    user: User @belongsTo(relation: "user")
+    addresses: [Address] @belongsToMany(relation: "addresses")
     phone: String
     fax: String
     count_employee: Int
 }
 
-type Employees {
+type Employee {
     id: ID!
-    user: User @hasOne(relation: "user")
+    user: User @belongsTo(relation: "user")
     first_name: String
     surname: String
     last_name: String
     company: Company @belongsTo(relation: "company")
-    country: Country @belongsTo(relation: "country")
-    city: City @belongsTo(relation: "city")
-    address: String
-    postal: String
+    addresses: [Address] @belongsToMany(relation: "addresses")
     status: Boolean
 }
 
@@ -208,4 +201,37 @@ input ExportType {
     first: Int
     page: Int
     archived: Boolean
+}
+
+type FacilityPaginator {
+    data: [Facility]
+    paginatorInfo: PaginatorInfo!
+}
+
+type ProviderPaginator {
+    data: [Provider]
+    paginatorInfo: PaginatorInfo!
+}
+
+type CompanyPaginator {
+    data: [Company]
+    paginatorInfo: PaginatorInfo!
+}
+
+type EmployeePaginator {
+    data: [Employee]
+    paginatorInfo: PaginatorInfo!
+}
+
+input CreateProvider {
+    first_name: String!
+    surname: String!
+    last_name: String
+    diagnostic_specialty: String
+    language: String
+    status: Boolean
+    email: String!
+    password: String!
+    c_password: String!
+    time_zone: String
 }

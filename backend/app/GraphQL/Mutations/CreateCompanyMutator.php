@@ -3,18 +3,17 @@
 namespace App\GraphQL\Mutations;
 
 use GraphQL\Type\Definition\ResolveInfo;
-use Modules\Auth\Http\Actions\RegisterAction;
-use Modules\Providers\Http\Actions\CreateProviderAction;
+use Modules\Company\Http\Actions\CreateCompanyAction;
+use Modules\Company\Http\Requests\CreateCompanyRequest;
 use Nuwave\Lighthouse\Support\Contracts\GraphQLContext;
-use Modules\Auth\Http\Requests\RegisterRequest;
-use Modules\Auth\Http\Actions\AuthAction;
 
 class CreateCompanyMutator extends BaseMutator
 {
-    public function __construct(RegisterAction $action)
+    public function __construct(CreateCompanyAction $action)
     {
         parent::__construct($action);
     }
+
     /**
      * Return a value for the field.
      *
@@ -26,7 +25,7 @@ class CreateCompanyMutator extends BaseMutator
      */
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
-        $request = new RegisterRequest();
+        $request = new CreateCompanyRequest();
         $dto = $request->valid($args)->toDto();
         return $this->action->run($dto);
     }

@@ -6,5 +6,7 @@
     "Managers": true,
     "Notification": true,
     "Address": true,
-    "Export": true
+    "Export": true,
+    "Company": true,
+    "Employee": true
 }

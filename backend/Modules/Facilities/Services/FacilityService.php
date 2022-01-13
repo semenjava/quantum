@@ -7,6 +7,7 @@ use Hash;
 use App\Repositories\LocationRepository;
 use Modules\Facilities\Repositories\UserRepository;
 use App\Services\BaseService;
+use App\Models\User;
 
 class FacilityService extends BaseService
 {
@@ -42,31 +43,25 @@ class FacilityService extends BaseService
      */
     public function createFacility()
     {
-        $userData = $facilityData = [];
-        $userData['name'] = $this->dto->get('name');
-        $userData['email'] = $this->dto->get('email');
-        $userData['password'] = $this->dto->has('password') ? Hash::make($this->dto->get('password')) : Hash::make($this->dto->get('name'));
-        $user = $this->userRepository->create($userData);
+        $user = $this->userRepository->create([
+            'name' => $this->dto->get('name'),
+            'email' => $this->dto->get('email'),
+            'password' => $this->dto->has('password') ? Hash::make($this->dto->get('password')) : Hash::make($this->dto->get('name')),
+            'role' => User::FACILITY,
+            'time_zone' =>  $this->dto->has('time_zone') ? $this->dto->get('time_zone') : User::TIME_ZONE_DEFAULT
+        ]);
 
         $this->dto->remove('email');
         $this->dto->remove('password');
 
-        $data = $this->locationRepository->save($this->dto->all());
+        $this->dto->set('user_id', $user->id);
 
-        $this->dto->remove('country');
-        $this->dto->remove('region');
-        $this->dto->remove('city');
-
-        $this->dto->set('country_id', $data['country_id']);
-        $this->dto->set('city_id', $data['city_id']);
-
-        $facilityData = $this->dto->all();
-        $facility = $this->facilityRepository->create($facilityData);
+        $facility = $this->facilityRepository->create($this->dto->all());
 
         activity()->performedOn($user)
             ->causedBy($facility)
-            ->withProperties(['user_id' => request()->user()->id, 'create_facility_id' => $user->id])
-            ->log('User use create facility admin');
+            ->withProperties(['user_id' => request()->user()->id, 'create_facility_id' => $facility->id])
+            ->log('Create user to role facility admin');
 
         return $facility;
     }

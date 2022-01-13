@@ -130,6 +130,21 @@ class Property extends BaseProperty
     }
 
     /**
+     * @param $key
+     * @param $to_key
+     * @return void|null
+     */
+    public function rename($key, $to_key)
+    {
+        if (empty($this->property[$key])) {
+            return null;
+        }
+        $value = $this->property[$key];
+        $this->remove($key);
+        $this->property[$to_key] = $value;
+    }
+
+    /**
      * @return \Illuminate\Support\Collection
      */
     public function toCollect()

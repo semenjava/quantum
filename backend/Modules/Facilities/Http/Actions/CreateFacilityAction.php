@@ -22,11 +22,6 @@ class CreateFacilityAction extends BaseAction implements Action
             abort(403);
         }
 
-        $this->facilityService->setParam($dto)->createFacility();
-
-        return [
-            'success' => true,
-            'message' => 'Create Facility'
-        ];
+        return $this->facilityService->setParam($dto)->createFacility();
     }
 }

@@ -27,7 +27,7 @@ class CreateProviderMutator extends BaseMutator
     public function resolve($rootValue, array $args, GraphQLContext $context, ResolveInfo $resolveInfo)
     {
         $request = new CreateProviderRequest();
-        $dto = $request->valid($args)->toDto();
+        $dto = $request->valid($args['form'])->toDto();
         return $this->action->run($dto);
     }
 }
