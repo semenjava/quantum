@@ -15,6 +15,7 @@ class AuthService
      * @var User|\Illuminate\Contracts\Auth\Authenticatable|null
      */
     private $user;
+    private UserRepository $userRepository;
 
     /**
      * @param User|null $user
@@ -22,6 +23,7 @@ class AuthService
     public function __construct(User $user = null)
     {
         $this->user = is_null($user) ? Auth::user() : $user;
+        $this->userRepository = new UserRepository();
     }
 
     /**
@@ -37,7 +39,7 @@ class AuthService
         }
 
         // Check email
-        $user =  UserRepository::init()->getById($user_id);
+        $user =  $this->userRepository->getById($user_id);
 
         // Check password
         if (!$user || !UserEntity::hasPasswordHash($fields['password'], $user)) {
@@ -70,7 +72,7 @@ class AuthService
     public function verify($dto)
     {
         if ($userId = UserEntity::hasHash($dto->get('hash'))) {
-            $user = UserRepository::init()->getById($userId);
+            $user = $this->userRepository->getById($userId);
             $token = $user->createToken('myapptoken')->plainTextToken;
             $user->api_token = $token;
             $user->save();
