@@ -53,6 +53,9 @@ const routes = [
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/Error404.vue'),
+    meta: {
+      title: '404',
+    },
   },
 ];
 
