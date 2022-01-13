@@ -2,6 +2,7 @@ import { route } from 'quasar/wrappers';
 import {
   createRouter, createMemoryHistory, createWebHistory, createWebHashHistory,
 } from 'vue-router';
+import { productName } from '../../package.json';
 import routes from './routes';
 
 /*
@@ -63,6 +64,15 @@ export default route(({ store }) => {
       }
     } else {
       next();
+    }
+  });
+
+  // Dynamic page titles
+  Router.afterEach(async (to) => {
+    if (to.meta && to.meta.title) {
+      document.title = `${to.meta.title} | ${productName}`;
+    } else {
+      document.title = productName;
     }
   });
 
