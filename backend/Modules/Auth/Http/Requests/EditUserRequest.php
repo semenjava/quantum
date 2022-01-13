@@ -15,7 +15,7 @@ class EditUserRequest extends BaseFormRequest
     public function rules()
     {
         return [
-            'user_id' => 'integer',
+            'user_id' => 'integer|required',
             'name' => 'string',
             'email' => 'string|email|max:255|regex:/[-0-9a-zA-Z.+]+@[-0-9a-zA-Z.+]+.[a-zA-Z]{2,4}/',
             'role' => 'required|string',

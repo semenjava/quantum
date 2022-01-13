@@ -22,6 +22,6 @@ class EditUserAction extends BaseAction implements Action
 
     public function run(Property $dto)
     {
-        return $this->run($dto);
+        return $this->edit($dto);
     }
 }
